@@ -1,1 +1,121 @@
-<p>admin-dashboard works!</p>
+<div class="p-6">
+  <h2 class="text-2xl font-bold mb-6 text-gray-800">Manage Requests</h2>
+
+  <dx-data-grid
+    [dataSource]="requests"
+    [showBorders]="true"
+    [columnAutoWidth]="true"
+    [rowAlternationEnabled]="true"
+    keyExpr="id"
+  >
+    <dxo-sorting mode="multiple"></dxo-sorting>
+    <dxo-search-panel [visible]="true" [width]="300" placeholder="Search..."></dxo-search-panel>
+
+    <dxi-column
+      dataField="requestDate"
+      dataType="date"
+      format="dd/MM/yyyy HH:mm"
+      [sortIndex]="0"
+      sortOrder="desc"
+      caption="Request Date"
+    ></dxi-column>
+    <dxi-column dataField="user.fullName" caption="Requested By"></dxi-column>
+    <dxi-column
+      dataField="startDate"
+      dataType="date"
+      format="dd/MM/yyyy"
+      caption="Borrow Date"
+    ></dxi-column>
+    <dxi-column
+      dataField="endDate"
+      dataType="date"
+      format="dd/MM/yyyy"
+      caption="Return Date"
+    ></dxi-column>
+
+    <dxi-column
+      dataField="status"
+      caption="Status"
+      cellTemplate="statusCell"
+      alignment="center"
+    ></dxi-column>
+    <div *dxTemplate="let d of 'statusCell'">
+      <span [class]="'status-badge status-' + d.value">
+        {{ getStatusText(d.value) }}
+      </span>
+    </div>
+
+    <dxi-column
+      caption="Manage"
+      cellTemplate="actionCell"
+      alignment="center"
+      [width]="180"
+    ></dxi-column>
+
+    <div *dxTemplate="let d of 'actionCell'">
+      <div
+        *ngIf="d?.data?.status === 1; else notPending"
+        class="action-buttons flex gap-2 justify-center"
+      >
+        <dx-button
+          text="Approve"
+          type="success"
+          stylingMode="contained"
+          [height]="30"
+          (onClick)="onApprove(d.data.id)"
+        >
+        </dx-button>
+        <dx-button
+          text="Reject"
+          type="danger"
+          stylingMode="outlined"
+          [height]="30"
+          (onClick)="onReject(d.data.id)"
+        >
+        </dx-button>
+      </div>
+
+      <ng-template #notPending>
+        <span class="text-gray-400">-</span>
+      </ng-template>
+    </div>
+
+    <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
+
+    <div *dxTemplate="let request of 'detail'">
+      <div class="detail-grid-container">
+        <p class="detail-title">Items in this request:</p>
+
+        <dx-data-grid
+          [dataSource]="request.data.items"
+          [showBorders]="true"
+          [columnAutoWidth]="true"
+        >
+          <dxi-column dataField="equipment.code" caption="Code" [width]="100"></dxi-column>
+
+          <dxi-column
+            caption="Image"
+            cellTemplate="imgCell"
+            [width]="80"
+            alignment="center"
+          ></dxi-column>
+          <div *dxTemplate="let d of 'imgCell'">
+            <img
+              [src]="'https://equipment-api.onrender.com' + d.data.equipment.imageUrl"
+              style="height: 40px; border-radius: 4px; display: block; margin: 0 auto"
+            />
+          </div>
+
+          <dxi-column dataField="equipment.name" caption="Equipment Name"></dxi-column>
+          <dxi-column
+            dataField="quantity"
+            caption="Qty"
+            alignment="center"
+            [width]="80"
+            cssClass="font-bold"
+          ></dxi-column>
+        </dx-data-grid>
+      </div>
+    </div>
+  </dx-data-grid>
+</div>

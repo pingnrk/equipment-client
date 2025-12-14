@@ -1,0 +1,33 @@
+/* Badge สถานะ */
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-0 { background-color: #fef3c7; color: #b45309; } /* Pending: เหลือง */
+.status-1 { background-color: #d1fae5; color: #047857; } /* Approved: เขียว */
+.status-2 { background-color: #fee2e2; color: #b91c1c; } /* Rejected: แดง */
+.status-3 { background-color: #f3f4f6; color: #374151; } /* Returned: เทา */
+
+/* จัดปุ่ม */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+/* Detail Zone */
+.detail-grid-container {
+    padding: 20px;
+    background-color: #f9fafb;
+    border-left: 4px solid #4f46e5;
+}
+
+.detail-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #4b5563;
+}
