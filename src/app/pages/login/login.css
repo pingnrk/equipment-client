@@ -1,45 +1,133 @@
-/* พื้นหลัง Gradient สวยๆ */
+/* --- 1. Layout หลัก --- */
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 50px); /* ลบความสูง Header ออก */
-  background: linear-gradient(135deg, #e0e7ff 0%, #f3f4f6 100%);
+  min-height: calc(100vh - 50px);
+  background: linear-gradient(135deg, #f3f4f6 0%, #e0e7ff 100%);
   padding: 20px;
+  box-sizing: border-box; /* สำคัญ: กัน layout เพี้ยน */
 }
 
-/* ตัวการ์ด */
 .login-card {
   width: 100%;
   max-width: 420px;
   background: white;
   padding: 40px;
-  border-radius: 16px;
-  /* เงาแบบ Soft Shadow ทันสมัย */
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 
-              0 8px 10px -6px rgba(0, 0, 0, 0.01);
-  transition: transform 0.3s ease;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* ฟอนต์มาตรฐาน */
 }
 
-/* เพิ่ม Effect ตอนเอาเมาส์ชี้การ์ดนิดหน่อย */
-.login-card:hover {
-  transform: translateY(-2px);
+/* --- 2. Header Styles (แทนที่ class ของ Tailwind) --- */
+.login-header {
+  text-align: center;
+  margin-bottom: 24px; /* mb-6 */
 }
 
-/* ปรับแต่ง Label ของ DevExtreme Form ให้ตัวใหญ่ขึ้นนิดนึง */
+.header-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;  /* w-16 */
+  height: 64px; /* h-16 */
+  border-radius: 50%; /* rounded-full */
+  background-color: #eef2ff; /* สีม่วงอ่อนๆ */
+  color: #4f46e5; /* สีม่วงเข้ม */
+  margin-bottom: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.header-icon i {
+  font-size: 32px;
+}
+
+.welcome-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1f2937; /* สีเทาเข้ม */
+  margin: 0;
+}
+
+.welcome-subtitle {
+  color: #6b7280; /* สีเทากลาง */
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* --- 3. Form Spacing & Styling (DevExtreme Overrides) --- */
+
+/* ระยะห่างระหว่างช่อง Input (ใช้ไม้ตายเดิม) */
+::ng-deep .custom-form .dx-field-item {
+  padding-bottom: 24px !important;
+}
+
+/* ยกเว้นแถวสุดท้าย */
+::ng-deep .custom-form .dx-last-row .dx-field-item {
+  padding-bottom: 0 !important;
+}
+
+/* Label หัวข้อ */
 ::ng-deep .dx-field-item-label-text {
+  font-size: 14px !important;
   font-weight: 600 !important;
-  color: #374151 !important; /* Gray-700 */
+  color: #374151 !important;
+  margin-bottom: 6px !important;
 }
 
-/* ปรับแต่ง Input ให้โค้งมนขึ้น */
+/* ตัว Input Box */
 ::ng-deep .dx-texteditor.dx-editor-outlined {
-  border-radius: 8px !important;
+  background-color: #f9fafb !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 10px !important;
+  transition: all 0.2s ease;
 }
 
-/* ปรับแต่งปุ่มให้โค้งมน */
+::ng-deep .dx-texteditor.dx-state-focused {
+  background-color: #fff !important;
+  border-color: #4f46e5 !important;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1) !important;
+}
+
+::ng-deep .dx-texteditor-input {
+  font-size: 16px !important;
+  padding: 0 16px !important;
+}
+
+/* --- 4. Button Section --- */
+.button-container {
+  margin-top: 24px; /* mt-6 */
+}
+
 ::ng-deep .dx-button {
-  border-radius: 8px !important;
+  border-radius: 10px !important;
   font-weight: 600 !important;
   font-size: 16px !important;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+/* --- 5. Footer Section --- */
+.login-footer {
+  margin-top: 24px; /* mt-6 */
+  text-align: center;
+  border-top: 1px solid #f3f4f6;
+  padding-top: 24px;
+}
+
+.login-footer p {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.register-link {
+  color: #4f46e5;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.register-link:hover {
+  color: #4338ca;
+  text-decoration: underline;
 }

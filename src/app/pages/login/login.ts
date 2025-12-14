@@ -13,7 +13,7 @@ import { DxFormModule, DxButtonModule, DxLoadIndicatorModule } from 'devextreme-
 })
 export class Login {
   formData = {
-    email: '',
+    employeeId: '',
     password: '',
   };
   isLoading = false;
@@ -27,7 +27,7 @@ export class Login {
     this.authService.login(this.formData).subscribe({
       next: () => {
         this.isLoading = false;
-        notify('Login Success!', 'success', 2000); // แจ้งเตือนสีเขียว
+        // แจ้งเตือนสีเขียว
         this.router.navigate(['/equipments']); // เด้งไปหน้าเลือกของ
       },
       error: (err) => {
@@ -36,5 +36,9 @@ export class Login {
         notify('Login failed: Invalid email or password', 'error', 3000); // แจ้งเตือนสีแดง
       },
     });
+  }
+
+  goToRegister() {
+    this.router.navigate(['/register']);
   }
 }

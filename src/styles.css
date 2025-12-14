@@ -2,3 +2,21 @@
     margin: 0;
     padding: 0;
 }
+
+
+.dx-drawer-shader {
+  visibility: hidden !important; 
+  opacity: 0 !important;
+  background-color: transparent !important;
+  
+  /* 2. สำคัญมาก: สั่งให้เมาส์คลิกทะลุผ่านเงานี้ไปได้ */
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* 3. ป้องกัน Content โดนบังคับ Disable */
+.dx-drawer-content {
+  pointer-events: auto !important;
+  transform: none !important; /* แก้บั๊กภาพเบลอในบาง Browser */
+}

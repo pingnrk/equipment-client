@@ -34,14 +34,19 @@
   background-color: transparent;
 }
 
-/* บังคับให้เนื้อหาตรงกลาง (Content) อยู่ชั้นเดียวกับเมนู หรือสูงกว่า */
-.dx-drawer-content {
-  z-index: 1 !important;
-  transform: none !important; /* แก้บั๊กบางทีที่ Drawer ทำให้เนื้อหาเบลอหรือกดไม่ได้ */
+.user-info {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 15px;     /* ห่างจากปุ่ม Logout */
+  color: white;           /* ตัวหนังสือสีขาว (ให้เข้ากับพื้นหลังสีน้ำเงิน) */
+  font-weight: 500;
+  gap: 8px;               /* ระยะห่างระหว่าง icon กับชื่อ */
+  padding-right: 15px;    /* เส้นแบ่ง */
+  border-right: 1px solid rgba(255,255,255,0.3); /* เส้นแบ่งจางๆ */
 }
 
-/* ถ้ายังกดไม่ได้ ให้ลองบังคับปิด Shading แบบ CSS */
-.dx-drawer-shader {
-  display: none !important;
-  pointer-events: none !important; /* ทะลุผ่านเงา */
+/* ปรับให้แสดงผลแนวนอนคู่กับปุ่ม */
+::ng-deep .dx-toolbar-item-content > div {
+    display: flex;
+    align-items: center;
 }

@@ -19,9 +19,10 @@ import { AuthService } from './services/auth';
 })
 export class App {
   title = 'Equipment System';
-  isDrawerOpen = false;
+  isDrawerOpen = true;
   selectedKeys: string[] = [];
   isLoggedIn = false;
+  userName: string | null = '';
 
   menuItems = [
     { text: 'Browse Equipments', icon: 'find', path: '/equipments' },
@@ -33,7 +34,7 @@ export class App {
   /**
    *
    */
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(private router: Router, public authService: AuthService) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.selectedKeys = [event.urlAfterRedirects.split('?')[0]];
@@ -42,6 +43,7 @@ export class App {
 
     this.authService.isLoggedIn$.subscribe((status) => {
       this.isLoggedIn = status;
+      this.userName = localStorage.getItem('fullName');
     });
   }
 

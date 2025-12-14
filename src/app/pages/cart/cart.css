@@ -1,0 +1,117 @@
+/* --- Layout หลัก --- */
+.cart-page {
+  max-width: 900px;
+  margin: 0 auto; /* จัดกึ่งกลางหน้าจอ */
+  padding: 40px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --- Header Title --- */
+.page-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #4f46e5; /* สี Indigo */
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-title i {
+  font-size: 28px;
+}
+
+/* --- Cards (กล่องสีขาว) --- */
+.content-card {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05); /* เงานุ่มๆ */
+  margin-bottom: 24px;
+  border: 1px solid #f3f4f6;
+}
+
+.card-subtitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+/* --- Form & DateBox Styling --- */
+
+/* Label */
+::ng-deep .dx-field-item-label-text {
+  font-weight: 600 !important;
+  color: #4b5563 !important;
+}
+
+/* Input Box */
+::ng-deep .dx-texteditor.dx-editor-outlined {
+  border-radius: 10px !important;
+  border-color: #e5e7eb !important;
+}
+
+::ng-deep .dx-texteditor.dx-state-focused {
+  border-color: #4f46e5 !important;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1) !important;
+}
+
+/* --- DataGrid Styling --- */
+
+/* ไฮไลท์ช่อง Quantity (Class ที่เราใส่ใน HTML) */
+::ng-deep .editable-cell {
+  background-color: #eef2ff !important; /* พื้นหลังสีม่วงอ่อน */
+  color: #4f46e5 !important; /* ตัวหนังสือสีม่วงเข้ม */
+  font-weight: bold !important;
+  cursor: pointer;
+}
+
+/* ทำให้ Header ของตารางตัวหนา */
+::ng-deep .dx-datagrid-headers {
+  font-weight: bold;
+  color: #374151;
+  background-color: #f9fafb;
+}
+
+/* จัดกึ่งกลางแนวตั้ง */
+::ng-deep .dx-row > td {
+  vertical-align: middle !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+/* ปุ่มลบ (Trash Icon) */
+::ng-deep .dx-link-icon {
+  color: #ef4444 !important; /* สีแดง */
+}
+
+.hint-text {
+  text-align: right;
+  font-size: 13px;
+  color: #6b7280;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+/* --- Action Buttons --- */
+.action-buttons {
+  display: flex;
+  justify-content: flex-end; /* ชิดขวา */
+  gap: 16px;
+  margin-top: 32px;
+}
+
+::ng-deep .dx-button {
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+}
+
+/* ปุ่ม Confirm สีสวยๆ */
+::ng-deep .dx-button-mode-contained.dx-button-default {
+  background-color: #4f46e5 !important;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}

@@ -1,13 +1,11 @@
 <div class="login-container">
   <div class="login-card">
-    <div class="text-center mb-8">
-      <div
-        class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 text-indigo-600 mb-4"
-      >
-        <i class="dx-icon-user" style="font-size: 32px"></i>
+    <div class="login-header">
+      <div class="header-icon">
+        <i class="dx-icon-user"></i>
       </div>
-      <h2 class="text-3xl font-extrabold text-gray-800">Welcome Back</h2>
-      <p class="text-gray-500 mt-2">Please sign in to continue</p>
+      <h2 class="welcome-title">Welcome Back</h2>
+      <p class="welcome-subtitle">Sign in to manage your inventory</p>
     </div>
 
     <form (submit)="onSubmit($event)">
@@ -18,29 +16,30 @@
         class="custom-form"
       >
         <dxi-item
-          dataField="email"
+          dataField="employeeId"
           editorType="dxTextBox"
           [editorOptions]="{
-            placeholder: 'Enter your email',
-            mode: 'email',
+            placeholder: 'Enter Username',
+            mode: 'text',
             stylingMode: 'outlined',
-            height: '45px'
+            height: '48px'
           }"
         >
-          <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
-          <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
-          <dxo-label text="Email Address"></dxo-label>
+          <dxi-validation-rule
+            type="required"
+            message="Employee ID is required"
+          ></dxi-validation-rule>
+          <dxo-label text="Username"></dxo-label>
         </dxi-item>
 
         <dxi-item
           dataField="password"
           editorType="dxTextBox"
-          cssClass="mt-4"
           [editorOptions]="{
-            placeholder: '••••••••',
+            placeholder: '●●●●●●●',
             mode: 'password',
             stylingMode: 'outlined',
-            height: '45px'
+            height: '48px'
           }"
         >
           <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule>
@@ -48,10 +47,10 @@
         </dxi-item>
       </dx-form>
 
-      <div class="mt-8">
+      <div class="button-container">
         <dx-button
           width="100%"
-          height="45px"
+          height="48px"
           type="default"
           stylingMode="contained"
           [useSubmitBehavior]="true"
@@ -62,12 +61,10 @@
       </div>
     </form>
 
-    <div class="mt-6 text-center border-t pt-4 border-gray-100">
-      <p class="text-sm text-gray-500">
+    <div class="login-footer">
+      <p>
         Don't have an account?
-        <a href="#" class="text-indigo-600 font-semibold hover:text-indigo-800 transition-colors"
-          >Register</a
-        >
+        <a (click)="goToRegister()" class="register-link" style="cursor: pointer">Register</a>
       </p>
     </div>
   </div>

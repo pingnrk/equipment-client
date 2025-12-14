@@ -1,3 +1,25 @@
+.flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
+}
+
+/* ปรับสี Title หน่อย */
+h2 {
+  color: #374151;
+  margin: 0; /* ลบ margin เดิมออกเพราะเราคุมด้วย Flex แล้ว */
+}
+
 .status-badge {
     padding: 4px 10px;
     color: white;
@@ -18,4 +40,26 @@
   vertical-align: middle !important; /* สั่งให้อยู่กึ่งกลางแนวตั้ง */
   padding-top: 10px !important;      /* เพิ่มระยะห่างบนล่างนิดหน่อยให้ดูไม่เบียด */
   padding-bottom: 10px !important;
+}
+
+.fab-container {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  border-radius: 25px;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+::ng-deep .fab-container .dx-button {
+  border-radius: 25px !important;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  padding: 0 20px !important;
 }

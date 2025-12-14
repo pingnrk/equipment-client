@@ -30,4 +30,8 @@ export class EquipmentService {
     if (!relativePath) return 'https://via.placeholder.com/100';
     return `${API_URL.replace('/api', '')}${relativePath}`;
   }
+
+  create(data: FormData) {
+    return this.http.post(`${API_URL}/equipments`, data);
+  }
 }

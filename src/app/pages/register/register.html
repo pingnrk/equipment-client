@@ -1,0 +1,128 @@
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header">
+      <div class="header-icon">
+        <i class="dx-icon-add"></i>
+      </div>
+      <h2 class="welcome-title">Create Account</h2>
+      <p class="welcome-subtitle">Join us to manage inventory</p>
+    </div>
+
+    <form (submit)="onSubmit($event)">
+      <dx-form
+        [formData]="formData"
+        [labelLocation]="'top'"
+        [showColonAfterLabel]="false"
+        class="custom-form"
+      >
+        <dxi-item
+          dataField="employeeId"
+          editorType="dxTextBox"
+          [editorOptions]="{
+            placeholder: 'e.g. EMP001',
+            stylingMode: 'outlined',
+            height: '48px'
+          }"
+        >
+          <dxi-validation-rule
+            type="required"
+            message="Employee ID is required"
+          ></dxi-validation-rule>
+          <dxo-label text="Employee ID"></dxo-label>
+        </dxi-item>
+
+        <dxi-item
+          dataField="fullName"
+          editorType="dxTextBox"
+          [editorOptions]="{
+            placeholder: 'Your Full Name',
+            stylingMode: 'outlined',
+            height: '48px'
+          }"
+        >
+          <dxi-validation-rule type="required" message="Name is required"></dxi-validation-rule>
+          <dxo-label text="Full Name"></dxo-label>
+        </dxi-item>
+
+        <dxi-item
+          dataField="email"
+          editorType="dxTextBox"
+          [editorOptions]="{
+            placeholder: 'email@example.com',
+            mode: 'email',
+            stylingMode: 'outlined',
+            height: '48px'
+          }"
+        >
+          <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+          <dxi-validation-rule type="email" message="Invalid email format"></dxi-validation-rule>
+          <dxo-label text="Email Address"></dxo-label>
+        </dxi-item>
+
+        <dxi-item
+          dataField="password"
+          editorType="dxTextBox"
+          [editorOptions]="{
+            placeholder: 'Create a password',
+            mode: 'password',
+            stylingMode: 'outlined',
+            height: '48px'
+          }"
+        >
+          <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule>
+          <dxi-validation-rule
+            type="stringLength"
+            [min]="6"
+            message="Must be at least 6 chars"
+          ></dxi-validation-rule>
+          <dxo-label text="Password"></dxo-label>
+        </dxi-item>
+
+        <dxi-item
+          dataField="confirmPassword"
+          editorType="dxTextBox"
+          [editorOptions]="{
+            placeholder: 'Re-type password',
+            mode: 'password',
+            stylingMode: 'outlined',
+            height: '48px'
+          }"
+        >
+          <dxi-validation-rule
+            type="required"
+            message="Confirm Password is required"
+          ></dxi-validation-rule>
+
+          <dxi-validation-rule
+            type="compare"
+            [comparisonTarget]="passwordComparison"
+            message="Password and Confirm Password do not match"
+          >
+          </dxi-validation-rule>
+
+          <dxo-label text="Confirm Password"></dxo-label>
+        </dxi-item>
+      </dx-form>
+
+      <div class="button-container">
+        <dx-button
+          width="100%"
+          height="48px"
+          type="default"
+          stylingMode="contained"
+          [useSubmitBehavior]="true"
+          [text]="isLoading ? 'Creating Account...' : 'Sign Up'"
+          [disabled]="isLoading"
+        >
+        </dx-button>
+      </div>
+    </form>
+
+    <div class="register-footer">
+      <p>
+        Already have an account?
+        <a (click)="goToLogin()" class="login-link">Sign In</a>
+      </p>
+    </div>
+  </div>
+</div>

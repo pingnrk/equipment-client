@@ -1,35 +1,24 @@
 <dx-toolbar class="header-toolbar">
-  <dxi-item
-    location="before"
-    widget="dxButton"
-    [options]="{
-      icon: 'menu',
-      stylingMode: 'text',
-      onClick: toggleDrawer.bind(this)
-    }"
-  >
-  </dxi-item>
-  <dxi-item location="before" text="Equipment System"></dxi-item>
-
   <dxi-item location="after">
     <div *dxTemplate>
+      <div *ngIf="isLoggedIn" class="user-info">
+        <i class="dx-icon-user"></i>
+        <span>{{ userName }}</span>
+      </div>
+
       <dx-button
         *ngIf="isLoggedIn"
         text="Logout"
-        icon="runner"
         stylingMode="text"
         (onClick)="logout()"
-      >
-      </dx-button>
-
+      ></dx-button>
       <dx-button
         *ngIf="!isLoggedIn"
         text="Login"
         icon="user"
         stylingMode="text"
         (onClick)="goToLogin()"
-      >
-      </dx-button>
+      ></dx-button>
     </div>
   </dxi-item>
 </dx-toolbar>
@@ -39,10 +28,10 @@
   [position]="'left'"
   [openedStateMode]="'shrink'"
   [revealMode]="'slide'"
-  [shading]="false"
-  [closeOnOutsideClick]="false"
   template="menuTemplate"
   height="calc(100vh - 50px)"
+  [shading]="false"
+  [closeOnOutsideClick]="false"
 >
   <div *dxTemplate="let data of 'menuTemplate'" class="drawer-menu">
     <dx-list

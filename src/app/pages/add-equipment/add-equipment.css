@@ -1,0 +1,53 @@
+.page-container {
+  padding: 40px 20px;
+  background-color: #f3f4f6;
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 800px; /* กว้างหน่อย */
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.form-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #374151;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.form-title i {
+  color: #4f46e5;
+  margin-right: 10px;
+}
+
+/* ปรับระยะห่างปุ่ม */
+.button-group {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+/* จัด Upload ให้สวยงาม */
+::ng-deep .dx-fileuploader-input-wrapper {
+  padding: 20px;
+  border: 2px dashed #e5e7eb;
+  border-radius: 8px;
+  text-align: center;
+}
+
+::ng-deep .checkbox-center {
+  display: flex;
+  align-items: center;
+  height: 100%;       /* ให้สูงเต็มพื้นที่ */
+  padding-top: 24px; 
+}

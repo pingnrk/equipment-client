@@ -1,11 +1,26 @@
 <div class="p-4">
-  <h2 class="mb-4 text-2xl font-gold">Inventory list</h2>
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold text-gray-800">Inventory List</h2>
+
+    <dx-button
+      *ngIf="isAdmin"
+      text="Add Equipment"
+      icon="add"
+      type="default"
+      stylingMode="outlined"
+      (onClick)="goToAddPage()"
+    >
+    </dx-button>
+  </div>
 
   <dx-data-grid
+    id="gridContainer"
     [dataSource]="equipments"
     [showBorders]="true"
     [rowAlternationEnabled]="true"
     [columnAutoWidth]="true"
+    keyExpr="id"
+    [(selectedRowKeys)]="selectedItemKeys"
   >
     <dxo-search-panel [visible]="true" [width]="300" placeholder="Search..."></dxo-search-panel>
     <dxo-filter-row [visible]="true"></dxo-filter-row>
@@ -18,13 +33,23 @@
       cellTemplate="imageCell"
       [allowFiltering]="false"
       [allowSorting]="false"
+      alignment="center"
     ></dxi-column>
+    <dxo-selection mode="multiple" showCheckBoxesMode="always" selectAllMode="page">
+    </dxo-selection>
 
     <div *dxTemplate="let d of 'imageCell'">
       <img
         [src]="getFullImageUrl(d.data.imageUrl)"
         alt="Item"
-        style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px"
+        style="
+          width: 50px;
+          height: 50px;
+          object-fit: cover;
+          border-radius: 4px;
+          display: block;
+          margin: 0 auto;
+        "
       />
     </div>
 
@@ -45,4 +70,15 @@
       </span>
     </div>
   </dx-data-grid>
+  <div class="fab-container" *ngIf="selectedItemKeys.length > 0">
+    <dx-button
+      icon="cart"
+      [text]="'Proceed (' + selectedItemKeys.length + ' items)'"
+      type="default"
+      stylingMode="contained"
+      [height]="50"
+      (onClick)="onProceed()"
+    >
+    </dx-button>
+  </div>
 </div>
