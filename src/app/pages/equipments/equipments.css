@@ -1,0 +1,21 @@
+.status-badge {
+    padding: 4px 10px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 12px;
+}
+
+.available {
+  background-color: #28a745; 
+}
+
+.in-use {
+  background-color: #dc3545; 
+}
+
+::ng-deep .dx-datagrid-rowsview .dx-row > td {
+  vertical-align: middle !important; /* สั่งให้อยู่กึ่งกลางแนวตั้ง */
+  padding-top: 10px !important;      /* เพิ่มระยะห่างบนล่างนิดหน่อยให้ดูไม่เบียด */
+  padding-bottom: 10px !important;
+}

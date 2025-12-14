@@ -1,0 +1,74 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="text-center mb-8">
+      <div
+        class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 text-indigo-600 mb-4"
+      >
+        <i class="dx-icon-user" style="font-size: 32px"></i>
+      </div>
+      <h2 class="text-3xl font-extrabold text-gray-800">Welcome Back</h2>
+      <p class="text-gray-500 mt-2">Please sign in to continue</p>
+    </div>
+
+    <form (submit)="onSubmit($event)">
+      <dx-form
+        [formData]="formData"
+        [labelLocation]="'top'"
+        [showColonAfterLabel]="false"
+        class="custom-form"
+      >
+        <dxi-item
+          dataField="email"
+          editorType="dxTextBox"
+          [editorOptions]="{
+            placeholder: 'Enter your email',
+            mode: 'email',
+            stylingMode: 'outlined',
+            height: '45px'
+          }"
+        >
+          <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+          <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+          <dxo-label text="Email Address"></dxo-label>
+        </dxi-item>
+
+        <dxi-item
+          dataField="password"
+          editorType="dxTextBox"
+          cssClass="mt-4"
+          [editorOptions]="{
+            placeholder: '••••••••',
+            mode: 'password',
+            stylingMode: 'outlined',
+            height: '45px'
+          }"
+        >
+          <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule>
+          <dxo-label text="Password"></dxo-label>
+        </dxi-item>
+      </dx-form>
+
+      <div class="mt-8">
+        <dx-button
+          width="100%"
+          height="45px"
+          type="default"
+          stylingMode="contained"
+          [useSubmitBehavior]="true"
+          [text]="isLoading ? 'Logging in...' : 'Sign In'"
+          [disabled]="isLoading"
+        >
+        </dx-button>
+      </div>
+    </form>
+
+    <div class="mt-6 text-center border-t pt-4 border-gray-100">
+      <p class="text-sm text-gray-500">
+        Don't have an account?
+        <a href="#" class="text-indigo-600 font-semibold hover:text-indigo-800 transition-colors"
+          >Register</a
+        >
+      </p>
+    </div>
+  </div>
+</div>

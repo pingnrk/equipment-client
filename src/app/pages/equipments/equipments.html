@@ -1,0 +1,48 @@
+<div class="p-4">
+  <h2 class="mb-4 text-2xl font-gold">Inventory list</h2>
+
+  <dx-data-grid
+    [dataSource]="equipments"
+    [showBorders]="true"
+    [rowAlternationEnabled]="true"
+    [columnAutoWidth]="true"
+  >
+    <dxo-search-panel [visible]="true" [width]="300" placeholder="Search..."></dxo-search-panel>
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]"></dxo-pager>
+
+    <dxi-column
+      caption="Image"
+      [width]="100"
+      cellTemplate="imageCell"
+      [allowFiltering]="false"
+      [allowSorting]="false"
+    ></dxi-column>
+
+    <div *dxTemplate="let d of 'imageCell'">
+      <img
+        [src]="getFullImageUrl(d.data.imageUrl)"
+        alt="Item"
+        style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px"
+      />
+    </div>
+
+    <dxi-column dataField="code" caption="Code" [width]="120"></dxi-column>
+    <dxi-column dataField="name" caption="Name"></dxi-column>
+    <dxi-column dataField="stock" caption="Stock" [width]="80" alignment="center"></dxi-column>
+
+    <dxi-column
+      dataField="status"
+      caption="Status"
+      [width]="120"
+      cellTemplate="statusCell"
+      alignment="center"
+    ></dxi-column>
+    <div *dxTemplate="let d of 'statusCell'">
+      <span class="status-badge" [ngClass]="{ available: d.value === 1, 'in-use': d.value === 2 }">
+        {{ d.value === 1 ? 'Available' : d.value === 2 ? 'In Use' : 'Maintenance' }}
+      </span>
+    </div>
+  </dx-data-grid>
+</div>

@@ -1,0 +1,47 @@
+.header-toolbar {
+    background-color: #3f51b5;
+    color: white;
+    padding: 0 10px;
+    height: 50px;
+}
+
+::ng-deep .header-toolbar .dx-button {
+    color: white;
+}
+
+.drawer-menu{
+    width: 250px;
+    height: 100%;
+    background-color: #f5f5f5;
+    border-radius: 1px solid #ddd;
+}
+
+.content-container{
+    padding: 20px;
+    height: 100%;
+    overflow: auto;
+    background-color: #fff;
+}
+
+::ng-deep .dx-list-item-selected {
+  background-color: #e8eaf6 !important;
+  color: #3f51b5 !important;           
+  font-weight: bold;
+  border-left: 4px solid #3f51b5;     
+}
+
+::ng-deep .dx-list-item.dx-state-active {
+  background-color: transparent;
+}
+
+/* บังคับให้เนื้อหาตรงกลาง (Content) อยู่ชั้นเดียวกับเมนู หรือสูงกว่า */
+.dx-drawer-content {
+  z-index: 1 !important;
+  transform: none !important; /* แก้บั๊กบางทีที่ Drawer ทำให้เนื้อหาเบลอหรือกดไม่ได้ */
+}
+
+/* ถ้ายังกดไม่ได้ ให้ลองบังคับปิด Shading แบบ CSS */
+.dx-drawer-shader {
+  display: none !important;
+  pointer-events: none !important; /* ทะลุผ่านเงา */
+}
