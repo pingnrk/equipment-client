@@ -1,6 +1,7 @@
-<div class="p-4">
-  <div class="flex justify-between items-center mb-4">
-    <h2 class="text-2xl font-bold text-gray-800">Inventory List</h2>
+<div class="page-container">
+  
+  <div class="page-header-row">
+    <h2 class="page-title">Inventory List</h2>
 
     <dx-button
       *ngIf="isAdmin"
@@ -19,6 +20,7 @@
     [showBorders]="true"
     [rowAlternationEnabled]="true"
     [columnAutoWidth]="true"
+    [hoverStateEnabled]="true" 
     keyExpr="id"
     [(selectedRowKeys)]="selectedItemKeys"
   >
@@ -42,14 +44,7 @@
       <img
         [src]="getFullImageUrl(d.data.imageUrl)"
         alt="Item"
-        style="
-          width: 50px;
-          height: 50px;
-          object-fit: cover;
-          border-radius: 4px;
-          display: block;
-          margin: 0 auto;
-        "
+        class="grid-image"
       />
     </div>
 
@@ -70,6 +65,7 @@
       </span>
     </div>
   </dx-data-grid>
+
   <div class="fab-container" *ngIf="selectedItemKeys.length > 0">
     <dx-button
       icon="cart"

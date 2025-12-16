@@ -1,99 +1,105 @@
-<div class="cart-page">
-  <h2 class="page-title"><i class="dx-icon-cart"></i> Confirm Borrowing</h2>
+<div class="page-container">
+  
+  <h2 class="page-title">
+    <i class="dx-icon-cart" style="margin-right: 8px;"></i> Confirm Borrowing
+  </h2>
 
-  <div class="content-card">
-    <dx-form [formData]="bookingData" [labelLocation]="'top'">
-      <dxi-item itemType="group" [colCount]="2">
-        <dxi-item
-          dataField="startDate"
-          editorType="dxDateBox"
-          [editorOptions]="{
-            type: 'date',
-            displayFormat: 'dd/MM/yyyy',
-            min: minDate,
-            stylingMode: 'outlined',
-            placeholder: 'Select Date'
-          }"
-        >
-          <dxi-validation-rule
-            type="required"
-            message="Start Date is required"
-          ></dxi-validation-rule>
-          <dxo-label text="Start Date (ยืมวันที่)"></dxo-label>
+  <div class="form-wrapper">
+    
+    <div class="content-card">
+        <dx-form [formData]="bookingData" [labelLocation]="'top'">
+        <dxi-item itemType="group" [colCount]="2">
+            <dxi-item
+            dataField="startDate"
+            editorType="dxDateBox"
+            [editorOptions]="{
+                type: 'date',
+                displayFormat: 'dd/MM/yyyy',
+                min: minDate,
+                stylingMode: 'outlined',
+                placeholder: 'Select Date'
+            }"
+            >
+            <dxi-validation-rule
+                type="required"
+                message="Start Date is required"
+            ></dxi-validation-rule>
+            <dxo-label text="Start Date (ยืมวันที่)"></dxo-label>
+            </dxi-item>
+
+            <dxi-item
+            dataField="endDate"
+            editorType="dxDateBox"
+            [editorOptions]="{
+                type: 'date',
+                displayFormat: 'dd/MM/yyyy',
+                min: minDate,
+                stylingMode: 'outlined',
+                placeholder: 'Select Date'
+            }"
+            >
+            <dxi-validation-rule type="required" message="End Date is required"></dxi-validation-rule>
+            <dxo-label text="End Date (คืนวันที่)"></dxo-label>
+            </dxi-item>
         </dxi-item>
+        </dx-form>
+    </div>
 
-        <dxi-item
-          dataField="endDate"
-          editorType="dxDateBox"
-          [editorOptions]="{
-            type: 'date',
-            displayFormat: 'dd/MM/yyyy',
-            min: minDate,
-            stylingMode: 'outlined',
-            placeholder: 'Select Date'
-          }"
+    <div class="content-card">
+        <h3 class="card-subtitle">Items List</h3>
+
+        <dx-data-grid
+        [dataSource]="selectedItems"
+        [showBorders]="true"
+        [columnAutoWidth]="true"
+        [rowAlternationEnabled]="true"
         >
-          <dxi-validation-rule type="required" message="End Date is required"></dxi-validation-rule>
-          <dxo-label text="End Date (คืนวันที่)"></dxo-label>
-        </dxi-item>
-      </dxi-item>
-    </dx-form>
-  </div>
+        <dxo-editing mode="cell" [allowUpdating]="true" [allowDeleting]="true"> </dxo-editing>
 
-  <div class="content-card">
-    <h3 class="card-subtitle">Items List</h3>
+        <dxi-column dataField="code" caption="Code" [allowEditing]="false" [width]="120"></dxi-column>
+        <dxi-column dataField="name" caption="Name" [allowEditing]="false"></dxi-column>
 
-    <dx-data-grid
-      [dataSource]="selectedItems"
-      [showBorders]="true"
-      [columnAutoWidth]="true"
-      [rowAlternationEnabled]="true"
-    >
-      <dxo-editing mode="cell" [allowUpdating]="true" [allowDeleting]="true"> </dxo-editing>
+        <dxi-column
+            dataField="quantityRequest"
+            caption="Quantity"
+            dataType="number"
+            [width]="120"
+            alignment="center"
+            cssClass="editable-cell"
+        >
+            <dxi-validation-rule type="required"></dxi-validation-rule>
+            <dxi-validation-rule type="range" [min]="1" message="Min 1"></dxi-validation-rule>
+        </dxi-column>
 
-      <dxi-column dataField="code" caption="Code" [allowEditing]="false" [width]="120"></dxi-column>
-      <dxi-column dataField="name" caption="Name" [allowEditing]="false"></dxi-column>
+        <dxi-column type="buttons" [width]="60">
+            <dxi-button name="delete" icon="trash"></dxi-button>
+        </dxi-column>
+        </dx-data-grid>
 
-      <dxi-column
-        dataField="quantityRequest"
-        caption="Quantity"
-        dataType="number"
-        [width]="120"
-        alignment="center"
-        cssClass="editable-cell"
-      >
-        <dxi-validation-rule type="required"></dxi-validation-rule>
-        <dxi-validation-rule type="range" [min]="1" message="Min 1"></dxi-validation-rule>
-      </dxi-column>
+        <div class="hint-text">* Double click on "Quantity" column to edit amount.</div>
+    </div>
 
-      <dxi-column type="buttons" [width]="60">
-        <dxi-button name="delete" icon="trash"></dxi-button>
-      </dxi-column>
-    </dx-data-grid>
+    <div class="action-buttons">
+        <dx-button
+        text="Cancel"
+        stylingMode="outlined"
+        type="normal"
+        width="120"
+        height="45"
+        (onClick)="goBack()"
+        >
+        </dx-button>
 
-    <div class="hint-text">* Double click on "Quantity" column to edit amount.</div>
-  </div>
+        <dx-button
+        text="Confirm Request"
+        stylingMode="contained"
+        type="default"
+        width="200"
+        height="45"
+        icon="check"
+        (onClick)="onSubmit()"
+        >
+        </dx-button>
+    </div>
 
-  <div class="action-buttons">
-    <dx-button
-      text="Cancel"
-      stylingMode="outlined"
-      type="normal"
-      width="120"
-      height="45"
-      (onClick)="goBack()"
-    >
-    </dx-button>
-
-    <dx-button
-      text="Confirm Request"
-      stylingMode="contained"
-      type="default"
-      width="200"
-      height="45"
-      icon="check"
-      (onClick)="onSubmit()"
-    >
-    </dx-button>
-  </div>
-</div>
+  </div> </div>

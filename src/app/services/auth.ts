@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'https://localhost:7273/api/auth';
+  private apiUrl = `${environment.apiUrl}/auth`;
 
   public isLoggedIn$ = new BehaviorSubject<boolean>(this.hasToken());
   public currentUserRole = localStorage.getItem('role');

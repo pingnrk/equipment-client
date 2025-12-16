@@ -1,37 +1,29 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, retry } from 'rxjs';
-
-const API_URL = 'https://localhost:7273/api';
-
-export interface Equipment {
-  id: string;
-  code: string;
-  name: string;
-  description: string;
-  categoryId: number;
-  stock: number;
-  status: number;
-  imageUrl: string;
-}
+import { Observable } from 'rxjs';
+import { Equipment } from './equipment.interface';
+import { environment } from '../../environments/environment'; // import environment มาใช้
 
 @Injectable({
   providedIn: 'root',
 })
 export class EquipmentService {
+  private apiUrl = `${environment.apiUrl}/equipments`;
+
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Equipment[]> {
-    return this.http.get<Equipment[]>(`${API_URL}/equipments`);
+    return this.http.get<Equipment[]>(this.apiUrl);
   }
 
-  // ดึงรูปภาพ (Helper function เอาไว้ต่อ URL ให้ครบ)
   getImageUrl(relativePath: string): string {
     if (!relativePath) return 'https://via.placeholder.com/100';
-    return `${API_URL.replace('/api', '')}${relativePath}`;
+
+    const baseUrl = environment.apiUrl.replace('/api', '');
+    return `${baseUrl}${relativePath}`;
   }
 
   create(data: FormData) {
-    return this.http.post(`${API_URL}/equipments`, data);
+    return this.http.post(this.apiUrl, data);
   }
 }

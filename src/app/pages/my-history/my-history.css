@@ -1,0 +1,66 @@
+/* ❌ ลบส่วนนี้ทิ้งไปเลยครับ (เพราะมันซ้ำกับ styles.css) */
+/*
+.page-container { ... }
+.page-title { ... }
+*/
+
+/* ✅ เก็บส่วนนี้ไว้ (Styling เฉพาะของหน้านี้) */
+
+/* Master-Detail Styling */
+.detail-container {
+    padding: 15px;
+    background-color: #f8f8f8;
+    border-radius: 4px;
+    margin-top: 10px;
+    border: 1px solid #eee;
+}
+
+.detail-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.item-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+/* ... CSS เดิม ... */
+
+.item-row {
+    margin-bottom: 8px; /* เพิ่มระยะห่างหน่อย */
+    font-size: 0.9rem;
+    color: #555;
+    
+    /* 👇 เพิ่ม Flexbox ให้รูปกับตัวหนังสืออยู่บรรทัดเดียวกัน */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 👇 เพิ่มสไตล์รูปภาพ */
+.item-image {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+
+/* Status Badge Styling */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+    text-transform: capitalize;
+}
+
+.status-1 { background-color: #fffde7; color: #f57f17; }
+.status-2 { background-color: #e8f5e9; color: #2e7d32; }
+.status-3 { background-color: #ffebee; color: #c62828; }
+.status-4 { background-color: #eeeeee; color: #616161; }

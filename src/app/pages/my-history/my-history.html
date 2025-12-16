@@ -1,0 +1,75 @@
+<div class="page-container">
+  <h2 class="page-title">My Borrow History</h2>
+
+  <dx-data-grid
+    [dataSource]="requests"
+    [showBorders]="true"
+    [columnAutoWidth]="true"
+    [rowAlternationEnabled]="true"
+    [hoverStateEnabled]="true"
+    keyExpr="id"
+  >
+    <dxo-sorting mode="multiple"></dxo-sorting>
+    <dxo-scrolling mode="standard"></dxo-scrolling>
+    
+    <dxo-search-panel [visible]="true" [width]="300" placeholder="Search..."></dxo-search-panel>
+    
+    <dxo-pager [visible]="true" [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]"></dxo-pager>
+    <dxo-paging [pageSize]="10"></dxo-paging>
+
+    <dxi-column 
+      dataField="requestDate" 
+      dataType="date" 
+      format="dd/MM/yyyy HH:mm"
+      caption="Request Date"
+      sortOrder="desc"
+    ></dxi-column>
+
+    <dxi-column 
+      dataField="startDate" 
+      dataType="date" 
+      format="dd/MM/yyyy"
+      caption="From"
+    ></dxi-column>
+    <dxi-column 
+      dataField="endDate" 
+      dataType="date" 
+      format="dd/MM/yyyy"
+      caption="To"
+    ></dxi-column>
+
+    <dxi-column 
+      dataField="status" 
+      caption="Status" 
+      cellTemplate="statusCell" 
+      alignment="center"
+      [width]="150"
+    ></dxi-column>
+    <div *dxTemplate="let d of 'statusCell'">
+      <span class="status-badge status-{{ d.value }}">
+        {{ getStatusText(d.value) }}
+      </span>
+    </div>
+
+<dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
+    <div *dxTemplate="let request of 'detail'">
+        <div class="detail-container">
+            <p class="detail-title">Items Requested:</p>
+            <ul class="item-list">
+                <li *ngFor="let item of request.data.items" class="item-row">
+                   <img 
+                     [src]="'https://equipment-api.onrender.com/' + item.equipment.imageUrl"
+                     class="item-image"
+                     alt="Item image"
+                   />
+                   
+                   <span>
+                       <b>{{ item.equipment.name }}</b> (Qty: {{ item.quantity }})
+                   </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+  </dx-data-grid>
+</div>

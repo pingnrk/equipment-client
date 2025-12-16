@@ -1,18 +1,13 @@
-.page-container {
-  padding: 40px 20px;
-  background-color: #f3f4f6;
-  min-height: 100%;
-  display: flex;
-  justify-content: center;
-}
+
 
 .form-card {
-  width: 100%;
-  max-width: 800px; /* กว้างหน่อย */
   background: white;
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  padding: 30px; /* ปรับให้เท่า Cart */
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border: 1px solid #eee;
+  max-width: 800px;
+  /* margin: 0 auto; <--- ถ้าอยากให้ form อยู่ตรงกลางจอ เปิดบรรทัดนี้ */
 }
 
 .form-title {

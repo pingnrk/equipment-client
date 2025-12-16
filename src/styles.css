@@ -2,7 +2,21 @@
     margin: 0;
     padding: 0;
 }
+.page-container {
+  padding: 24px; /* ระยะห่างจากขอบเท่ากันทุกหน้า */
+  background-color: #fff; /* พื้นหลังสีขาว (ถ้าต้องการ) */
+  min-height: 100%;
+}
 
+/* หัวข้อหน้า */
+.page-title {
+  font-size: 24px;       /* ขนาดตัวอักษรเท่ากันเป๊ะ */
+  font-weight: 700;      /* ความหนา */
+  color: #333;           /* สี */
+  margin-top: 0;         /* ❌ สำคัญ: ลบ margin บนออก กันมันดันไม่เท่ากัน */
+  margin-bottom: 24px;   /* ระยะห่างข้างล่าง */
+  line-height: 1.2;      /* ความสูงบรรทัด */
+}
 
 .dx-drawer-shader {
   visibility: hidden !important; 

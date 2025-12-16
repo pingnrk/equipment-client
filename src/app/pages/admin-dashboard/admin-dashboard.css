@@ -31,3 +31,12 @@
     margin-bottom: 10px;
     color: #4b5563;
 }
+
+.equip-image {
+    width: 50px;       /* Fixed width */
+    height: 50px;      /* Fixed height */
+    object-fit: cover; /* Crop nicely */
+    border-radius: 4px;
+    display: block;
+    margin: 0 auto;    /* Center it */
+}

@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DxDataGridModule, DxButtonModule, DxDataGridComponent } from 'devextreme-angular';
-import { Equipment, EquipmentService } from '../../services/equipment';
+import { EquipmentService } from '../../services/equipment';
 import { AuthService } from '../../services/auth';
 import { CartService } from '../../services/cart';
 import { Router } from '@angular/router';
 import notify from 'devextreme/ui/notify';
+import { Equipment } from '../../services/equipment.interface';
 
 @Component({
   selector: 'app-equipments',

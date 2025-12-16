@@ -1,6 +1,17 @@
 <dx-toolbar class="header-toolbar">
+  <dxi-item location="before">
+    <div *dxTemplate class="toolbar-left">
+      <dx-button
+        icon="menu"
+        stylingMode="text"
+        (onClick)="toggleDrawer()"
+      ></dx-button>
+      <span class="app-title">{{ title }}</span>
+    </div>
+  </dxi-item>
+
   <dxi-item location="after">
-    <div *dxTemplate>
+    <div *dxTemplate class="toolbar-right">
       <div *ngIf="isLoggedIn" class="user-info">
         <i class="dx-icon-user"></i>
         <span>{{ userName }}</span>
@@ -9,13 +20,15 @@
       <dx-button
         *ngIf="isLoggedIn"
         text="Logout"
+        icon="runner"
         stylingMode="text"
         (onClick)="logout()"
       ></dx-button>
+
       <dx-button
         *ngIf="!isLoggedIn"
         text="Login"
-        icon="user"
+        icon="key"
         stylingMode="text"
         (onClick)="goToLogin()"
       ></dx-button>
@@ -44,8 +57,15 @@
       selectionMode="single"
       [selectedItemKeys]="selectedKeys"
     >
+      <div *dxTemplate="let item of 'item'">
+        <div class="menu-item-content">
+          <i [class]="'dx-icon-' + item.icon"></i>
+          <span>{{ item.text }}</span>
+        </div>
+      </div>
     </dx-list>
   </div>
+
   <div class="content-container">
     <router-outlet></router-outlet>
   </div>

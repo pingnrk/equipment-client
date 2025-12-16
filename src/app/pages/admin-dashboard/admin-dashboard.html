@@ -1,5 +1,5 @@
-<div class="p-6">
-  <h2 class="text-2xl font-bold mb-6 text-gray-800">Manage Requests</h2>
+<div class="page-container">
+  <h2 class="page-title">Manage Requests</h2>
 
   <dx-data-grid
     [dataSource]="requests"
@@ -10,6 +10,8 @@
   >
     <dxo-sorting mode="multiple"></dxo-sorting>
     <dxo-search-panel [visible]="true" [width]="300" placeholder="Search..."></dxo-search-panel>
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]"></dxo-pager>
 
     <dxi-column
       dataField="requestDate"
@@ -38,9 +40,10 @@
       caption="Status"
       cellTemplate="statusCell"
       alignment="center"
+      [width]="120"
     ></dxi-column>
     <div *dxTemplate="let d of 'statusCell'">
-      <span [class]="'status-badge status-' + d.value">
+      <span class="status-badge status-{{ d.value }}">
         {{ getStatusText(d.value) }}
       </span>
     </div>
@@ -49,14 +52,11 @@
       caption="Manage"
       cellTemplate="actionCell"
       alignment="center"
-      [width]="180"
+      [width]="200"
     ></dxi-column>
 
     <div *dxTemplate="let d of 'actionCell'">
-      <div
-        *ngIf="d?.data?.status === 1; else notPending"
-        class="action-buttons flex gap-2 justify-center"
-      >
+      <div *ngIf="d?.data?.status === 1" class="action-group">
         <dx-button
           text="Approve"
           type="success"
@@ -75,9 +75,19 @@
         </dx-button>
       </div>
 
-      <ng-template #notPending>
-        <span class="text-gray-400">-</span>
-      </ng-template>
+      <div *ngIf="d?.data?.status === 2" class="action-group">
+        <dx-button
+          text="Return"
+          type="default"
+          stylingMode="contained"
+          icon="box"
+          [height]="30"
+          (onClick)="onReturn(d.data.id)"
+        >
+        </dx-button>
+      </div>
+
+      <span *ngIf="d?.data?.status > 2" class="status-completed"> Completed </span>
     </div>
 
     <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
@@ -102,7 +112,7 @@
           <div *dxTemplate="let d of 'imgCell'">
             <img
               [src]="'https://equipment-api.onrender.com' + d.data.equipment.imageUrl"
-              style="height: 40px; border-radius: 4px; display: block; margin: 0 auto"
+              class="equip-image"
             />
           </div>
 
@@ -112,7 +122,7 @@
             caption="Qty"
             alignment="center"
             [width]="80"
-            cssClass="font-bold"
+            cssClass="font-bold-cell"
           ></dxi-column>
         </dx-data-grid>
       </div>

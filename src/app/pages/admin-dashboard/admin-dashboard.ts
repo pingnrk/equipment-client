@@ -53,7 +53,21 @@ export class AdminDashboard {
     });
   }
 
-  // Helper แปลงสถานะเป็นข้อความ
+  onReturn(id: string) {
+    if (!confirm('Confirm Return? Stock will be restored.')) return;
+
+    this.borrowService.returnRequest(id).subscribe({
+      next: () => {
+        notify('Items returned successfully. Stock updated.', 'success', 2000);
+        this.loadData(); // โหลดข้อมูลใหม่ สถานะจะเปลี่ยนเป็น Returned (4)
+      },
+      error: (err) => {
+        console.error(err);
+        notify(err.error?.message || 'Error returning item', 'error', 3000);
+      },
+    });
+  }
+
   getStatusText(status: number) {
     switch (status) {
       case 1:
@@ -68,6 +82,7 @@ export class AdminDashboard {
         return 'Unknown';
     }
   }
+
   getStatusColor(status: number) {
     switch (status) {
       case 1:
