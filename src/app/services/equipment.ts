@@ -12,8 +12,17 @@ export class EquipmentService {
 
   constructor(private http: HttpClient) {}
 
+  
   getAll(): Observable<Equipment[]> {
     return this.http.get<Equipment[]>(this.apiUrl);
+  }
+
+  getById(id: string): Observable<Equipment> {
+    return this.http.get<Equipment>(`${this.apiUrl}/${id}`);
+  }
+
+  update(id:string, data: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, data);
   }
 
   getImageUrl(relativePath: string): string {
