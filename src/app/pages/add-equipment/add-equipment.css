@@ -62,11 +62,13 @@ h2 {
 }
 
 /* ปรับระยะห่างปุ่ม */
-.button-group {
-  margin-top: 30px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 15px;
+.action-buttons {
+    margin-top: 20px;
+}
+
+/* เว้นระยะห่างระหว่างปุ่ม Save กับ Delete */
+::ng-deep .action-buttons .dx-field-item {
+    padding-bottom: 10px; 
 }
 
 /* จัด Upload ให้สวยงาม */

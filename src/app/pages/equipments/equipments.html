@@ -29,6 +29,9 @@
     <dxo-paging [pageSize]="10"></dxo-paging>
     <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]"></dxo-pager>
 
+    <dxo-selection mode="multiple" showCheckBoxesMode="always" selectAllMode="page">
+    </dxo-selection>
+
     <dxi-column
       caption="Image"
       [width]="100"
@@ -37,9 +40,6 @@
       [allowSorting]="false"
       alignment="center"
     ></dxi-column>
-    <dxo-selection mode="multiple" showCheckBoxesMode="always" selectAllMode="page">
-    </dxo-selection>
-
     <div *dxTemplate="let d of 'imageCell'">
       <img
         [src]="getFullImageUrl(d.data.imageUrl)"
@@ -64,7 +64,21 @@
         {{ d.value === 1 ? 'Available' : d.value === 2 ? 'In Use' : 'Maintenance' }}
       </span>
     </div>
-  </dx-data-grid>
+
+    <dxi-column 
+      type="buttons" 
+      caption="Action" 
+      [width]="80" 
+      [visible]="isAdmin" 
+      [allowHiding]="false">
+      
+      <dxi-button
+        icon="edit"
+        hint="Edit Equipment"
+        [onClick]="onEditClick">
+      </dxi-button>
+    </dxi-column>
+    </dx-data-grid>
 
   <div class="fab-container" *ngIf="selectedItemKeys.length > 0">
     <dx-button

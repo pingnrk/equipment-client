@@ -1,73 +1,94 @@
 <div class="container">
   <div class="form-card">
-    <h2>Add New Equipment</h2>
     
+    <div class="card-header">
+      <dx-button 
+        icon="arrowleft" 
+        text="Back" 
+        stylingMode="text" 
+        type="normal"
+        (onClick)="onCancel()">
+      </dx-button>
+      <h2>{{ title }}</h2>
+    </div>
+    
+    <div class="separator"></div>
+
     <form (submit)="onSubmit($event)">
-      <dx-form
-        [formData]="equipmentData"
-        [showValidationSummary]="true"
-        validationGroup="equipmentGroup">
+      <dx-form [formData]="equipmentData" [colCount]="1" labelLocation="top">
+        
+        <dxi-item itemType="group" cssClass="image-group">
+           <div class="image-preview-container">
+             <img 
+               [src]="newImagePreview ? newImagePreview : getPreviewUrl(equipmentData.imageUrl)" 
+               class="preview-img"
+               alt="Equipment Image"
+             >
+             
+             <div class="upload-btn-wrapper">
+               <dx-file-uploader 
+                 selectButtonText="Change Photo"
+                 labelText=""
+                 accept="image/*" 
+                 uploadMode="useForm" 
+                 [showFileList]="false"
+                 (onValueChanged)="onFileSelected($event)">
+               </dx-file-uploader>
+             </div>
+           </div>
+        </dxi-item>
 
-        <dxi-item itemType="group" caption="Basic Info" [colCount]="2">
-          
-          <dxi-item dataField="code">
-            <dxi-validation-rule type="required" message="Code is required"></dxi-validation-rule>
-          </dxi-item>
-
-          <dxi-item dataField="name">
-            <dxi-validation-rule type="required" message="Name is required"></dxi-validation-rule>
-          </dxi-item>
-
-          <dxi-item dataField="categoryId" editorType="dxSelectBox"
-            [editorOptions]="{ 
-              dataSource: categories, 
-              displayExpr: 'name', 
-              valueExpr: 'id',
-              placeholder: 'Select Category'
-            }">
-            <dxi-validation-rule type="required" message="Category is required"></dxi-validation-rule>
-          </dxi-item>
-
-          <dxi-item dataField="stock" editorType="dxNumberBox" 
-            [editorOptions]="{ min: 0, showSpinButtons: true }">
-            <dxi-validation-rule type="required" message="Stock is required"></dxi-validation-rule>
-          </dxi-item>
-
+        <dxi-item itemType="group" caption="Basic Information" [colCount]="2">
+           <dxi-item dataField="code">
+             <dxi-validation-rule type="required" message="Code is required"></dxi-validation-rule>
+           </dxi-item>
+           <dxi-item dataField="name">
+             <dxi-validation-rule type="required" message="Name is required"></dxi-validation-rule>
+           </dxi-item>
+           <dxi-item dataField="categoryId" editorType="dxSelectBox" 
+             [editorOptions]="{ dataSource: categories, displayExpr: 'name', valueExpr: 'id', placeholder: 'Select Category' }">
+             <dxi-validation-rule type="required" message="Category is required"></dxi-validation-rule>
+           </dxi-item>
+           <dxi-item dataField="stock" editorType="dxNumberBox" [editorOptions]="{ min: 0, showSpinButtons: true }"></dxi-item>
         </dxi-item>
 
         <dxi-item itemType="group" caption="Details">
-          
-          <dxi-item dataField="isUnlimited" editorType="dxCheckBox" 
-            [editorOptions]="{ text: 'Unlimited Stock' }">
-          </dxi-item>
-
-          <dxi-item dataField="description" editorType="dxTextArea" 
-            [editorOptions]="{ height: 100 }">
-          </dxi-item>
-
-          <dxi-item>
-            <div class="file-upload-section">
-              <label>Equipment Image</label>
-              <dx-file-uploader
-                selectButtonText="Select Image"
-                labelText=""
-                accept="image/*"
-                uploadMode="useForm"
-                (onValueChanged)="onFileSelected($event)">
-              </dx-file-uploader>
-            </div>
-          </dxi-item>
-
+           <dxi-item dataField="isUnlimited" editorType="dxCheckBox" [editorOptions]="{ text: 'Unlimited Stock' }"></dxi-item>
+           
+           <dxi-item 
+             dataField="description" 
+             editorType="dxTextArea" 
+             [editorOptions]="{ height: 120, placeholder: 'Enter description...' }">
+           </dxi-item>
         </dxi-item>
 
-        <dxi-item itemType="button" 
-          [buttonOptions]="{
-            text: isLoading ? 'Saving...' : 'Save Equipment',
-            type: 'default',
-            useSubmitBehavior: true,
-            width: '100%',
-            disabled: isLoading
-          }">
+        <dxi-item itemType="group" cssClass="action-buttons">
+          
+          <dxi-item itemType="button" 
+            [buttonOptions]="{
+              text: isLoading ? 'Saving...' : btnLabel,
+              type: 'default',
+              stylingMode: 'contained',
+              useSubmitBehavior: true,
+              width: '100%',
+              height: '45px',
+              disabled: isLoading
+            }">
+          </dxi-item>
+
+          <dxi-item *ngIf="isEditMode" itemType="button" 
+            [buttonOptions]="{
+              text: 'Delete Equipment',
+              type: 'danger', 
+              stylingMode: 'contained', 
+              width: '100%',
+              height: '45px',
+              onClick: onDelete.bind(this),
+              disabled: isLoading,
+              icon: 'trash'
+            }">
+          </dxi-item>
+
         </dxi-item>
 
       </dx-form>
