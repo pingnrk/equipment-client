@@ -37,6 +37,7 @@ export class App implements OnInit {
     { text: 'Approve Requests', icon: 'check', path: '/admin/requests', role: 'Admin' },
     { text: 'Manage Inventory', icon: 'box', path: '/admin/items', role: 'Admin' },
     { text: 'Dashboard', icon: 'chart', path: '/admin/dashboard', role: 'Admin' },
+    { text: 'Reports', icon: 'xlsxfile', path: '/admin/reports', role: 'Admin' },
   ];
 
   constructor(

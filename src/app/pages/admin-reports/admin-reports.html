@@ -1,0 +1,37 @@
+<div class="page-container">
+  <div class="header-row">
+    <h2 class="page-title">📊 Export Reports</h2>
+    <p class="subtitle">Filter and export data to Excel</p>
+  </div>
+
+  <dx-data-grid
+    id="reportGrid"
+    [dataSource]="reportData"
+    [showBorders]="true"
+    [columnAutoWidth]="true"
+    [rowAlternationEnabled]="true"
+    (onExporting)="onExporting($event)">
+
+    <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
+    
+    <dxo-search-panel [visible]="true"></dxo-search-panel>
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+    
+    <dxo-group-panel [visible]="true" placeholder="Drag a column header here to group"></dxo-group-panel>
+    <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+
+    <dxo-paging [pageSize]="20"></dxo-paging>
+    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[20, 50, 100]"></dxo-pager>
+
+    <dxi-column dataField="requestDate" dataType="date" format="dd/MM/yyyy HH:mm" caption="Date" sortOrder="desc"></dxi-column>
+    <dxi-column dataField="user.fullName" caption="Requested By"></dxi-column>
+    
+    <dxi-column dataField="itemsText" caption="Items List" [width]="300"></dxi-column>
+    
+    <dxi-column dataField="startDate" dataType="date" caption="From"></dxi-column>
+    <dxi-column dataField="endDate" dataType="date" caption="To"></dxi-column>
+    
+    <dxi-column dataField="statusText" caption="Status" [groupIndex]="0"></dxi-column> 
+    </dx-data-grid>
+</div>

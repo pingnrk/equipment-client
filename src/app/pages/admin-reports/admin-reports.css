@@ -1,0 +1,15 @@
+.header-row {
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    color: #6b7280;
+    margin-top: -10px;
+    font-size: 14px;
+}
+
+/* ปรับหัวตารางให้ดูหนาๆ หน่อย */
+::ng-deep .dx-datagrid-headers {
+    font-weight: bold;
+    color: #374151;
+}
