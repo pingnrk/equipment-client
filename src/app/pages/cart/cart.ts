@@ -50,17 +50,14 @@ export class Cart implements OnInit {
   }
 
   onSubmit() {
-    // 1. Validation วันที่
+
     if (this.bookingData.endDate < this.bookingData.startDate) {
       notify('End Date must be after Start Date', 'error', 3000);
       return;
     }
 
-    // 2. เตรียมข้อมูล (Payload)
-    // หมายเหตุ: Backend C# รับ DateTime การส่งเป็น ISO String ปลอดภัยกว่า
-    // แต่ถ้าแบบเดิม FormatDate คุณตรงกับ Backend ก็ใช้ได้ครับ
     const payload = {
-      startDate: this.bookingData.startDate, // ส่งเป็น Date Object เลย เดี๋ยว JSON.stringify แปลงเป็น ISO ให้เอง
+      startDate: this.bookingData.startDate, 
       endDate: this.bookingData.endDate,
       items: this.selectedItems.map((i) => ({
         equipmentId: i.id,
@@ -68,16 +65,15 @@ export class Cart implements OnInit {
       })),
     };
 
-    // 3. เรียกใช้ Service
+
     this.cartService.submitBorrowRequest(payload).subscribe({
       next: (res) => {
         notify('Request submitted successfully!', 'success', 3000);
         this.cartService.clearCart();
-        this.router.navigate(['/equipments']); // หรือไปหน้า History
+        this.router.navigate(['/equipments']); 
       },
       error: (err) => {
         console.error(err);
-        // แสดง Error ที่ Backend ส่งมาจริงๆ
         const errorMsg = err.error?.message || err.error || 'Submit failed';
         notify(errorMsg, 'error', 5000);
       },

@@ -14,7 +14,6 @@ import notify from 'devextreme/ui/notify';
 import { confirm } from 'devextreme/ui/dialog';
 import { EquipmentService } from '../../services/equipment';
 import { CategoryService, Category } from '../../services/categories';
-// ✅ Import Environment เข้ามา
 import { environment } from '../../../environments/environment';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'; // ✅ เพิ่ม Sanitizer สำหรับ Base64
 

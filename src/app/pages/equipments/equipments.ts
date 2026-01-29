@@ -27,13 +27,11 @@ export class Equipments implements OnInit {
     private cartService: CartService,
     private router: Router
   ) {
-    // ⚠️ สำคัญ: ต้อง Bind this ไม่งั้น DevExtreme จะเรียก function แล้วหา router ไม่เจอ
     this.onEditClick = this.onEditClick.bind(this);
   }
 
   ngOnInit(): void {
     this.loadData();
-    // เช็คสิทธิ์ Admin
     const role = localStorage.getItem('role');
     this.isAdmin = role === 'Admin';
   }
@@ -51,7 +49,6 @@ export class Equipments implements OnInit {
     return this.equipmentService.getImageUrl(relativePath);
   }
 
-  // ✅ ฟังก์ชันสำหรับปุ่ม Edit ในตาราง
   onEditClick(e: any) {
     if (e.row && e.row.data && e.row.data.id) {
        const id = e.row.data.id;
@@ -76,7 +73,6 @@ export class Equipments implements OnInit {
   }
 
   goToAddPage() {
-    // ปรับ URL ให้ตรงกับ Routing ที่ตั้งไว้ (Add/Edit ใช้ Component เดียวกัน)
     this.router.navigate(['/equipments/add']);
   }
 }

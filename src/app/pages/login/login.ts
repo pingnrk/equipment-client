@@ -18,22 +18,33 @@ export class Login {
   };
   isLoading = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   onSubmit(e: any) {
-    e.preventDefault(); // กันหน้าเว็บ Refresh
+    e.preventDefault();
     this.isLoading = true;
 
     this.authService.login(this.formData).subscribe({
       next: () => {
         this.isLoading = false;
-        // แจ้งเตือนสีเขียว
-        this.router.navigate(['/equipments']); // เด้งไปหน้าเลือกของ
+
+        // ✅ เช็ค Role ก่อนดีด
+        if (
+          this.authService.currentUserRole === 'Admin' ||
+          localStorage.getItem('role') === 'Admin'
+        ) {
+          this.router.navigate(['/admin/dashboard']); // Admin ไปหลังบ้าน
+        } else {
+          this.router.navigate(['/equipments']); // User ไปหน้าร้าน
+        }
       },
       error: (err) => {
         this.isLoading = false;
         console.error(err);
-        notify('Login failed: Invalid email or password', 'error', 3000); // แจ้งเตือนสีแดง
+        notify('Login failed: Invalid email or password', 'error', 3000);
       },
     });
   }
