@@ -25,7 +25,7 @@ export class Equipments implements OnInit {
     private equipmentService: EquipmentService,
     public authService: AuthService,
     private cartService: CartService,
-    private router: Router
+    private router: Router,
   ) {
     this.onEditClick = this.onEditClick.bind(this);
   }
@@ -45,14 +45,23 @@ export class Equipments implements OnInit {
     });
   }
 
-  getFullImageUrl(relativePath: string): string {
-    return this.equipmentService.getImageUrl(relativePath);
+  // ในไฟล์ admin-equipment-list.ts
+
+  getFullImageUrl(base64String: string): string {
+    // 1. ถ้าไม่มีข้อมูล หรือเป็น null/empty -> ส่งรูป No Image กลับไป
+    if (!base64String) {
+      return 'assets/no-image.png';
+    }
+
+    // 2. ถ้าเป็น Base64 อยู่แล้ว (มีหัว data:image...) -> ส่งกลับไปเลย จบ!
+    // (ไม่ต้องเอา API URL มาต่อหน้ามันอีกแล้ว)
+    return base64String;
   }
 
   onEditClick(e: any) {
     if (e.row && e.row.data && e.row.data.id) {
-       const id = e.row.data.id;
-       this.router.navigate(['/equipments/edit', id]);
+      const id = e.row.data.id;
+      this.router.navigate(['/equipments/edit', id]);
     }
   }
 

@@ -1,0 +1,62 @@
+<div class="page-container">
+  <div class="page-header-row">
+    <h2 class="page-title">👥 User Management</h2>
+  </div>
+
+  <dx-data-grid
+    [dataSource]="users"
+    [showBorders]="true"
+    [rowAlternationEnabled]="true"
+    [columnAutoWidth]="true"
+    keyExpr="id"
+    (onRowInserting)="onRowInserting($event)"
+    (onRowUpdating)="onRowUpdating($event)"
+    (onRowRemoving)="onRowRemoving($event)">
+
+    <dxo-search-panel [visible]="true"></dxo-search-panel>
+    <dxo-paging [pageSize]="10"></dxo-paging>
+
+    <dxo-editing
+      mode="popup"
+      [allowUpdating]="true"
+      [allowDeleting]="true"
+      [allowAdding]="true">
+      <dxo-popup title="User Info" [showTitle]="true" [width]="700" [height]="450"></dxo-popup>
+      <dxo-form>
+        <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
+          <dxi-item dataField="employeeId"></dxi-item>
+          <dxi-item dataField="fullName"></dxi-item>
+          <dxi-item dataField="email"></dxi-item>
+          <dxi-item dataField="role"></dxi-item>
+
+          <dxi-item dataField="password"
+            [visible]="true"
+            [editorOptions]="{ mode: 'password' }">
+          </dxi-item>
+        </dxi-item>
+      </dxo-form>
+    </dxo-editing>
+
+    <dxi-column dataField="employeeId" caption="Employee ID">
+      <dxi-validation-rule type="required"></dxi-validation-rule>
+    </dxi-column>
+
+    <dxi-column dataField="fullName" caption="Full Name">
+      <dxi-validation-rule type="required"></dxi-validation-rule>
+    </dxi-column>
+
+    <dxi-column dataField="email" caption="Email">
+      <dxi-validation-rule type="required"></dxi-validation-rule>
+      <dxi-validation-rule type="email"></dxi-validation-rule>
+    </dxi-column>
+
+    <dxi-column dataField="role" caption="Role" editorType="dxSelectBox"
+      [editorOptions]="{ items: roles }">
+      <dxi-validation-rule type="required"></dxi-validation-rule>
+    </dxi-column>
+
+    <dxi-column dataField="password" caption="Password" [visible]="false">
+    </dxi-column>
+
+  </dx-data-grid>
+</div>

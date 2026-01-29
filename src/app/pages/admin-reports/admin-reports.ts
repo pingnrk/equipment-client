@@ -2,8 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DxDataGridModule, DxButtonModule } from 'devextreme-angular';
 import { BorrowService } from '../../services/borrow';
-import { Workbook } from 'exceljs';
-import { saveAs } from 'file-saver'; // ใช้ file-saver ธรรมดา (ลบ -es ออก)
+
+// ❌ ลบอันเก่าออก
+// import { Workbook } from 'exceljs';
+// import { saveAs } from 'file-saver';
+
+// ✅ ใส่อันใหม่เข้าไปแทน (แก้ import ให้รองรับทุกเครื่อง)
+import * as ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
 import { exportDataGrid } from 'devextreme/excel_exporter';
 
 @Component({
@@ -11,7 +17,7 @@ import { exportDataGrid } from 'devextreme/excel_exporter';
   standalone: true,
   imports: [CommonModule, DxDataGridModule, DxButtonModule],
   templateUrl: './admin-reports.html',
-  styleUrl: './admin-reports.css'
+  styleUrl: './admin-reports.css',
 })
 export class AdminReports implements OnInit {
   reportData: any[] = [];
@@ -23,43 +29,45 @@ export class AdminReports implements OnInit {
   }
 
   loadData() {
-    this.borrowService.getAllRequests().subscribe(data => {
+    this.borrowService.getAllRequests().subscribe((data) => {
       this.reportData = data.map((req: any) => ({
         ...req,
-        // แปลง Array ของ items ให้เป็น String ยาวๆ
         itemsText: req.items.map((i: any) => `${i.equipment.name} (${i.quantity})`).join(', '),
-        statusText: this.getStatusText(req.status)
+        statusText: this.getStatusText(req.status),
       }));
     });
   }
 
   getStatusText(status: number) {
     switch (status) {
-      case 1: return 'Pending';
-      case 2: return 'Approved';
-      case 3: return 'Rejected';
-      case 4: return 'Returned';
-      default: return 'Unknown';
+      case 1:
+        return 'Pending';
+      case 2:
+        return 'Approved';
+      case 3:
+        return 'Rejected';
+      case 4:
+        return 'Returned';
+      default:
+        return 'Unknown';
     }
   }
 
-  // ✅ 2. แก้ฟังก์ชัน Export (เอา require ออก)
   onExporting(e: any) {
-    // สร้าง Workbook ใหม่จาก Class ที่ Import มาเลย
-    const workbook = new Workbook();
+    // ✅ แก้ตรงนี้: เรียกผ่าน ExcelJS.Workbook
+    const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('BorrowData');
 
     exportDataGrid({
       component: e.component,
       worksheet: worksheet,
-      autoFilterEnabled: true
+      autoFilterEnabled: true,
     }).then(() => {
       workbook.xlsx.writeBuffer().then((buffer) => {
         saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'BorrowReport.xlsx');
       });
     });
-    
-    // บอก Grid ว่าไม่ต้อง Export แบบ Default (เพราะเราจัดการเองแล้ว)
+
     e.cancel = true;
   }
 }

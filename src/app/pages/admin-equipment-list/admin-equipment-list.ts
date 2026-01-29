@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { DxDataGridModule, DxButtonModule } from 'devextreme-angular';
 import notify from 'devextreme/ui/notify';
 import { EquipmentService } from '../../services/equipment';
+import { confirm } from 'devextreme/ui/dialog';
 
 @Component({
   selector: 'app-admin-equipment-list',
@@ -15,15 +16,21 @@ import { EquipmentService } from '../../services/equipment';
 export class AdminEquipmentList implements OnInit {
   equipments: any[] = [];
 
-  constructor(private service: EquipmentService, private equipmentService: EquipmentService, private router: Router) {
+  constructor(
+    private service: EquipmentService,
+    private equipmentService: EquipmentService,
+    private router: Router,
+  ) {
     this.onEditClick = this.onEditClick.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
   }
 
-  ngOnInit() { this.loadData(); }
+  ngOnInit() {
+    this.loadData();
+  }
 
   loadData() {
-    this.service.getAll().subscribe(data => this.equipments = data);
+    this.service.getAll().subscribe((data) => (this.equipments = data));
   }
 
   goToAdd() {
@@ -34,15 +41,34 @@ export class AdminEquipmentList implements OnInit {
     this.router.navigate(['/admin/items/edit', e.row.data.id]); // ไปหน้า Edit
   }
 
-  onDeleteClick(e: any) {
-    if(confirm('Delete this item?')) {
-        this.service.delete(e.row.data.id).subscribe(() => {
-            notify('Deleted', 'success');
-            this.loadData();
+  onDeleteClick = (e: any) => {
+    const itemToDelete = e.row.data; // ดึงข้อมูลแถวนั้นมา
+    confirm(`ต้องการลบรายการ "${itemToDelete.name}" ใช่หรือไม่?`, 'ยืนยันการลบ').then((result) => {
+      if (result) {
+        // ถ้าตอบ Yes -> ยิง API ลบ
+        this.equipmentService.delete(itemToDelete.id).subscribe({
+          next: () => {
+            notify('ลบข้อมูลสำเร็จ', 'success', 3000);
+            this.loadData(); // 🔄 โหลดข้อมูลใหม่ตารางจะได้อัปเดต
+          },
+          error: (err) => {
+            console.error(err);
+            notify('เกิดข้อผิดพลาดในการลบ', 'error', 3000);
+          },
         });
+      }
+    });
+  };
+  // ในไฟล์ admin-equipment-list.ts
+
+  getFullImageUrl(base64String: string): string {
+    // 1. ถ้าไม่มีข้อมูล หรือเป็น null/empty -> ส่งรูป No Image กลับไป
+    if (!base64String) {
+      return 'assets/no-image.png';
     }
-  }
-    getFullImageUrl(relativePath: string): string {
-    return this.equipmentService.getImageUrl(relativePath);
+
+    // 2. ถ้าเป็น Base64 อยู่แล้ว (มีหัว data:image...) -> ส่งกลับไปเลย จบ!
+    // (ไม่ต้องเอา API URL มาต่อหน้ามันอีกแล้ว)
+    return base64String;
   }
 }

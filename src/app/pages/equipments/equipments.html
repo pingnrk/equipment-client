@@ -1,5 +1,5 @@
 <div class="page-container">
-  
+
   <div class="page-header-row">
     <h2 class="page-title">Inventory List</h2>
   </div>
@@ -10,7 +10,7 @@
     [showBorders]="true"
     [rowAlternationEnabled]="true"
     [columnAutoWidth]="true"
-    [hoverStateEnabled]="true" 
+    [hoverStateEnabled]="true"
     keyExpr="id"
     [(selectedRowKeys)]="selectedItemKeys"
   >
@@ -55,19 +55,7 @@
       </span>
     </div>
 
-    <dxi-column 
-      type="buttons" 
-      caption="Action" 
-      [width]="80" 
-      [visible]="isAdmin" 
-      [allowHiding]="false">
-      
-      <dxi-button
-        icon="edit"
-        hint="Edit Equipment"
-        [onClick]="onEditClick">
-      </dxi-button>
-    </dxi-column>
+
     </dx-data-grid>
 
   <div class="fab-container" *ngIf="selectedItemKeys.length > 0">

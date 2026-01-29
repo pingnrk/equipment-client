@@ -9,32 +9,29 @@ import { AdminDashboard } from './pages/admin-dashboard/admin-dashboard';
 import { AdminEquipmentList } from './pages/admin-equipment-list/admin-equipment-list';
 import { AdminManageRequests } from './pages/admin-manage-requests/admin-manage-requests';
 import { AdminReports } from './pages/admin-reports/admin-reports';
+import { AdminUsers } from './pages/admin-users/admin-users';
 
 
 export const routes: Routes = [
   // --- 🏠 Public / Auth ---
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'equipments', pathMatch: 'full' },
+  { path: 'login', component: Login },
   { path: 'login', component: Login },
   { path: 'register', component: Register },
 
   // --- 🛍️ User Zone ---
-  { path: 'equipments', component: Equipments },  // หน้าร้าน
-  { path: 'cart', component: Cart },              // ตะกร้า
-  { path: 'history', component: MyHistory },      // ประวัติ
+  { path: 'equipments', component: Equipments }, // หน้าร้าน
+  { path: 'cart', component: Cart }, // ตะกร้า
+  { path: 'history', component: MyHistory }, // ประวัติ
 
   // --- 🛠️ Admin Zone ---
-{ path: 'admin/dashboard', component: AdminDashboard },      // 1. หน้ากราฟ
-  { path: 'admin/requests', component: AdminManageRequests },  // 2. หน้าอนุมัติ (แยกมาแล้ว)
-  { path: 'admin/items', component: AdminEquipmentList }, 
-  { path: 'admin/reports', component: AdminReports },     // 3. หน้าจัดการของ // หน้า Approve
-  
-  // หน้ารายการของสำหรับ Admin (ต้องแยกจาก User)
-  { path: 'admin/items', component: AdminEquipmentList }, 
-  
-  // หน้าเพิ่ม/แก้ไข (ใช้ component เดิมได้ แต่เปลี่ยน path)
-  { path: 'admin/items/add', component: AddEquipment },     
+  { path: 'admin/dashboard', component: AdminDashboard }, // 1. หน้ากราฟ
+  { path: 'admin/requests', component: AdminManageRequests }, // 2. หน้าอนุมัติ (แยกมาแล้ว)
+  { path: 'admin/reports', component: AdminReports }, // 3. หน้าจัดการของ // หน้า Approve
+  { path: 'admin/users', component: AdminUsers },
+  { path: 'admin/items', component: AdminEquipmentList },
+  { path: 'admin/items/add', component: AddEquipment },
   { path: 'admin/items/edit/:id', component: AddEquipment },
 
-
-  { path: '**', redirectTo: 'login' }
+  { path: '**', redirectTo: 'login' },
 ];

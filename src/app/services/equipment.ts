@@ -28,13 +28,6 @@ export class EquipmentService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
-  getImageUrl(relativePath: string): string {
-    if (!relativePath) return 'https://via.placeholder.com/100';
-
-    const baseUrl = environment.apiUrl.replace('/api', '');
-    return `${baseUrl}${relativePath}`;
-  }
-
   create(data: FormData) {
     return this.http.post(this.apiUrl, data);
   }

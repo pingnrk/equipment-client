@@ -30,12 +30,14 @@ export class App implements OnInit {
 
   private allMenuItems = [
     // 👤 เมนู User (ใส่ role: 'User' กำกับไว้เลย)
-    { text: 'Browse Equipments', icon: 'find', path: '/equipments', role: 'User' },
+    { text: 'Browse Equipments', icon: 'find', path: '/equipments', public: true },
     { text: 'My Cart', icon: 'cart', path: '/cart', role: 'User' },
     { text: 'My History', icon: 'clock', path: '/history', role: 'User' },
 
     { text: 'Approve Requests', icon: 'check', path: '/admin/requests', role: 'Admin' },
     { text: 'Manage Inventory', icon: 'box', path: '/admin/items', role: 'Admin' },
+    { text: 'Users', icon: 'group', path: '/admin/users', role: 'Admin' },
+
     { text: 'Dashboard', icon: 'chart', path: '/admin/dashboard', role: 'Admin' },
     { text: 'Reports', icon: 'xlsxfile', path: '/admin/reports', role: 'Admin' },
   ];
@@ -77,19 +79,24 @@ export class App implements OnInit {
 
   updateMenu() {
     this.menuItems = this.allMenuItems.filter((item) => {
-      // 1. ถ้าไม่ได้ Login -> ไม่ให้เห็นอะไรเลย (หรือให้เห็นแค่ Login)
-      if (!this.isLoggedIn) return false;
+      // 🟢 Case 1: คนนอก (ยังไม่ Login)
+      if (!this.isLoggedIn) {
+        // ให้เห็นเฉพาะเมนูที่เป็น public เท่านั้น
+        return (item as any).public;
+      }
 
-      // 2. ถ้าเป็น Admin -> ให้เห็นเฉพาะที่มี role = 'Admin'
+      // 🔴 Case 2: เป็น Admin (จุดที่แก้!)
       if (this.isAdmin) {
+        // ให้เห็น "เฉพาะ" เมนูที่มี role = 'Admin' เท่านั้น (ตัด public ทิ้งไปเลย)
         return item.role === 'Admin';
       }
 
-      // 3. ถ้าเป็น User -> ให้เห็นเฉพาะที่มี role = 'User'
-      // (หรือ item ที่ไม่ได้ระบุ role ถ้ามี)
-      return item.role === 'User';
+      // 🔵 Case 3: เป็น User ทั่วไป
+      // ให้เห็นเมนู User + เมนู public (เพราะ User ต้องเข้าไปดูของเพื่อยืม)
+      return item.role === 'User' || (item as any).public;
     });
 
+    // ปุ่ม Login (ถ้ายังไม่เข้าสู่ระบบ ให้โชว์ปุ่ม Login)
     if (!this.isLoggedIn) {
       this.menuItems.push({ text: 'Login', icon: 'key', path: '/login' });
     }
