@@ -61,7 +61,7 @@ export class AddEquipment implements OnInit {
     private categoryService: CategoryService,
     private router: Router,
     private route: ActivatedRoute,
-    private sanitizer: DomSanitizer // ✅ Inject Sanitizer เพื่อความปลอดภัยของ Base64
+    private sanitizer: DomSanitizer,
   ) {}
 
   ngOnInit(): void {
@@ -69,26 +69,19 @@ export class AddEquipment implements OnInit {
     this.checkEditMode();
   }
 
-  // ✅ แก้ฟังก์ชันนี้ให้ใช้ environment และรองรับ Base64 สมบูรณ์
   getPreviewUrl(relativePath: string): SafeUrl | string {
     if (!relativePath) return '';
 
-    // 1. ถ้าเป็น Base64 (data:image/...) ให้ Bypass Security แล้วส่งกลับเลย
     if (relativePath.startsWith('data:')) {
       return this.sanitizer.bypassSecurityTrustUrl(relativePath);
     }
 
-    // 2. ถ้าเป็น Link เต็มอยู่แล้ว
     if (relativePath.startsWith('http')) return relativePath;
 
-    // 3. จัดการ Path เก่า (เผื่อมี)
     let cleanPath = relativePath.replace(/\\/g, '/');
     if (cleanPath.startsWith('/')) {
       cleanPath = cleanPath.substring(1);
     }
-
-    // 4. ดึง Domain จาก environment.apiUrl
-    // environment.apiUrl ของพี่คือ ".../api" เราต้องตัด "/api" ออกเพื่อให้ได้ Root Domain
     const baseUrl = environment.apiUrl.replace('/api', '');
 
     return `${baseUrl}/${cleanPath}`;
@@ -199,11 +192,10 @@ export class AddEquipment implements OnInit {
       }
     });
   }
-
   handleSuccess(msg: string) {
     this.isLoading = false;
     notify(msg, 'success', 3000);
-    this.router.navigate(['/equipments']);
+    this.router.navigate(['/admin/items']);
   }
 
   handleError(err: any) {
@@ -219,6 +211,6 @@ export class AddEquipment implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['/equipments']);
+    this.router.navigate(['/admin/items']);
   }
 }

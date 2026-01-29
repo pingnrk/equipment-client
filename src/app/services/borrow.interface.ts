@@ -1,10 +1,10 @@
 export interface BorrowRequest {
   id: string;
   userId: string;
-  user: User; // User ที่ยืม
-  requestDate: string; // วันที่กดขอ (ส่งมาจาก C# เป็น String ISO)
-  startDate: string; // วันเริ่มยืม
-  endDate: string; // วันคืน
+  user: User; 
+  requestDate: string; 
+  startDate: string; 
+  endDate: string; 
   status: number; // 1=Pending, 2=Approved, 3=Rejected, 4=Returned
   items: BorrowRequestItem[];
 }

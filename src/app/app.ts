@@ -28,13 +28,15 @@ export class App implements OnInit {
 
   menuItems: any[] = [];
 
-  private allMenuItems = [
-    { text: 'Browse Equipments', icon: 'find', path: '/equipments', public: true }, 
-    
-    { text: 'My Cart', icon: 'cart', path: '/cart' },
-    { text: 'My History', icon: 'clock', path: '/history' },
-    
-    { text: 'Admin Dashboard', icon: 'chart', path: '/admin', requireAdmin: true }, 
+private allMenuItems = [
+    // 👤 เมนู User (ใส่ role: 'User' กำกับไว้เลย)
+    { text: 'Browse Equipments', icon: 'find', path: '/equipments', role: 'User' }, 
+    { text: 'My Cart', icon: 'cart', path: '/cart', role: 'User' },
+    { text: 'My History', icon: 'clock', path: '/history', role: 'User' },
+
+    // 👮‍♂️ เมนู Admin (ใส่ role: 'Admin')
+    { text: 'Dashboard', icon: 'chart', path: '/admin/dashboard', role: 'Admin' },
+    { text: 'Manage Items', icon: 'box', path: '/admin/items', role: 'Admin' }, // เมนูใหม่
   ];
 
   constructor(private router: Router, public authService: AuthService) {
@@ -71,24 +73,21 @@ export class App implements OnInit {
 
   updateMenu() {
     this.menuItems = this.allMenuItems.filter(item => {
-      
-      if (item.public) {
-        return true;
+      // 1. ถ้าไม่ได้ Login -> ไม่ให้เห็นอะไรเลย (หรือให้เห็นแค่ Login)
+      if (!this.isLoggedIn) return false;
+
+      // 2. ถ้าเป็น Admin -> ให้เห็นเฉพาะที่มี role = 'Admin'
+      if (this.isAdmin) {
+        return item.role === 'Admin';
       }
 
-      if (!this.isLoggedIn) {
-        return false;
-      }
-
-      if (item.requireAdmin && !this.isAdmin) {
-        return false;
-      }
-
-      return true;
+      // 3. ถ้าเป็น User -> ให้เห็นเฉพาะที่มี role = 'User'
+      // (หรือ item ที่ไม่ได้ระบุ role ถ้ามี)
+      return item.role === 'User';
     });
 
     if (!this.isLoggedIn) {
-         this.menuItems.push({ text: 'Login / Register', icon: 'key', path: '/login' });
+       this.menuItems.push({ text: 'Login', icon: 'key', path: '/login' });
     }
   }
 
