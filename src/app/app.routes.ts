@@ -7,6 +7,8 @@ import { AddEquipment } from './pages/add-equipment/add-equipment';
 import { MyHistory } from './pages/my-history/my-history';
 import { AdminDashboard } from './pages/admin-dashboard/admin-dashboard';
 import { AdminEquipmentList } from './pages/admin-equipment-list/admin-equipment-list';
+import { AdminManageRequests } from './pages/admin-manage-requests/admin-manage-requests';
+
 
 export const routes: Routes = [
   // --- 🏠 Public / Auth ---
@@ -20,7 +22,9 @@ export const routes: Routes = [
   { path: 'history', component: MyHistory },      // ประวัติ
 
   // --- 🛠️ Admin Zone ---
-  { path: 'admin/dashboard', component: AdminDashboard }, // หน้า Approve
+{ path: 'admin/dashboard', component: AdminDashboard },      // 1. หน้ากราฟ
+  { path: 'admin/requests', component: AdminManageRequests },  // 2. หน้าอนุมัติ (แยกมาแล้ว)
+  { path: 'admin/items', component: AdminEquipmentList },      // 3. หน้าจัดการของ // หน้า Approve
   
   // หน้ารายการของสำหรับ Admin (ต้องแยกจาก User)
   { path: 'admin/items', component: AdminEquipmentList }, 

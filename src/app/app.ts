@@ -21,25 +21,28 @@ export class App implements OnInit {
   title = 'Equipment System';
   isDrawerOpen = true;
   selectedKeys: string[] = [];
-  
+
   isLoggedIn = false;
   userName: string | null = '';
   isAdmin = false;
 
   menuItems: any[] = [];
 
-private allMenuItems = [
+  private allMenuItems = [
     // 👤 เมนู User (ใส่ role: 'User' กำกับไว้เลย)
-    { text: 'Browse Equipments', icon: 'find', path: '/equipments', role: 'User' }, 
+    { text: 'Browse Equipments', icon: 'find', path: '/equipments', role: 'User' },
     { text: 'My Cart', icon: 'cart', path: '/cart', role: 'User' },
     { text: 'My History', icon: 'clock', path: '/history', role: 'User' },
 
-    // 👮‍♂️ เมนู Admin (ใส่ role: 'Admin')
+    { text: 'Approve Requests', icon: 'check', path: '/admin/requests', role: 'Admin' },
+    { text: 'Manage Inventory', icon: 'box', path: '/admin/items', role: 'Admin' },
     { text: 'Dashboard', icon: 'chart', path: '/admin/dashboard', role: 'Admin' },
-    { text: 'Manage Items', icon: 'box', path: '/admin/items', role: 'Admin' }, // เมนูใหม่
   ];
 
-  constructor(private router: Router, public authService: AuthService) {
+  constructor(
+    private router: Router,
+    public authService: AuthService,
+  ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.selectedKeys = [event.urlAfterRedirects.split('?')[0]];
@@ -52,7 +55,7 @@ private allMenuItems = [
     this.authService.isLoggedIn$.subscribe((status) => {
       this.isLoggedIn = status;
       this.updateUserState();
-      this.updateMenu(); 
+      this.updateMenu();
     });
   }
 
@@ -72,7 +75,7 @@ private allMenuItems = [
   }
 
   updateMenu() {
-    this.menuItems = this.allMenuItems.filter(item => {
+    this.menuItems = this.allMenuItems.filter((item) => {
       // 1. ถ้าไม่ได้ Login -> ไม่ให้เห็นอะไรเลย (หรือให้เห็นแค่ Login)
       if (!this.isLoggedIn) return false;
 
@@ -87,7 +90,7 @@ private allMenuItems = [
     });
 
     if (!this.isLoggedIn) {
-       this.menuItems.push({ text: 'Login', icon: 'key', path: '/login' });
+      this.menuItems.push({ text: 'Login', icon: 'key', path: '/login' });
     }
   }
 
