@@ -1,42 +1,26 @@
-/* Badge สถานะ */
-.status-badge {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: bold;
-    text-transform: uppercase;
+/* --- DevExtreme Grid Overrides --- */
+
+/* Header ตาราง */
+::ng-deep .dx-datagrid-headers {
+    font-weight: 600;
+    color: #495057;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
 }
 
-.status-0 { background-color: #fef3c7; color: #b45309; } /* Pending: เหลือง */
-.status-1 { background-color: #d1fae5; color: #047857; } /* Approved: เขียว */
-.status-2 { background-color: #fee2e2; color: #b91c1c; } /* Rejected: แดง */
-.status-3 { background-color: #f3f4f6; color: #374151; } /* Returned: เทา */
-
-/* จัดปุ่ม */
-.action-buttons {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
+/* ระยะห่างบรรทัด */
+::ng-deep .dx-data-row td {
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+    vertical-align: middle !important;
 }
 
-/* Detail Zone */
-.detail-grid-container {
-    padding: 20px;
-    background-color: #f9fafb;
-    border-left: 4px solid #4f46e5;
+/* Detail Row (ส่วนขยาย) */
+::ng-deep .dx-master-detail-row .dx-datagrid-group-opened {
+    background-color: #f8f9fa;
 }
 
-.detail-title {
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #4b5563;
-}
-
-.equip-image {
-    width: 50px;       /* Fixed width */
-    height: 50px;      /* Fixed height */
-    object-fit: cover; /* Crop nicely */
-    border-radius: 4px;
-    display: block;
-    margin: 0 auto;    /* Center it */
+/* ปรับปุ่มใน Grid ให้ดูพอดี */
+::ng-deep .dx-button {
+    border-radius: 6px !important;
 }

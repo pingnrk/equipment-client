@@ -1,49 +1,50 @@
-/* ใช้ Style เดียวกับ Login เป๊ะๆ เพื่อความสวยงาม */
-.register-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 50px);
-  background: linear-gradient(135deg, #f3f4f6 0%, #e0e7ff 100%);
-  padding: 20px;
-  box-sizing: border-box;
+/* จัดการสีพื้นหลังฝั่งซ้ายให้เป็น Gradient สวยๆ */
+.bg-primary {
+    background: linear-gradient(135deg, #3f51b5 0%, #283593 100%) !important;
 }
 
-.register-card {
-  width: 100%;
-  max-width: 480px; /* กว้างกว่า Login นิดนึงเพราะข้อมูลเยอะ */
-  background: white;
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', sans-serif;
+/* Background Effect (วงกลมจางๆ) */
+.opacity-10 {
+    opacity: 0.1;
 }
 
-/* Header */
-.register-header { text-align: center; margin-bottom: 24px; }
-.header-icon {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 64px; height: 64px; border-radius: 50%;
-  background-color: #eef2ff; color: #4f46e5; margin-bottom: 16px;
+/* --- DevExtreme Form Overrides --- */
+
+/* ปรับระยะห่างระหว่างช่องกรอกให้พอดี */
+::ng-deep .dx-field-item {
+    padding-bottom: 20px !important;
 }
-.header-icon i { font-size: 32px; }
-.welcome-title { font-size: 24px; font-weight: bold; color: #1f2937; margin: 0; }
-.welcome-subtitle { color: #6b7280; font-size: 14px; margin-top: 4px; }
 
-/* Form Spacing Overrides */
-::ng-deep .custom-form .dx-field-item { padding-bottom: 24px !important; }
-::ng-deep .custom-form .dx-last-row .dx-field-item { padding-bottom: 0 !important; }
+/* ปรับ Label ให้ตัวเล็กคมชัด */
+::ng-deep .dx-field-item-label-text {
+    font-size: 0.875rem !important; /* 14px */
+    font-weight: 600 !important;
+    color: #4b5563 !important; /* สีเทาเข้ม */
+}
 
-/* DevExtreme Styles */
-::ng-deep .dx-field-item-label-text { font-size: 14px !important; font-weight: 600 !important; color: #374151 !important; margin-bottom: 6px !important; }
-::ng-deep .dx-texteditor.dx-editor-outlined { background-color: #f9fafb !important; border: 1px solid #e5e7eb !important; border-radius: 10px !important; }
-::ng-deep .dx-texteditor.dx-state-focused { background-color: #fff !important; border-color: #4f46e5 !important; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1) !important; }
-::ng-deep .dx-texteditor-input { font-size: 16px !important; padding: 0 16px !important; }
-::ng-deep .dx-button { border-radius: 10px !important; font-weight: 600 !important; font-size: 16px !important; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25); }
+/* ปรับ Input Box ให้มนและมี Border สีอ่อน */
+::ng-deep .dx-texteditor.dx-editor-outlined {
+    border-radius: 8px !important;
+    border-color: #e5e7eb !important;
+    background-color: #f9fafb !important; /* พื้นหลังเทาจางๆ สบายตา */
+}
 
-/* Button & Footer */
-.button-container { margin-top: 24px; }
-.register-footer { margin-top: 24px; text-align: center; border-top: 1px solid #f3f4f6; padding-top: 24px; }
-.register-footer p { font-size: 14px; color: #6b7280; margin: 0; }
-.login-link { color: #4f46e5; font-weight: 600; text-decoration: none; cursor: pointer; }
-.login-link:hover { text-decoration: underline; }
+/* ตอนคลิกเลือก Input (Focus) */
+::ng-deep .dx-texteditor.dx-state-focused {
+    border-color: #3f51b5 !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 0 0 4px rgba(63, 81, 181, 0.1) !important; /* เงาสีน้ำเงินจางๆ */
+}
+
+/* ปรับปุ่มกด */
+::ng-deep .dx-button-mode-contained.dx-button-default {
+    background-color: #3f51b5 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 6px -1px rgba(63, 81, 181, 0.4);
+    transition: all 0.2s ease;
+}
+
+::ng-deep .dx-button-mode-contained.dx-button-default:hover {
+    background-color: #303f9f !important;
+    transform: translateY(-1px);
+}

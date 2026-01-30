@@ -1,71 +1,76 @@
-<div class="login-container">
-  <div class="login-card">
-    <div class="login-header">
-      <div class="header-icon">
-        <i class="dx-icon-user"></i>
+<div class="container-fluid vh-100">
+  <div class="row h-100">
+    
+    <div class="col-lg-5 d-none d-lg-flex flex-column align-items-center justify-content-center bg-primary text-white p-5 position-relative overflow-hidden">
+      <div class="position-absolute bg-white opacity-10 rounded-circle" style="width: 300px; height: 300px; top: -50px; left: -50px;"></div>
+      <div class="position-absolute bg-white opacity-10 rounded-circle" style="width: 200px; height: 200px; bottom: 50px; right: 50px;"></div>
+      
+      <div class="z-1 text-center">
+        <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4 shadow-lg" style="width: 80px; height: 80px;">
+          <i class="dx-icon-box fs-1"></i>
+        </div>
+        <h2 class="fw-bold mb-3">Inventory System</h2>
+        <p class="lead opacity-75">
+          Welcome back!<br>
+          Please sign in to access your dashboard.
+        </p>
       </div>
-      <h2 class="welcome-title">Welcome Back</h2>
-      <p class="welcome-subtitle">Sign in to manage your inventory</p>
     </div>
 
-    <form (submit)="onSubmit($event)">
-      <dx-form
-        [formData]="formData"
-        [labelLocation]="'top'"
-        [showColonAfterLabel]="false"
-        class="custom-form"
-      >
-        <dxi-item
-          dataField="employeeId"
-          editorType="dxTextBox"
-          [editorOptions]="{
-            placeholder: 'Enter Username',
-            mode: 'text',
-            stylingMode: 'outlined',
-            height: '48px'
-          }"
-        >
-          <dxi-validation-rule
-            type="required"
-            message="Employee ID is required"
-          ></dxi-validation-rule>
-          <dxo-label text="Username"></dxo-label>
-        </dxi-item>
+    <div class="col-lg-7 d-flex align-items-center justify-content-center bg-white">
+      <div class="w-100 p-4 p-md-5" style="max-width: 450px;"> <div class="mb-5 text-center text-lg-start">
+          <h2 class="fw-bold text-dark mb-2">Welcome Back</h2>
+          <p class="text-muted">Enter your credentials to continue.</p>
+        </div>
 
-        <dxi-item
-          dataField="password"
-          editorType="dxTextBox"
-          [editorOptions]="{
-            placeholder: '●●●●●●●',
-            mode: 'password',
-            stylingMode: 'outlined',
-            height: '48px'
-          }"
-        >
-          <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule>
-          <dxo-label text="Password"></dxo-label>
-        </dxi-item>
-      </dx-form>
+        <form (submit)="onSubmit($event)">
+          <dx-form
+            [formData]="formData"
+            [labelLocation]="'top'"
+            [showColonAfterLabel]="false"
+          >
+            <dxi-item
+              dataField="employeeId"
+              [editorOptions]="{ placeholder: 'Enter Username or ID', stylingMode: 'outlined', height: '50px' }">
+              <dxi-validation-rule type="required" message="Username is required"></dxi-validation-rule>
+              <dxo-label text="Username"></dxo-label>
+            </dxi-item>
 
-      <div class="button-container">
-        <dx-button
-          width="100%"
-          height="48px"
-          type="default"
-          stylingMode="contained"
-          [useSubmitBehavior]="true"
-          [text]="isLoading ? 'Logging in...' : 'Sign In'"
-          [disabled]="isLoading"
-        >
-        </dx-button>
+            <dxi-item
+              dataField="password"
+              [editorOptions]="{ placeholder: '••••••••', mode: 'password', stylingMode: 'outlined', height: '50px' }">
+              <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule>
+              <dxo-label text="Password"></dxo-label>
+            </dxi-item>
+          </dx-form>
+
+          <div class="d-flex justify-content-end mt-2 mb-4">
+            <a href="javascript:void(0)" class="text-decoration-none small text-muted">Forgot password?</a>
+          </div>
+
+          <dx-button
+            width="100%"
+            height="50px"
+            type="default"
+            stylingMode="contained"
+            [useSubmitBehavior]="true"
+            [text]="isLoading ? 'Logging in...' : 'Sign In'"
+            [disabled]="isLoading"
+            class="fw-bold fs-6 shadow-sm"
+          >
+          </dx-button>
+        </form>
+
+        <div class="text-center mt-5">
+          <p class="text-muted small">
+            Don't have an account? 
+            <a (click)="goToRegister()" class="text-primary fw-bold text-decoration-none" style="cursor: pointer;">
+                Create an account
+            </a>
+          </p>
+        </div>
+
       </div>
-    </form>
-
-    <div class="login-footer">
-      <p>
-        Don't have an account?
-        <a (click)="goToRegister()" class="register-link" style="cursor: pointer">Register</a>
-      </p>
     </div>
   </div>
 </div>

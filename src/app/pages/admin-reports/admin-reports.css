@@ -1,15 +1,35 @@
-.header-row {
-    margin-bottom: 20px;
-}
+/* --- DevExtreme Grid Overrides (Standard Theme) --- */
 
-.subtitle {
-    color: #6b7280;
-    margin-top: -10px;
-    font-size: 14px;
-}
-
-/* ปรับหัวตารางให้ดูหนาๆ หน่อย */
+/* Header ตาราง */
 ::ng-deep .dx-datagrid-headers {
-    font-weight: bold;
-    color: #374151;
+    font-weight: 600;
+    color: #495057;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* ระยะห่างบรรทัด */
+::ng-deep .dx-data-row td {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    vertical-align: middle !important;
+}
+
+/* Group Row (แถวที่เป็นหัวข้อกลุ่ม) */
+::ng-deep .dx-group-row {
+    background-color: #e8eaf6 !important; /* สี Indigo อ่อนๆ ให้รู้ว่าเป็นหัวกลุ่ม */
+    color: #3f51b5 !important;
+    font-weight: bold !important;
+}
+
+/* Search Panel ให้มนๆ */
+::ng-deep .dx-datagrid-search-panel {
+    border-radius: 20px !important;
+}
+
+/* Group Panel (พื้นที่ลากวาง) */
+::ng-deep .dx-datagrid-group-panel {
+    color: #6c757d;
+    font-style: italic;
+    font-size: 0.9rem;
 }

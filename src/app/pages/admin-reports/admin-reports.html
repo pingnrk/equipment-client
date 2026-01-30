@@ -1,37 +1,62 @@
-<div class="page-container">
-  <div class="header-row">
-    <h2 class="page-title">📊 Export Reports</h2>
-    <p class="subtitle">Filter and export data to Excel</p>
-  </div>
+<div class="container-fluid p-4">
 
-  <dx-data-grid
-    id="reportGrid"
-    [dataSource]="reportData"
-    [showBorders]="true"
-    [columnAutoWidth]="true"
-    [rowAlternationEnabled]="true"
-    (onExporting)="onExporting($event)">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold m-0 text-dark">
+                📊 Export Reports
+            </h2>
+            <p class="text-muted m-0 mt-1 small">
+                Filter, group, and export borrowing data to Excel
+            </p>
+        </div>
+    </div>
 
-    <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
-    
-    <dxo-search-panel [visible]="true"></dxo-search-panel>
-    <dxo-filter-row [visible]="true"></dxo-filter-row>
-    <dxo-header-filter [visible]="true"></dxo-header-filter>
-    
-    <dxo-group-panel [visible]="true" placeholder="Drag a column header here to group"></dxo-group-panel>
-    <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3 border-bottom">
+            <h5 class="mb-0 text-primary fw-bold">
+                <i class="dx-icon-chart me-2"></i> Summary Report
+            </h5>
+        </div>
 
-    <dxo-paging [pageSize]="20"></dxo-paging>
-    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[20, 50, 100]"></dxo-pager>
+        <div class="card-body p-0">
+            <dx-data-grid
+                id="reportGrid"
+                [dataSource]="reportData"
+                [showBorders]="false"
+                [columnAutoWidth]="true"
+                [rowAlternationEnabled]="true"
+                [hoverStateEnabled]="true"
+                (onExporting)="onExporting($event)">
 
-    <dxi-column dataField="requestDate" dataType="date" format="dd/MM/yyyy HH:mm" caption="Date" sortOrder="desc"></dxi-column>
-    <dxi-column dataField="user.fullName" caption="Requested By"></dxi-column>
-    
-    <dxi-column dataField="itemsText" caption="Items List" [width]="300"></dxi-column>
-    
-    <dxi-column dataField="startDate" dataType="date" caption="From"></dxi-column>
-    <dxi-column dataField="endDate" dataType="date" caption="To"></dxi-column>
-    
-    <dxi-column dataField="statusText" caption="Status" [groupIndex]="0"></dxi-column> 
-    </dx-data-grid>
+                <dxo-export [enabled]="true" [allowExportSelectedData]="true" [formats]="['xlsx']"></dxo-export>
+                
+                <dxo-search-panel [visible]="true" [width]="300" placeholder="Search..."></dxo-search-panel>
+                <dxo-filter-row [visible]="true"></dxo-filter-row>
+                <dxo-header-filter [visible]="true"></dxo-header-filter>
+                
+                <dxo-group-panel [visible]="true" placeholder="Drag columns here to group"></dxo-group-panel>
+                <dxo-grouping [autoExpandAll]="true"></dxo-grouping>
+
+                <dxo-paging [pageSize]="20"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[20, 50, 100]"></dxo-pager>
+
+                <dxi-column dataField="requestDate" dataType="date" format="dd/MM/yyyy HH:mm" caption="Requested Date" sortOrder="desc"></dxi-column>
+                
+                <dxi-column dataField="user.fullName" caption="Requested By">
+                    <dxi-column dataField="user.employeeId" caption="Emp ID"></dxi-column> <dxi-column dataField="user.fullName" caption="Name"></dxi-column>
+                </dxi-column>
+                
+                <dxi-column dataField="itemsText" caption="Items List" [width]="350" cellTemplate="itemsCell"></dxi-column>
+                <div *dxTemplate="let d of 'itemsCell'">
+                    <span class="text-wrap" style="font-size: 0.9rem;">{{ d.value }}</span>
+                </div>
+                
+                <dxi-column dataField="startDate" dataType="date" format="dd/MM/yyyy" caption="Borrow Date" alignment="center"></dxi-column>
+                <dxi-column dataField="endDate" dataType="date" format="dd/MM/yyyy" caption="Return Date" alignment="center"></dxi-column>
+                
+                <dxi-column dataField="statusText" caption="Status" [groupIndex]="0"></dxi-column> 
+            
+            </dx-data-grid>
+        </div>
+    </div>
 </div>

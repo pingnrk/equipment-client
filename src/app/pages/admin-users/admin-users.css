@@ -1,79 +1,54 @@
-/* --- จัด Layout พื้นฐาน --- */
-.page-container {
-  padding: 24px;
-  background-color: #fff;
-  min-height: 100vh;
-}
+/* --- DevExtreme Grid Overrides --- */
 
-.page-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #eee;
-  /* เส้นคั่นบางๆ ใใต้หัวข้อ */
-  padding-bottom: 15px;
-}
-
-.page-title {
-  font-size: 24px;
-  font-weight: 700;
-  /* หนาหน่อย */
-  color: #2d3748;
-  margin: 0;
-}
-
-/* --- ปรับแต่ง DataGrid --- */
-
-/* หัวตารางให้ตัวหนา + พื้นหลังสีเทาจางๆ */
+/* ปรับ Header ตารางให้คลีน */
 ::ng-deep .dx-datagrid-headers {
-  font-weight: 600;
-  color: #4a5568;
-  background-color: #f7fafc;
-  border-bottom: 2px solid #e2e8f0;
+    font-weight: 600;
+    color: #495057;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
 }
 
-/* แถวในตาราง : ปรับระยะห่างให้อ่านง่าย */
+/* ปรับระยะห่างบรรทัด */
 ::ng-deep .dx-data-row td {
-  padding-top: 12px !important;
-  padding-bottom: 12px !important;
-  vertical-align: middle !important;
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+    vertical-align: middle !important;
 }
 
+/* --- Command Buttons (Edit/Delete) --- */
+
+/* ปุ่ม Edit (สีน้ำเงิน Theme) */
 ::ng-deep .dx-link-edit {
-  color: #3182ce;
-  font-weight: 600;
-  text-decoration: none;
-  padding: 4px 8px;
-  border-radius: 4px;
-  transition: background 0.2s;
+    color: #3f51b5 !important; /* Indigo */
+    font-weight: 600;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background 0.2s;
 }
 
 ::ng-deep .dx-link-edit:hover {
-  background-color: #ebf8ff;
-  /* เมาส์ชี้แล้วมีพื้นหลังฟ้าจางๆ */
+    background-color: #e8eaf6; /* Indigo อ่อนๆ */
 }
 
 /* ปุ่ม Delete (สีแดง) */
 ::ng-deep .dx-link-delete {
-  color: #e53e3e;
-  font-weight: 600;
-  text-decoration: none;
-  margin-left: 8px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  transition: background 0.2s;
+    color: #dc3545 !important; /* Bootstrap Danger */
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 8px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background 0.2s;
 }
 
 ::ng-deep .dx-link-delete:hover {
-  background-color: #fff5f5;
+    background-color: #ffebee; /* แดงอ่อนๆ */
 }
 
-::ng-deep .dx-popup-title {
-  border-bottom: 1px solid #e2e8f0;
-  background-color: #f7fafc;
-}
-
-::ng-deep .dx-popup-content {
-  padding: 20px !important;
+/* Form ใน Popup */
+::ng-deep .dx-form-group-caption {
+    font-size: 16px !important;
+    font-weight: bold !important;
+    color: #3f51b5 !important;
 }
