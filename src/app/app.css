@@ -1,97 +1,42 @@
-/* --- Toolbar (Header) --- */
-.header-toolbar {
-    background-color: #3f51b5;
-    color: white;
-    padding: 0 10px;
-    height: 50px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* เพิ่มเงาให้ดูมีมิติ */
-    z-index: 1000;
-    position: relative;
+/* Sidebar Styling */
+.sidebar-header {
+    height: 64px; /* เท่ากับ Navbar */
 }
 
-/* ปรับสีปุ่มบน Toolbar ให้เป็นสีขาว */
-::ng-deep .header-toolbar .dx-button {
-    color: white;
-}
-::ng-deep .header-toolbar .dx-button .dx-icon {
-    color: white;
-}
-
-/* จัด layout ฝั่งซ้าย (ปุ่มเมนู + ชื่อแอพ) */
-.toolbar-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.app-title {
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
-/* จัด layout ฝั่งขวา (User info + ปุ่ม Logout) */
-.toolbar-right {
-    display: flex;
-    align-items: center;
-}
-
-.user-info {
-    display: inline-flex;
-    align-items: center;
-    margin-right: 15px;
-    color: white;
+/* ปรับแต่ง List Group ให้ดูแพง */
+.list-group-item {
     font-weight: 500;
-    gap: 8px;
-    padding-right: 15px;
-    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    color: #6c757d; /* สีเทาเข้ม */
+    transition: all 0.2s ease-in-out;
 }
 
-/* --- Drawer (Sidebar) --- */
-.drawer-menu {
-    width: 250px;
-    height: 100%;
-    background-color: #ffffff;
-    border-right: 1px solid #ddd;
+/* Hover Effect */
+.list-group-item:hover {
+    background-color: #f8f9fa;
+    color: #3f51b5; /* สีธีม */
+    transform: translateX(5px); /* ขยับนิดนึงตอนชี้ */
 }
 
-/* Custom Menu Item (Icon + Text) */
-.menu-item-content {
-    display: flex;
-    align-items: center;
-    gap: 12px; /* ระยะห่างระหว่าง Icon กับ Text */
-    font-size: 14px;
-    padding: 5px 0;
-}
-
-.menu-item-content i {
-    font-size: 18px;
-    color: #757575;
-}
-
-/* --- Content Area --- */
-.content-container {
-    padding: 24px;
-    height: 100%;
-    overflow: auto;
-    background-color: #f4f6f8; /* สีพื้นหลัง content ให้อ่อนๆ สบายตา */
-}
-
-/* --- DevExtreme Overrides --- */
-
-/* สีของเมนูที่ถูกเลือก (Selected) */
-::ng-deep .dx-list-item-selected {
-    background-color: #e8eaf6 !important;
-    color: #3f51b5 !important;
+/* Active State (ใช้ routerLinkActive) */
+.list-group-item.active {
+    background-color: #3f51b5 !important;
+    color: white !important;
     font-weight: 600;
-    border-left: 4px solid #3f51b5;
+    box-shadow: 0 4px 6px rgba(63, 81, 181, 0.3);
 }
 
-/* เปลี่ยนสี icon ของเมนูที่ถูกเลือก */
-::ng-deep .dx-list-item-selected .dx-icon {
-    color: #3f51b5 !important;
+/* Icon ใน Sidebar */
+.list-group-item i {
+    font-size: 1.2rem;
+    vertical-align: middle;
 }
 
-/* เอาสีพื้นหลังเวลาคลิกค้างออก (ให้ดู Clean) */
-::ng-deep .dx-list-item.dx-state-active {
-    background-color: transparent;
+/* Fix DevExtreme Drawer Bug */
+::ng-deep .dx-drawer-panel-content {
+    height: 100%;
+}
+
+/* ทำให้ Content ขยายเต็มพื้นที่ */
+.content-wrapper {
+    min-height: calc(100vh - 180px); /* ความสูงจอ - (Navbar + Footer + Padding) */
 }

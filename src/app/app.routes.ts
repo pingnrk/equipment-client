@@ -10,6 +10,8 @@ import { AdminEquipmentList } from './pages/admin-equipment-list/admin-equipment
 import { AdminManageRequests } from './pages/admin-manage-requests/admin-manage-requests';
 import { AdminReports } from './pages/admin-reports/admin-reports';
 import { AdminUsers } from './pages/admin-users/admin-users';
+import { AdminCategories } from './pages/admin-categories/admin-categories';
+import { TrackRequests } from './pages/track-requests/track-requests';
 
 
 export const routes: Routes = [
@@ -21,7 +23,8 @@ export const routes: Routes = [
 
   // --- 🛍️ User Zone ---
   { path: 'equipments', component: Equipments }, // หน้าร้าน
-  { path: 'cart', component: Cart }, // ตะกร้า
+  { path: 'cart', component: Cart },
+  { path: 'track-requests', component: TrackRequests }, // ตะกร้า
   { path: 'history', component: MyHistory }, // ประวัติ
 
   // --- 🛠️ Admin Zone ---
@@ -32,6 +35,6 @@ export const routes: Routes = [
   { path: 'admin/items', component: AdminEquipmentList },
   { path: 'admin/items/add', component: AddEquipment },
   { path: 'admin/items/edit/:id', component: AddEquipment },
-
+  { path: 'admin/categories', component: AdminCategories },
   { path: '**', redirectTo: 'login' },
 ];

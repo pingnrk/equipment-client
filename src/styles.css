@@ -1,36 +1,34 @@
-* {
-    margin: 0;
-    padding: 0;
-}
-.page-container {
-  padding: 24px; /* ระยะห่างจากขอบเท่ากันทุกหน้า */
-  background-color: #fff; /* พื้นหลังสีขาว (ถ้าต้องการ) */
-  min-height: 100%;
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+body, h1, h2, h3, h4, h5, h6, .dx-widget {
+    font-family: 'Sarabun', sans-serif !important;
 }
 
-/* หัวข้อหน้า */
+.page-container {
+    padding: 1.5rem; 
+    background-color: #fff;
+    min-height: 100%;
+}
+
 .page-title {
-  font-size: 24px;       /* ขนาดตัวอักษรเท่ากันเป๊ะ */
-  font-weight: 700;      /* ความหนา */
-  color: #333;           /* สี */
-  margin-top: 0;         /* ❌ สำคัญ: ลบ margin บนออก กันมันดันไม่เท่ากัน */
-  margin-bottom: 24px;   /* ระยะห่างข้างล่าง */
-  line-height: 1.2;      /* ความสูงบรรทัด */
+    font-size: 1.75rem;    
+    font-weight: 700;       
+    color: #212529;         
+    margin-top: 0;
+    margin-bottom: 1.5rem; 
+    line-height: 1.2;
 }
 
 .dx-drawer-shader {
-  visibility: hidden !important; 
-  opacity: 0 !important;
-  background-color: transparent !important;
-  
-  /* 2. สำคัญมาก: สั่งให้เมาส์คลิกทะลุผ่านเงานี้ไปได้ */
-  pointer-events: none !important;
-  width: 0 !important;
-  height: 0 !important;
+    visibility: hidden !important; 
+    opacity: 0 !important;
+    background-color: transparent !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
 }
 
-/* 3. ป้องกัน Content โดนบังคับ Disable */
 .dx-drawer-content {
-  pointer-events: auto !important;
-  transform: none !important; /* แก้บั๊กภาพเบลอในบาง Browser */
+    pointer-events: auto !important;
+    transform: none !important; 
 }

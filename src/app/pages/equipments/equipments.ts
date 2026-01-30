@@ -45,16 +45,10 @@ export class Equipments implements OnInit {
     });
   }
 
-  // ในไฟล์ admin-equipment-list.ts
-
   getFullImageUrl(base64String: string): string {
-    // 1. ถ้าไม่มีข้อมูล หรือเป็น null/empty -> ส่งรูป No Image กลับไป
     if (!base64String) {
       return 'assets/no-image.png';
     }
-
-    // 2. ถ้าเป็น Base64 อยู่แล้ว (มีหัว data:image...) -> ส่งกลับไปเลย จบ!
-    // (ไม่ต้องเอา API URL มาต่อหน้ามันอีกแล้ว)
     return base64String;
   }
 

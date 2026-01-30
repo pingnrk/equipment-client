@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router'; // ✅ 1. เพิ่ม RouterModule ตรงนี้
 import { DxButtonModule, DxDrawerModule, DxListModule, DxToolbarModule } from 'devextreme-angular';
 import { AuthService } from './services/auth';
 
 @Component({
   selector: 'app-root',
+  standalone: true, // ปกติ Standalone จะมีบรรทัดนี้ (ถ้าไม่มีก็ไม่เป็นไรถ้ามันทำงานได้)
   imports: [
     CommonModule,
-    RouterOutlet,
+    RouterModule, // ✅ 2. เอา RouterModule มาใส่ตรงนี้! (สำคัญมาก ไม่งั้น routerLink แดง)
     DxDrawerModule,
     DxListModule,
     DxToolbarModule,
@@ -29,15 +30,17 @@ export class App implements OnInit {
   menuItems: any[] = [];
 
   private allMenuItems = [
-    // 👤 เมนู User (ใส่ role: 'User' กำกับไว้เลย)
+    //user
     { text: 'Browse Equipments', icon: 'find', path: '/equipments', public: true },
     { text: 'My Cart', icon: 'cart', path: '/cart', role: 'User' },
     { text: 'My History', icon: 'clock', path: '/history', role: 'User' },
+    { text: 'Track Requests', icon: 'folder', path: '/track-requests', role: 'User' },
 
+    //admin
     { text: 'Approve Requests', icon: 'check', path: '/admin/requests', role: 'Admin' },
     { text: 'Manage Inventory', icon: 'box', path: '/admin/items', role: 'Admin' },
     { text: 'Users', icon: 'group', path: '/admin/users', role: 'Admin' },
-
+    { text: 'Categories', icon: 'tags', path: '/admin/categories', role: 'Admin' },
     { text: 'Dashboard', icon: 'chart', path: '/admin/dashboard', role: 'Admin' },
     { text: 'Reports', icon: 'xlsxfile', path: '/admin/reports', role: 'Admin' },
   ];
@@ -48,7 +51,11 @@ export class App implements OnInit {
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.selectedKeys = [event.urlAfterRedirects.split('?')[0]];
+        // เช็คว่า url มีค่าไหมก่อน split เพื่อกัน error
+        if (event.urlAfterRedirects) {
+             this.selectedKeys = [event.urlAfterRedirects.split('?')[0]];
+        }
+        
         if (window.innerWidth < 700) {
           this.isDrawerOpen = false;
         }
@@ -81,29 +88,25 @@ export class App implements OnInit {
     this.menuItems = this.allMenuItems.filter((item) => {
       // 🟢 Case 1: คนนอก (ยังไม่ Login)
       if (!this.isLoggedIn) {
-        // ให้เห็นเฉพาะเมนูที่เป็น public เท่านั้น
         return (item as any).public;
       }
 
-      // 🔴 Case 2: เป็น Admin (จุดที่แก้!)
+      // 🔴 Case 2: เป็น Admin
       if (this.isAdmin) {
-        // ให้เห็น "เฉพาะ" เมนูที่มี role = 'Admin' เท่านั้น (ตัด public ทิ้งไปเลย)
         return item.role === 'Admin';
       }
 
       // 🔵 Case 3: เป็น User ทั่วไป
-      // ให้เห็นเมนู User + เมนู public (เพราะ User ต้องเข้าไปดูของเพื่อยืม)
       return item.role === 'User' || (item as any).public;
     });
 
-    // ปุ่ม Login (ถ้ายังไม่เข้าสู่ระบบ ให้โชว์ปุ่ม Login)
-    if (!this.isLoggedIn) {
-      this.menuItems.push({ text: 'Login', icon: 'key', path: '/login' });
-    }
+    // ปุ่ม Login ลบออกได้เลย เพราะเราเอาไปใส่ใน Navbar ขวาบนแยกแล้วตาม HTML ใหม่
+    // แต่ถ้าอยากเก็บไว้ในลิสต์ด้วยก็ไม่เป็นไร
   }
 
   logout() {
     this.authService.logout();
+    this.router.navigate(['/login']); // เพิ่มให้ดีดไปหน้า login หลัง logout
   }
 
   goToLogin() {
@@ -114,10 +117,14 @@ export class App implements OnInit {
     this.isDrawerOpen = !this.isDrawerOpen;
   }
 
-  onItemClick(e: any) {
-    const path = e.itemData.path;
-    if (path) {
-      this.router.navigate([path]);
-    }
+  // ✅ แก้ฟังก์ชันนี้ให้รองรับ HTML แบบใหม่ (Bootstrap List)
+  onItemClick(item: any) {
+    // 1. อัปเดต Title หัวเว็บ
+    this.title = item.text;
+
+
+
+
+    // 3. ไม่ต้องสั่ง navigate() แล้ว เพราะใน HTML เราใช้ [routerLink]="item.path" มันไปเองอัตโนมัติ
   }
 }

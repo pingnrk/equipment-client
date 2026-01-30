@@ -1,0 +1,43 @@
+<div class="page-container">
+  <div class="page-header-row">
+    <h2 class="page-title">🏷️ Category Management</h2>
+  </div>
+
+  <dx-data-grid
+    [dataSource]="categories"
+    [showBorders]="true"
+    [rowAlternationEnabled]="true"
+    [columnAutoWidth]="true"
+    keyExpr="id"
+    (onRowInserting)="onRowInserting($event)"
+    (onRowUpdating)="onRowUpdating($event)"
+    (onRowRemoving)="onRowRemoving($event)">
+
+    <dxo-search-panel [visible]="true" placeholder="Search categories..."></dxo-search-panel>
+    <dxo-paging [pageSize]="10"></dxo-paging>
+
+    <dxo-editing
+      mode="popup"
+      [allowUpdating]="true"
+      [allowDeleting]="true"
+      [allowAdding]="true">
+      
+      <dxo-popup title="Category Info" [showTitle]="true" [width]="500" [height]="300"></dxo-popup>
+      
+      <dxo-form>
+        <dxi-item itemType="group" [colCount]="1">
+          <dxi-item dataField="name">
+             <dxi-validation-rule type="required" message="Category Name is required"></dxi-validation-rule>
+          </dxi-item>
+        </dxi-item>
+      </dxo-form>
+    </dxo-editing>
+
+    <dxi-column dataField="id" caption="ID" [width]="80" [allowEditing]="false"></dxi-column>
+    
+    <dxi-column dataField="name" caption="Category Name">
+      <dxi-validation-rule type="required"></dxi-validation-rule>
+    </dxi-column>
+
+  </dx-data-grid>
+</div>
