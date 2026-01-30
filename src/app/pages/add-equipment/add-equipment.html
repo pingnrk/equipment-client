@@ -16,25 +16,36 @@
 
     <form (submit)="onSubmit($event)">
       <dx-form [formData]="equipmentData" [colCount]="1" labelLocation="top">
-        <dxi-item itemType="group" cssClass="image-group">
-          <div class="image-preview-container">
-            <img
-              [src]="newImagePreview ? newImagePreview : getPreviewUrl(equipmentData.imageUrl)"
-              class="preview-img"
-            />
-            <div class="upload-btn-wrapper">
-              <dx-file-uploader
-                selectButtonText="เลือกรูปภาพ"
-                labelText=""
-                accept="image/*"
-                uploadMode="useForm"
-                [showFileList]="false"
-                (onValueChanged)="onFileSelected($event)"
-              >
-              </dx-file-uploader>
-            </div>
-          </div>
-        </dxi-item>
+<dxi-item itemType="group" cssClass="image-group">
+  <div class="image-preview-container">
+    
+    <img 
+      *ngIf="imageSource; else noImageTemplate" 
+      [src]="imageSource" 
+      class="preview-img" 
+    />
+
+    <ng-template #noImageTemplate>
+      <div class="empty-image-placeholder">
+        <i class="dx-icon-image" style="font-size: 48px; color: #ccc;"></i>
+        <span style="color: #999; margin-top: 8px;">No Image Selected</span>
+      </div>
+    </ng-template>
+
+    <div class="upload-btn-wrapper">
+      <dx-file-uploader
+        selectButtonText="📷 เลือกรูปภาพ"
+        labelText=""
+        accept="image/*"
+        uploadMode="useForm"
+        [showFileList]="false"
+        (onValueChanged)="onFileSelected($event)"
+      >
+      </dx-file-uploader>
+    </div>
+
+  </div>
+</dxi-item>
 
         <dxi-item itemType="group" caption="Basic Information" [colCount]="2">
           <dxi-item dataField="code">

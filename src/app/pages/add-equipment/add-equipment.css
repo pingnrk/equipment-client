@@ -85,3 +85,35 @@ h2 {
   height: 100%;       /* ให้สูงเต็มพื้นที่ */
   padding-top: 24px; 
 }
+
+.image-preview-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* จัดแกน X ให้อยู่กลาง */
+  justify-content: center;
+  margin-bottom: 25px;
+  gap: 15px; /* ระยะห่างระหว่างรูปกับปุ่ม */
+}
+
+/* ✅ 2. แต่งรูปภาพจริง */
+.preview-img {
+  width: 200px;  /* กำหนดขนาดให้แน่นอน */
+  height: 200px;
+  object-fit: cover; /* ตัดภาพให้พอดีกรอบ ไม่เบี้ยว */
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ 3. แต่งกล่อง Placeholder (ตอนไม่มีรูป) */
+.empty-image-placeholder {
+  width: 200px;
+  height: 200px;
+  background-color: #f9fafb;
+  border: 2px dashed #d1d5db; /* เส้นประสีเทา */
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

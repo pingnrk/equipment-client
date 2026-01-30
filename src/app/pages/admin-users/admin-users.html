@@ -21,33 +21,49 @@
       [allowUpdating]="true"
       [allowDeleting]="true"
       [allowAdding]="true">
-      <dxo-popup title="User Info" [showTitle]="true" [width]="700" [height]="450"></dxo-popup>
+      
+      <dxo-popup title="จัดการผู้ใช้งาน" [showTitle]="true" [width]="600" [height]="550"></dxo-popup>
+      
       <dxo-form>
-        <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
+        <dxi-item itemType="group" caption="ข้อมูลทั่วไป" [colCount]="1">
           <dxi-item dataField="employeeId"></dxi-item>
           <dxi-item dataField="fullName"></dxi-item>
           <dxi-item dataField="email"></dxi-item>
-          <dxi-item dataField="role"></dxi-item>
-
-          <dxi-item dataField="password"
-            [visible]="true"
-            [editorOptions]="{ mode: 'password' }">
+          
+          <dxi-item dataField="role"
+            editorType="dxSelectBox"
+            [editorOptions]="{ items: roles, placeholder: 'เลือก Role' }">
+            <dxi-validation-rule type="required"></dxi-validation-rule>
           </dxi-item>
+        </dxi-item>
+
+        <dxi-item itemType="group" caption="ตั้งค่ารหัสผ่าน" [colCount]="1">
+            <dxi-item itemType="simple" cssClass="password-hint">
+                <div *dxTemplate>
+                   <small style="color: #666; margin-bottom: 5px; display: block;">
+                     * กรอกเฉพาะเมื่อต้องการเปลี่ยนรหัสผ่านใหม่เท่านั้น
+                   </small>
+                </div>
+            </dxi-item>
+
+            <dxi-item dataField="password"
+                [label]="{ text: 'รหัสผ่านใหม่' }"
+                [editorOptions]="{ mode: 'password', placeholder: 'ระบุรหัสผ่านใหม่...' }">
+            </dxi-item>
         </dxi-item>
       </dxo-form>
     </dxo-editing>
 
-    <dxi-column dataField="employeeId" caption="Employee ID">
+    <dxi-column dataField="employeeId" caption="รหัสพนักงาน">
       <dxi-validation-rule type="required"></dxi-validation-rule>
     </dxi-column>
 
-    <dxi-column dataField="fullName" caption="Full Name">
+    <dxi-column dataField="fullName" caption="ชื่อ-นามสกุล">
       <dxi-validation-rule type="required"></dxi-validation-rule>
     </dxi-column>
 
     <dxi-column dataField="email" caption="Email">
       <dxi-validation-rule type="required"></dxi-validation-rule>
-      <dxi-validation-rule type="email"></dxi-validation-rule>
     </dxi-column>
 
     <dxi-column dataField="role" caption="Role" editorType="dxSelectBox"
@@ -55,8 +71,7 @@
       <dxi-validation-rule type="required"></dxi-validation-rule>
     </dxi-column>
 
-    <dxi-column dataField="password" caption="Password" [visible]="false">
-    </dxi-column>
-
+    <dxi-column dataField="password" [visible]="false"></dxi-column>
+    
   </dx-data-grid>
 </div>

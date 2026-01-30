@@ -67,24 +67,20 @@ export class AddEquipment implements OnInit {
     this.loadCategories();
     this.checkEditMode();
   }
-
-  getPreviewUrl(relativePath: string): SafeUrl | string {
-    if (!relativePath) return '';
-
-    if (relativePath.startsWith('data:')) {
-      return this.sanitizer.bypassSecurityTrustUrl(relativePath);
+  get imageSource(): string | null {
+    // 1. ถ้ามีการอัปโหลดใหม่ ให้ใช้รูปใหม่
+    if (this.newImagePreview) {
+      return this.newImagePreview as string;
     }
-
-    if (relativePath.startsWith('http')) return relativePath;
-
-    let cleanPath = relativePath.replace(/\\/g, '/');
-    if (cleanPath.startsWith('/')) {
-      cleanPath = cleanPath.substring(1);
+    // 2. ถ้ามีรูปเดิมจาก DB ให้ใช้รูปเดิม
+    if (this.equipmentData.imageUrl) {
+      return this.equipmentData.imageUrl;
     }
-    const baseUrl = environment.apiUrl.replace('/api', '');
-
-    return `${baseUrl}/${cleanPath}`;
+    // 3. ถ้าไม่มีห่าไรเลย ส่ง null (HTML จะได้ไปโชว์กล่อง Placeholder)
+    return null;
   }
+
+
 
   loadCategories() {
     this.categoryService.getCategories().subscribe({

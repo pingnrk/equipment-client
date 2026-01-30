@@ -14,7 +14,9 @@ import { lastValueFrom } from 'rxjs';
 })
 export class AdminUsers implements OnInit {
   users: User[] = [];
-  roles = ['User', 'Admin']; // ตัวเลือก Role
+
+  // ✅ เอาให้ชัวร์ เลือกตามนี้ (ถ้า DB มีค่าอื่น บอกกูนะ)
+  roles = ['Admin', 'Member']; 
 
   constructor(private userService: UserService) {}
 
@@ -24,43 +26,57 @@ export class AdminUsers implements OnInit {
 
   loadData() {
     this.userService.getAll().subscribe({
-      next: (data) => (this.users = data),
+      next: (data) => {
+        // 🔥 Hack: วนลูปแก้ค่า Role ให้ตรงกับ Dropdown เป๊ะๆ (กันพลาดเรื่องตัวเล็ก/ใหญ่)
+        this.users = data.map((u: any) => ({
+            ...u,
+            // ถ้า DB เป็น 'admin' หรือ 'ADMIN' แปลงให้เป็น 'Admin' ตามตัวแปร roles ของเรา
+            role: this.roles.find(r => r.toLowerCase() === u.role?.toLowerCase()) || u.role
+        }));
+      },
       error: (err) => notify('Load users failed', 'error', 2000),
     });
   }
 
-  // 🔥 Event: เมื่อมีการเพิ่มข้อมูลใหม่ (Insert)
+  // 🔥 Insert
   async onRowInserting(e: any) {
-    // e.data คือข้อมูลที่ User กรอกมา
+    if (!e.data.password) {
+        notify('กรุณากรอกรหัสผ่าน', 'error', 2000);
+        e.cancel = true; return;
+    }
+    
     try {
       await lastValueFrom(this.userService.create(e.data));
-      notify('User created successfully', 'success', 2000);
+      notify('เพิ่มผู้ใช้งานสำเร็จ', 'success', 2000);
     } catch (err) {
-      notify('Create failed', 'error', 2000);
-      e.cancel = true; // ยกเลิกการปิด Popup ถ้า Error
-    }
-  }
-
-  // 🔥 Event: เมื่อมีการแก้ไข (Update)
-  async onRowUpdating(e: any) {
-    // e.newData = ค่าใหม่, e.oldData = ค่าเก่า, e.key = ID
-    const updatedData = { ...e.oldData, ...e.newData };
-    try {
-      await lastValueFrom(this.userService.update(e.key, updatedData));
-      notify('User updated successfully', 'success', 2000);
-    } catch (err) {
-      notify('Update failed', 'error', 2000);
+      notify('เพิ่มข้อมูลล้มเหลว', 'error', 2000);
       e.cancel = true;
     }
   }
 
-  // 🔥 Event: เมื่อมีการลบ (Delete)
+  // 🔥 Update
+  async onRowUpdating(e: any) {
+    const updatedData = { ...e.oldData, ...e.newData };
+    
+    // ถ้าไม่แก้รหัส ลบ field password ทิ้ง
+    if (!e.newData.password) delete updatedData.password;
+
+    try {
+      await lastValueFrom(this.userService.update(e.key, updatedData));
+      notify('แก้ไขข้อมูลสำเร็จ', 'success', 2000);
+    } catch (err) {
+      notify('แก้ไขล้มเหลว', 'error', 2000);
+      e.cancel = true;
+    }
+  }
+
+  // 🔥 Delete
   async onRowRemoving(e: any) {
     try {
       await lastValueFrom(this.userService.delete(e.key));
-      notify('User deleted', 'success', 2000);
+      notify('ลบข้อมูลสำเร็จ', 'success', 2000);
     } catch (err) {
-      notify('Delete failed', 'error', 2000);
+      notify('ลบข้อมูลล้มเหลว', 'error', 2000);
       e.cancel = true;
     }
   }
