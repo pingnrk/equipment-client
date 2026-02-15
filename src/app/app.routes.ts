@@ -16,7 +16,7 @@ import { TrackRequests } from './pages/track-requests/track-requests';
 
 export const routes: Routes = [
   // --- 🏠 Public / Auth ---
-  { path: '', redirectTo: 'equipments', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: Login },
   { path: 'login', component: Login },
   { path: 'register', component: Register },

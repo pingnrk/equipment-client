@@ -5,22 +5,23 @@
   [revealMode]="'slide'"
   template="menuTemplate"
   height="100vh"
-  [closeOnOutsideClick]="false" 
+  [closeOnOutsideClick]="false"
 >
   <div *dxTemplate="let data of 'menuTemplate'" class="h-100 bg-white border-end" style="width: 280px;">
-    
-    <div class="sidebar-header d-flex align-items-center justify-content-center py-3 border-bottom">
+
+    <div class="sidebar-header d-flex align-items-center justify-content-center border-bottom" style="height: 64px; box-sizing: border-box;">
         <h4 class="m-0 text-primary fw-bold">
             <i class="dx-icon-box me-2"></i>Inventory
         </h4>
     </div>
+
 
     <div class="list-group list-group-flush mt-3 px-3">
       <a *ngFor="let item of menuItems"
          [routerLink]="item.path"
          routerLinkActive="active"
          class="list-group-item list-group-item-action border-0 rounded-3 mb-1"
-         (click)="onItemClick(item)" 
+         (click)="onItemClick(item)"
       >
         <i [class]="'dx-icon-' + item.icon + ' me-3'"></i>
         <span>{{ item.text }}</span>
@@ -29,27 +30,27 @@
   </div>
 
   <div class="d-flex flex-column h-100" style="background-color: #f8f9fa;">
-     <nav class="navbar navbar-expand navbar-light bg-white shadow-sm px-4" style="height: 64px; z-index: 10;">
+     <nav class="navbar navbar-expand navbar-light bg-white border-bottom px-4" style="height: 64px; flex-shrink: 0; z-index: 10; box-sizing: border-box;">
         <div class="d-flex align-items-center w-100">
-            <button class="btn btn-light border-0 me-3" (click)="toggleDrawer()">
-                <i class="dx-icon-menu fs-4 text-secondary"></i>
+            <button class="btn btn-link text-decoration-none text-secondary p-0 me-3" (click)="toggleDrawer()">
+                <i class="dx-icon-menu fs-3"></i>
             </button>
             <h5 class="m-0 text-dark fw-bold">{{ title }}</h5>
-            
+
             <div class="ms-auto d-flex align-items-center">
                 <ng-container *ngIf="isLoggedIn; else loginBtn">
-                    <div class="d-flex align-items-center me-3 border-end pe-3">
-                        <div class="bg-light text-primary rounded-circle d-flex align-items-center justify-content-center me-2 border" style="width: 32px; height: 32px;">
+                    <div class="d-flex align-items-center bg-light rounded-pill px-3 py-1 border me-3">
+                        <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center me-2 shadow-sm" style="width: 28px; height: 28px;">
                             <i class="dx-icon-user"></i>
                         </div>
-                        <span class="fw-bold text-dark small">{{ userName }}</span>
+                        <span class="fw-semibold text-dark small">{{ userName }}</span>
                     </div>
-                    <button class="btn btn-outline-danger btn-sm" (click)="logout()">
-                        <i class="dx-icon-runner me-1"></i> Logout
+                    <button class="btn btn-light btn-sm text-danger border-0 rounded-circle" (click)="logout()" title="Logout" style="width: 32px; height: 32px;">
+                        <i class="dx-icon-runner"></i>
                     </button>
                 </ng-container>
                 <ng-template #loginBtn>
-                    <button class="btn btn-primary btn-sm" (click)="goToLogin()">
+                    <button class="btn btn-primary btn-sm px-3 rounded-pill" (click)="goToLogin()">
                         <i class="dx-icon-key me-1"></i> Login
                     </button>
                 </ng-template>

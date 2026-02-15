@@ -31,7 +31,7 @@ export class App implements OnInit {
 
   private allMenuItems = [
     //user
-    { text: 'Browse Equipments', icon: 'find', path: '/equipments', public: true },
+    { text: 'Browse Equipments', icon: 'find', path: '/equipments', role: 'User' },
     { text: 'My Cart', icon: 'cart', path: '/cart', role: 'User' },
     { text: 'My History', icon: 'clock', path: '/history', role: 'User' },
     { text: 'Track Requests', icon: 'folder', path: '/track-requests', role: 'User' },
@@ -53,9 +53,17 @@ export class App implements OnInit {
       if (event instanceof NavigationEnd) {
         // เช็คว่า url มีค่าไหมก่อน split เพื่อกัน error
         if (event.urlAfterRedirects) {
-             this.selectedKeys = [event.urlAfterRedirects.split('?')[0]];
+            const currentUrl = event.urlAfterRedirects.split('?')[0];
+            this.selectedKeys = [currentUrl];
+
+            // 🔒 Security Check: ถ้ายังไม่ Login และไม่ได้อยู่หน้า Login/Register ให้ดีดไป Login
+            const token = localStorage.getItem('token');
+            const publicRoutes = ['/login', '/register'];
+            if (!token && !publicRoutes.includes(currentUrl)) {
+                this.router.navigate(['/login']);
+            }
         }
-        
+
         if (window.innerWidth < 700) {
           this.isDrawerOpen = false;
         }
