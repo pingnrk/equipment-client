@@ -1,34 +1,56 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 
-body, h1, h2, h3, h4, h5, h6, .dx-widget {
-    font-family: 'Sarabun', sans-serif !important;
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.dx-widget {
+  font-family: 'Sarabun', sans-serif !important;
 }
 
+/* จัด Container ให้ดูมีพื้นที่ */
 .page-container {
-    padding: 1.5rem; 
-    background-color: #fff;
-    min-height: 100%;
+  padding: 20px;
+  background-color: #f3f4f6; /* สีพื้นหลังเทาอ่อนๆ สบายตา */
+  min-height: 100vh;
+}
+
+/* หัวข้อหน้า */
+.page-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .page-title {
-    font-size: 1.75rem;    
-    font-weight: 700;       
-    color: #212529;         
-    margin-top: 0;
-    margin-bottom: 1.5rem; 
-    line-height: 1.2;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #374151; /* สีเทาเข้ม */
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
+
 .dx-drawer-shader {
-    visibility: hidden !important; 
-    opacity: 0 !important;
-    background-color: transparent !important;
-    pointer-events: none !important;
-    width: 0 !important;
-    height: 0 !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  background-color: transparent !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 .dx-drawer-content {
-    pointer-events: auto !important;
-    transform: none !important; 
+  pointer-events: auto !important;
+  transform: none !important;
 }

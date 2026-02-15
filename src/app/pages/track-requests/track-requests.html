@@ -1,7 +1,7 @@
 <div class="container mt-4">
-    
+
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">
+        <h2 class="fw-bold m-0 text-dark">
             <i class="dx-icon-clock me-2"></i> Track Requests
         </h2>
         <button class="btn btn-outline-primary" (click)="loadData()">
@@ -22,30 +22,30 @@
                 keyExpr="id"
             >
                 <dxo-sorting mode="multiple"></dxo-sorting>
-                
-                <dxi-column 
-                    dataField="requestDate" 
-                    dataType="date" 
+
+                <dxi-column
+                    dataField="requestDate"
+                    dataType="date"
                     format="dd/MM/yyyy HH:mm"
                     caption="Requested On"
                 ></dxi-column>
 
-                <dxi-column 
-                    dataField="startDate" 
-                    dataType="date" 
+                <dxi-column
+                    dataField="startDate"
+                    dataType="date"
                     format="dd/MM/yyyy"
                     caption="Borrow Date"
                 ></dxi-column>
 
-                <dxi-column 
-                    dataField="status" 
-                    caption="Status" 
-                    cellTemplate="statusCell" 
+                <dxi-column
+                    dataField="status"
+                    caption="Status"
+                    cellTemplate="statusCell"
                     alignment="center"
                 ></dxi-column>
 
                 <div *dxTemplate="let d of 'statusCell'">
-                    <span class="badge rounded-pill" 
+                    <span class="badge rounded-pill"
                         [ngClass]="{
                             'text-bg-warning': d.value === 1,
                             'text-bg-success': d.value === 2,
@@ -62,7 +62,7 @@
                         <div class="row g-3">
                             <div class="col-md-6 col-lg-4" *ngFor="let item of detailData.data.items">
                                 <div class="card h-100 flex-row align-items-center p-2">
-                                    <img 
+                                    <img
                                         [src]="getFullImageUrl(item.equipment.imageUrl)"
                                         class="rounded"
                                         style="width: 60px; height: 60px; object-fit: cover;"

@@ -1,7 +1,7 @@
 <div class="container mt-4 mb-5">
-    
+
     <div class="d-flex align-items-center mb-4">
-        <h2 class="mb-0">
+<h2 class="fw-bold m-0 text-dark">
             <i class="dx-icon-cart me-2"></i> Confirm Borrowing
         </h2>
     </div>
@@ -50,7 +50,7 @@
                     </dx-form>
 
                     <div class="alert alert-light border mt-3 mb-0 text-muted small">
-                        <i class="dx-icon-info me-1"></i> 
+                        <i class="dx-icon-info me-1"></i>
                         Please ensure the dates are correct before confirming.
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                     </h5>
                     <span class="badge bg-primary rounded-pill">{{ selectedItems.length }} Items</span>
                 </div>
-                
+
                 <div class="card-body p-0">
                     <dx-data-grid
                         [dataSource]="selectedItems"
@@ -75,9 +75,9 @@
                         [hoverStateEnabled]="true"
                     >
                         <dxo-editing mode="cell" [allowUpdating]="true" [allowDeleting]="true"></dxo-editing>
-                        
+
                         <dxi-column dataField="code" caption="Code" [allowEditing]="false" [width]="100"></dxi-column>
-                        
+
                         <dxi-column caption="Image" [width]="70" cellTemplate="imgTpl" [allowEditing]="false"></dxi-column>
                         <div *dxTemplate="let d of 'imgTpl'">
                             <img [src]="getFullImageUrl(d.data.imageUrl)" class="rounded" style="width: 40px; height: 40px; object-fit: cover;">
@@ -102,7 +102,7 @@
                         </dxi-column>
                     </dx-data-grid>
                 </div>
-                
+
                 <div class="card-footer bg-white py-3 border-top">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="text-muted small">

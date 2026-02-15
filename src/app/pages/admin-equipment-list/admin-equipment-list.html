@@ -1,15 +1,9 @@
 <div class="page-container">
-  
   <div class="page-header-row">
-    <h2 class="page-title">Inventory Management</h2>
-
-    <dx-button
-      text="Add New Item"
-      icon="add"
-      type="default"
-      stylingMode="contained"
-      (onClick)="goToAdd()">
-    </dx-button>
+    <h2 class="page-title">📦 Inventory Management</h2>
+    <button class="btn btn-outline-primary btn-sm" (click)="goToAdd()">
+      <i class="dx-icon-add me-1"></i> Add New Item
+    </button>
   </div>
 
   <dx-data-grid
@@ -18,11 +12,14 @@
     [showBorders]="true"
     [rowAlternationEnabled]="true"
     [columnAutoWidth]="true"
-    [hoverStateEnabled]="true" 
-    keyExpr="id">
-
-    <dxo-search-panel [visible]="true" [width]="300" placeholder="Search..."></dxo-search-panel>
-    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    [hoverStateEnabled]="true"
+    keyExpr="id"
+  >
+    <dxo-search-panel
+      [visible]="true"
+      [width]="300"
+      placeholder="Search item..."
+    ></dxo-search-panel>
     <dxo-paging [pageSize]="10"></dxo-paging>
     <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]"></dxo-pager>
 
@@ -38,14 +35,24 @@
       <img
         [src]="getFullImageUrl(d.data.imageUrl)"
         alt="Item"
-        class="grid-image"
-        onerror="this.src='https://via.placeholder.com/50'" 
+        class="rounded border bg-light"
+        style="width: 50px; height: 50px; object-fit: cover"
+        onerror="this.src = 'assets/no-image.png'"
       />
     </div>
 
     <dxi-column dataField="code" caption="Code" [width]="120"></dxi-column>
     <dxi-column dataField="name" caption="Name"></dxi-column>
-    <dxi-column dataField="stock" caption="Stock" [width]="80" alignment="center"></dxi-column>
+    <dxi-column
+      dataField="stock"
+      caption="Stock"
+      [width]="100"
+      alignment="center"
+      cellTemplate="stockCell"
+    ></dxi-column>
+    <div *dxTemplate="let d of 'stockCell'">
+      <span class="fw-bold" [class.text-danger]="d.value === 0">{{ d.value }}</span>
+    </div>
 
     <dxi-column
       dataField="status"
@@ -55,30 +62,22 @@
       alignment="center"
     ></dxi-column>
     <div *dxTemplate="let d of 'statusCell'">
-      <span class="status-badge" [ngClass]="{ available: d.value === 1, 'in-use': d.value === 2 }">
+      <span
+        class="badge rounded-pill"
+        [ngClass]="{
+          'text-bg-success': d.value === 1,
+          'text-bg-danger': d.value === 2,
+          'text-bg-secondary': d.value > 2,
+        }"
+      >
         {{ d.value === 1 ? 'Available' : d.value === 2 ? 'In Use' : 'Maintenance' }}
       </span>
     </div>
 
-    <dxi-column 
-      type="buttons" 
-      caption="Actions" 
-      [width]="100"
-      [allowHiding]="false">
-      
-      <dxi-button
-        icon="edit"
-        hint="Edit"
-        [onClick]="onEditClick">
-      </dxi-button>
+    <dxi-column type="buttons" caption="Actions" [width]="100" [allowHiding]="false">
+      <dxi-button icon="edit" hint="Edit" [onClick]="onEditClick"> </dxi-button>
 
-      <dxi-button
-        icon="trash"
-        hint="Delete"
-        [onClick]="onDeleteClick">
-      </dxi-button>
+      <dxi-button icon="trash" hint="Delete" [onClick]="onDeleteClick"> </dxi-button>
     </dxi-column>
-
   </dx-data-grid>
-
-  </div>
+</div>

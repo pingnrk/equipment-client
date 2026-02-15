@@ -12,7 +12,7 @@ import { BorrowRequest } from '../../services/borrow.interface';
   styleUrl: './track-requests.css'
 })
 export class TrackRequests implements OnInit {
-  
+
   // ตัวแปรเก็บข้อมูลที่จะเอามาโชว์
   pendingRequests: BorrowRequest[] = [];
 
@@ -50,12 +50,12 @@ export class TrackRequests implements OnInit {
   // ฟังก์ชันจัดการรูปภาพ (เหมือนที่แก้ไปตะกี้)
   getFullImageUrl(imageUrl: string): string {
     if (!imageUrl) return 'assets/no-image.png';
-    
+
     // ถ้าเป็น Base64 หรือ Link เต็มอยู่แล้ว
     if (imageUrl.startsWith('data:') || imageUrl.startsWith('http')) {
         return imageUrl;
     }
-    
+
     // เผื่อไว้กรณีส่งมาแค่ชื่อไฟล์
     return `https://equipment-api.onrender.com/${imageUrl}`;
   }

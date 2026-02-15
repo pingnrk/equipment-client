@@ -1,0 +1,21 @@
+/* --- Standard Grid Theme (ใช้เหมือน Admin) --- */
+
+/* Header ตาราง: ตัวหนา พื้นเทา เส้นขอบล่าง */
+::ng-deep .dx-datagrid-headers {
+  font-weight: 600;
+  color: #495057;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* ระยะห่างบรรทัดในตาราง */
+::ng-deep .dx-data-row td {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  vertical-align: middle !important;
+}
+
+/* ปุ่ม Checkbox ในตารางให้สีชัดขึ้น */
+::ng-deep .dx-checkbox-checked .dx-checkbox-icon {
+  color: #3f51b5 !important;
+}

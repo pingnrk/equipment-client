@@ -1,15 +1,16 @@
-<div class="container mt-4 pb-5"> <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">
+<div class="container-fluid p-4 pb-5"> <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold m-0 text-dark">
             <i class="dx-icon-box me-2"></i> Inventory List
         </h2>
+
         <button *ngIf="isAdmin" class="btn btn-primary" (click)="goToAddPage()">
             <i class="dx-icon-plus"></i> Add New Item
         </button>
     </div>
 
     <div class="card shadow-sm border-0">
-        <div class="card-header bg-white py-3">
-            <h5 class="card-title mb-0 text-primary">รายการอุปกรณ์ทั้งหมด (All Equipments)</h5>
+        <div class="card-header bg-white py-3 border-bottom">
+            <h5 class="mb-0 text-primary fw-bold">All Equipments</h5>
         </div>
 
         <div class="card-body p-0">
@@ -23,10 +24,11 @@
                 keyExpr="id"
                 [(selectedRowKeys)]="selectedItemKeys"
             >
+
                 <dxo-search-panel [visible]="true" [width]="300" placeholder="Search..."></dxo-search-panel>
                 <dxo-paging [pageSize]="10"></dxo-paging>
                 <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]"></dxo-pager>
-                
+
                 <dxo-selection mode="multiple" showCheckBoxesMode="always" selectAllMode="page"></dxo-selection>
 
                 <dxi-column
@@ -41,28 +43,33 @@
                     <img
                         [src]="getFullImageUrl(d.data.imageUrl)"
                         alt="Item"
-                        class="rounded border"
+                        class="rounded border bg-light"
                         style="width: 50px; height: 50px; object-fit: cover;"
+                        onerror="this.src='assets/no-image.png'"
                     />
                 </div>
 
                 <dxi-column dataField="code" caption="Code" [width]="120"></dxi-column>
                 <dxi-column dataField="name" caption="Name"></dxi-column>
-                <dxi-column dataField="stock" caption="Stock" [width]="80" alignment="center"></dxi-column>
+
+                <dxi-column dataField="stock" caption="Stock" [width]="100" alignment="center" cellTemplate="stockCell"></dxi-column>
+                <div *dxTemplate="let d of 'stockCell'">
+                     <span class="fw-bold" [class.text-danger]="d.value === 0">{{ d.value }}</span>
+                </div>
 
                 <dxi-column
                     dataField="status"
                     caption="Status"
-                    [width]="120"
+                    [width]="130"
                     cellTemplate="statusCell"
                     alignment="center"
                 ></dxi-column>
                 <div *dxTemplate="let d of 'statusCell'">
-                    <span class="badge rounded-pill" 
+                    <span class="badge rounded-pill"
                         [ngClass]="{
                             'text-bg-success': d.value === 1,
-                            'text-bg-warning': d.value === 2,
-                            'text-bg-secondary': d.value === 3
+                            'text-bg-danger': d.value === 2,
+                            'text-bg-secondary': d.value > 2
                         }">
                         {{ d.value === 1 ? 'Available' : d.value === 2 ? 'In Use' : 'Maintenance' }}
                     </span>
@@ -74,13 +81,13 @@
 
 </div>
 
-<div class="fixed-bottom bg-white border-top shadow p-3" *ngIf="selectedItemKeys.length > 0">
-    <div class="container d-flex justify-content-between align-items-center">
+<div class="fixed-bottom bg-white border-top shadow-lg p-3" *ngIf="selectedItemKeys.length > 0" style="z-index: 1050;">
+    <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
         <div>
             <span class="text-muted">Selected Items:</span>
             <span class="fw-bold text-primary fs-5 ms-2">{{ selectedItemKeys.length }}</span>
         </div>
-        <button class="btn btn-primary px-4" (click)="onProceed()">
+        <button class="btn btn-primary px-4 shadow-sm" (click)="onProceed()">
             <i class="dx-icon-cart me-2"></i> Proceed to Borrow
         </button>
     </div>

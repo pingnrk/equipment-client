@@ -1,44 +1,84 @@
 <div class="page-container">
-  <h2 class="page-title">Admin Dashboard</h2>
+  <div class="page-header-row">
+    <h2 class="page-title">📊 Admin Dashboard</h2>
+  </div>
 
-  <div class="dashboard-grid">
-    <div class="card summary-card">
-      <div class="card-icon bg-blue"><i class="dx-icon-doc"></i></div>
-      <div class="card-info">
-        <h3>Total Requests</h3>
-        <p>{{ summaryData.total }}</p>
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body d-flex align-items-center">
+          <div class="icon-circle bg-primary-subtle text-primary me-3">
+            <i class="dx-icon-doc fs-3"></i>
+          </div>
+          <div>
+            <h6 class="text-muted mb-1">Total Requests</h6>
+            <h3 class="fw-bold m-0 text-dark">{{ summaryData.total }}</h3>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="card summary-card">
-      <div class="card-icon bg-yellow"><i class="dx-icon-clock"></i></div>
-      <div class="card-info">
-        <h3>Pending</h3>
-        <p>{{ summaryData.pending }}</p>
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body d-flex align-items-center">
+          <div class="icon-circle bg-warning-subtle text-warning me-3">
+            <i class="dx-icon-clock fs-3"></i>
+          </div>
+          <div>
+            <h6 class="text-muted mb-1">Pending</h6>
+            <h3 class="fw-bold m-0 text-dark">{{ summaryData.pending }}</h3>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="card summary-card">
-      <div class="card-icon bg-green"><i class="dx-icon-check"></i></div>
-      <div class="card-info">
-        <h3>Active (In Use)</h3>
-        <p>{{ summaryData.approved }}</p>
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body d-flex align-items-center">
+          <div class="icon-circle bg-success-subtle text-success me-3">
+            <i class="dx-icon-check fs-3"></i>
+          </div>
+          <div>
+            <h6 class="text-muted mb-1">Active (In Use)</h6>
+            <h3 class="fw-bold m-0 text-dark">{{ summaryData.approved }}</h3>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="chart-section">
-      <dx-pie-chart
-        title="Request Status Overview"
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3 border-bottom">
+          <h5 class="mb-0 text-primary fw-bold">
+            <i class="dx-icon-pie me-2"></i> Request Status Overview
+          </h5>
+        </div>
+        <div class="card-body">
+          <dx-pie-chart [dataSource]="chartData" type="doughnut" palette="Soft">
+            <dxo-size [height]="350"></dxo-size>
 
-        [dataSource]="chartData"
-        type="doughnut">
-        <dxi-series argumentField="status" valueField="count">
-          <dxo-label [visible]="true" position="columns">
-            <dxo-connector [visible]="true"></dxo-connector>
-          </dxo-label>
-        </dxi-series>
-        <dxo-legend [visible]="true" horizontalAlignment="center" verticalAlignment="bottom"></dxo-legend>
-      </dx-pie-chart>
+            <dxi-series argumentField="status" valueField="count">
+              <dxo-label
+                [visible]="true"
+                position="columns"
+                [customizeText]="customizeLabel"
+              >
+                <dxo-font [size]="14" [weight]="600"></dxo-font>
+                <dxo-connector [visible]="true"></dxo-connector>
+              </dxo-label>
+            </dxi-series>
+
+            <dxo-legend
+              [visible]="true"
+              horizontalAlignment="center"
+              verticalAlignment="bottom"
+            ></dxo-legend>
+            <dxo-export [enabled]="true"></dxo-export>
+          </dx-pie-chart>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

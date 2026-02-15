@@ -1,112 +1,153 @@
-<div class="container-fluid p-4">
+<div class="page-container">
+  <div class="page-header-row">
+    <h2 class="page-title">📮 Manage Requests</h2>
+    <button class="btn btn-outline-primary btn-sm" (click)="loadData()">
+      <i class="dx-icon-refresh me-1"></i> Refresh Data
+    </button>
+  </div>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2 class="fw-bold m-0 text-dark">
-                <i class="dx-icon-check me-2"></i> Manage Requests
-            </h2>
-            <p class="text-muted m-0 mt-1 small">Approve or reject borrowing requests</p>
-        </div>
-        
-<button class="btn btn-outline-primary btn-sm" (click)="loadData()">
-    <i class="dx-icon-refresh me-1"></i> Refresh Data
-</button>
+  <dx-data-grid
+    [dataSource]="requests"
+    [showBorders]="true"
+    [columnAutoWidth]="true"
+    [rowAlternationEnabled]="true"
+    [hoverStateEnabled]="true"
+    keyExpr="id"
+  >
+    <dxo-sorting mode="multiple"></dxo-sorting>
+    <dxo-search-panel
+      [visible]="true"
+      [width]="300"
+      placeholder="Search user or status..."
+    ></dxo-search-panel>
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager
+      [showPageSizeSelector]="true"
+      [allowedPageSizes]="[10, 20, 50]"
+    ></dxo-pager>
+
+    <dxi-column
+      dataField="requestDate"
+      dataType="date"
+      format="dd/MM/yyyy HH:mm"
+      [sortIndex]="0"
+      sortOrder="desc"
+      caption="Request Date"
+    ></dxi-column>
+    <dxi-column dataField="user.fullName" caption="Requested By"></dxi-column>
+
+    <dxi-column
+      caption="Duration"
+      alignment="center"
+      cellTemplate="durationCell"
+    ></dxi-column>
+    <div *dxTemplate="let d of 'durationCell'">
+      <div class="small">
+        <span class="fw-bold">{{ d.data.startDate | date: 'dd/MM' }}</span>
+        <i class="dx-icon-arrowright mx-1 text-muted"></i>
+        <span class="fw-bold">{{ d.data.endDate | date: 'dd/MM' }}</span>
+      </div>
     </div>
 
-    <div class="card shadow-sm border-0">
-        <div class="card-header bg-white py-3 border-bottom">
-            <h5 class="mb-0 text-primary fw-bold">Incoming Requests</h5>
-        </div>
+    <dxi-column
+      dataField="status"
+      caption="Status"
+      cellTemplate="statusCell"
+      alignment="center"
+      [width]="130"
+    ></dxi-column>
+    <div *dxTemplate="let d of 'statusCell'">
+      <span
+        class="badge rounded-pill"
+        [ngClass]="{
+          'text-bg-warning': d.value === 1,
+          'text-bg-success': d.value === 2,
+          'text-bg-danger': d.value === 3,
+          'text-bg-secondary': d.value === 4
+        }"
+      >
+        {{ getStatusText(d.value) }}
+      </span>
+    </div>
 
-        <div class="card-body p-0">
-            <dx-data-grid
-                [dataSource]="requests"
-                [showBorders]="false"
-                [columnAutoWidth]="true"
-                [rowAlternationEnabled]="true"
-                [hoverStateEnabled]="true"
-                keyExpr="id"
+    <dxi-column
+      caption="Actions"
+      cellTemplate="actionCell"
+      alignment="center"
+      [width]="220"
+    ></dxi-column>
+    <div *dxTemplate="let d of 'actionCell'">
+      <div *ngIf="d.data.status === 1" class="d-flex gap-2 justify-content-center">
+        <dx-button
+          icon="check"
+          type="success"
+          stylingMode="contained"
+          hint="Approve"
+          (onClick)="onApprove(d.data.id)"
+        >
+        </dx-button>
+        <dx-button
+          icon="close"
+          type="danger"
+          stylingMode="outlined"
+          hint="Reject"
+          (onClick)="onReject(d.data.id)"
+        >
+        </dx-button>
+      </div>
+
+      <div *ngIf="d.data.status === 2">
+        <dx-button
+          text="Return Items"
+          icon="box"
+          type="default"
+          stylingMode="contained"
+          width="100%"
+          (onClick)="onReturn(d.data.id)"
+        >
+        </dx-button>
+      </div>
+
+      <div *ngIf="d.data.status > 2" class="text-muted small">
+        <i class="dx-icon-check me-1"></i> Completed
+      </div>
+    </div>
+
+    <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
+    <div *dxTemplate="let detailData of 'detail'">
+      <div class="p-3 bg-light border-top">
+        <h6 class="fw-bold text-dark mb-3">Items Requested:</h6>
+
+        <div class="row g-2">
+          <div
+            class="col-md-6 col-lg-4"
+            *ngFor="let item of detailData.data.items"
+          >
+            <div
+              class="bg-white p-2 rounded border d-flex align-items-center shadow-sm"
             >
-                <dxo-sorting mode="multiple"></dxo-sorting>
-                <dxo-search-panel [visible]="true" [width]="300" placeholder="Search user or status..."></dxo-search-panel>
-                <dxo-paging [pageSize]="10"></dxo-paging>
-                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]"></dxo-pager>
+              <img
+                [src]="getFullImageUrl(item.equipment.imageUrl)"
+                class="rounded border bg-light"
+                style="width: 50px; height: 50px; object-fit: cover;"
+              />
 
-                <dxi-column dataField="requestDate" dataType="date" format="dd/MM/yyyy HH:mm" [sortIndex]="0" sortOrder="desc" caption="Request Date"></dxi-column>
-                <dxi-column dataField="user.fullName" caption="Requested By"></dxi-column>
-                
-                <dxi-column caption="Duration" alignment="center" cellTemplate="durationCell"></dxi-column>
-                <div *dxTemplate="let d of 'durationCell'">
-                    <div class="small">
-                        <span class="fw-bold">{{ d.data.startDate | date:'dd/MM' }}</span>
-                        <i class="dx-icon-arrowright mx-1 text-muted"></i>
-                        <span class="fw-bold">{{ d.data.endDate | date:'dd/MM' }}</span>
-                    </div>
+              <div class="ms-3">
+                <div class="fw-bold text-dark">{{ item.equipment.name }}</div>
+                <div class="text-muted small">
+                  Code: {{ item.equipment.code }}
                 </div>
+              </div>
 
-                <dxi-column dataField="status" caption="Status" cellTemplate="statusCell" alignment="center" [width]="130"></dxi-column>
-                <div *dxTemplate="let d of 'statusCell'">
-                    <span class="badge rounded-pill" 
-                        [ngClass]="{
-                            'text-bg-warning': d.value === 1,    
-                            'text-bg-success': d.value === 2,    
-                            'text-bg-danger': d.value === 3,     
-                            'text-bg-secondary': d.value === 4   
-                        }">
-                        {{ getStatusText(d.value) }}
-                    </span>
-                </div>
-
-                <dxi-column caption="Actions" cellTemplate="actionCell" alignment="center" [width]="220"></dxi-column>
-                <div *dxTemplate="let d of 'actionCell'">
-                    
-                    <div *ngIf="d.data.status === 1" class="d-flex gap-2 justify-content-center">
-                        <dx-button icon="check" type="success" stylingMode="contained" hint="Approve"
-                            (onClick)="onApprove(d.data.id)">
-                        </dx-button>
-                        <dx-button icon="close" type="danger" stylingMode="outlined" hint="Reject"
-                            (onClick)="onReject(d.data.id)">
-                        </dx-button>
-                    </div>
-
-                    <div *ngIf="d.data.status === 2">
-                        <dx-button text="Return Items" icon="box" type="default" stylingMode="contained" 
-                            width="100%" (onClick)="onReturn(d.data.id)">
-                        </dx-button>
-                    </div>
-
-                    <div *ngIf="d.data.status > 2" class="text-muted small">
-                        <i class="dx-icon-check me-1"></i> Completed
-                    </div>
-                </div>
-
-                <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
-                <div *dxTemplate="let detailData of 'detail'">
-                    <div class="p-3 bg-light border-top">
-                        <h6 class="fw-bold text-dark mb-3">Items Requested:</h6>
-                        
-                        <div class="row g-2">
-                            <div class="col-md-6 col-lg-4" *ngFor="let item of detailData.data.items">
-                                <div class="bg-white p-2 rounded border d-flex align-items-center shadow-sm">
-                                    <img [src]="getFullImageUrl(item.equipment.imageUrl)" 
-                                         class="rounded border bg-light"
-                                         style="width: 50px; height: 50px; object-fit: cover;">
-                                    
-                                    <div class="ms-3">
-                                        <div class="fw-bold text-dark">{{ item.equipment.name }}</div>
-                                        <div class="text-muted small">Code: {{ item.equipment.code }}</div>
-                                    </div>
-
-                                    <div class="ms-auto">
-                                        <span class="badge bg-primary rounded-pill">x{{ item.quantity }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </dx-data-grid>
+              <div class="ms-auto">
+                <span class="badge bg-primary rounded-pill"
+                  >x{{ item.quantity }}</span
+                >
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </dx-data-grid>
 </div>

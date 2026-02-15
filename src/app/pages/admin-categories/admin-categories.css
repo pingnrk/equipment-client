@@ -1,32 +1,3 @@
-/* จัด Container ให้ดูมีพื้นที่ */
-.page-container {
-  padding: 20px;
-  background-color: #f3f4f6; /* สีพื้นหลังเทาอ่อนๆ สบายตา */
-  min-height: 100vh;
-}
-
-/* หัวข้อหน้า */
-.page-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  background-color: white;
-  padding: 15px 20px;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.page-title {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 600;
-  color: #374151; /* สีเทาเข้ม */
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
 /* ปรับแต่งตาราง DataGrid ให้ดูคลีนๆ */
 ::ng-deep #gridContainer {
   background-color: white;
