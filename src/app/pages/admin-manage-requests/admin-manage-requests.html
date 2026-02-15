@@ -1,153 +1,65 @@
-<div class="page-container">
-  <div class="page-header-row">
-    <h2 class="page-title">📮 Manage Requests</h2>
-    <button class="btn btn-outline-primary btn-sm" (click)="loadData()">
-      <i class="dx-icon-refresh me-1"></i> Refresh Data
-    </button>
-  </div>
-
-  <dx-data-grid
-    [dataSource]="requests"
-    [showBorders]="true"
-    [columnAutoWidth]="true"
-    [rowAlternationEnabled]="true"
-    [hoverStateEnabled]="true"
-    keyExpr="id"
-  >
-    <dxo-sorting mode="multiple"></dxo-sorting>
-    <dxo-search-panel
-      [visible]="true"
-      [width]="300"
-      placeholder="Search user or status..."
-    ></dxo-search-panel>
-    <dxo-paging [pageSize]="10"></dxo-paging>
-    <dxo-pager
-      [showPageSizeSelector]="true"
-      [allowedPageSizes]="[10, 20, 50]"
-    ></dxo-pager>
-
-    <dxi-column
-      dataField="requestDate"
-      dataType="date"
-      format="dd/MM/yyyy HH:mm"
-      [sortIndex]="0"
-      sortOrder="desc"
-      caption="Request Date"
-    ></dxi-column>
-    <dxi-column dataField="user.fullName" caption="Requested By"></dxi-column>
-
-    <dxi-column
-      caption="Duration"
-      alignment="center"
-      cellTemplate="durationCell"
-    ></dxi-column>
-    <div *dxTemplate="let d of 'durationCell'">
-      <div class="small">
-        <span class="fw-bold">{{ d.data.startDate | date: 'dd/MM' }}</span>
-        <i class="dx-icon-arrowright mx-1 text-muted"></i>
-        <span class="fw-bold">{{ d.data.endDate | date: 'dd/MM' }}</span>
-      </div>
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-primary">
+            <i [class]="pageType === 'approve' ? 'dx-icon-check' : 'dx-icon-revert'"></i>
+            {{ pageType === 'approve' ? 'Approve Requests' : 'Return Equipment' }}
+        </h2>
+        <button class="btn btn-outline-secondary btn-sm" (click)="loadData()">
+            <i class="dx-icon-refresh"></i> Refresh
+        </button>
     </div>
 
-    <dxi-column
-      dataField="status"
-      caption="Status"
-      cellTemplate="statusCell"
-      alignment="center"
-      [width]="130"
-    ></dxi-column>
-    <div *dxTemplate="let d of 'statusCell'">
-      <span
-        class="badge rounded-pill"
-        [ngClass]="{
-          'text-bg-warning': d.value === 1,
-          'text-bg-success': d.value === 2,
-          'text-bg-danger': d.value === 3,
-          'text-bg-secondary': d.value === 4
-        }"
-      >
-        {{ getStatusText(d.value) }}
-      </span>
-    </div>
+    <dx-data-grid
+        [dataSource]="requests"
+        [showBorders]="true"
+        [rowAlternationEnabled]="true"
+        [columnAutoWidth]="true">
 
-    <dxi-column
-      caption="Actions"
-      cellTemplate="actionCell"
-      alignment="center"
-      [width]="220"
-    ></dxi-column>
-    <div *dxTemplate="let d of 'actionCell'">
-      <div *ngIf="d.data.status === 1" class="d-flex gap-2 justify-content-center">
-        <dx-button
-          icon="check"
-          type="success"
-          stylingMode="contained"
-          hint="Approve"
-          (onClick)="onApprove(d.data.id)"
-        >
-        </dx-button>
-        <dx-button
-          icon="close"
-          type="danger"
-          stylingMode="outlined"
-          hint="Reject"
-          (onClick)="onReject(d.data.id)"
-        >
-        </dx-button>
-      </div>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <dxo-search-panel [visible]="true"></dxo-search-panel>
+        <dxo-paging [pageSize]="10"></dxo-paging>
 
-      <div *ngIf="d.data.status === 2">
-        <dx-button
-          text="Return Items"
-          icon="box"
-          type="default"
-          stylingMode="contained"
-          width="100%"
-          (onClick)="onReturn(d.data.id)"
-        >
-        </dx-button>
-      </div>
+        <!-- Columns -->
+        <dxi-column dataField="user.fullName" caption="User"></dxi-column>
+        <!-- สมมติว่า items เป็น array เอาตัวแรกมาโชว์ -->
+        <dxi-column dataField="items[0].equipment.name" caption="Equipment"></dxi-column>
+        <dxi-column dataField="startDate" caption="Start Date" dataType="date"></dxi-column>
+        <dxi-column dataField="endDate" caption="Due Date" dataType="date"></dxi-column>
 
-      <div *ngIf="d.data.status > 2" class="text-muted small">
-        <i class="dx-icon-check me-1"></i> Completed
-      </div>
-    </div>
+        <!-- Actions Column -->
+        <dxi-column caption="Actions" cellTemplate="actionTemplate" [width]="160" alignment="center"></dxi-column>
+        <div *dxTemplate="let data of 'actionTemplate'">
 
-    <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
-    <div *dxTemplate="let detailData of 'detail'">
-      <div class="p-3 bg-light border-top">
-        <h6 class="fw-bold text-dark mb-3">Items Requested:</h6>
+            <!-- 🟢 ถ้าเป็นหน้า Approve ให้โชว์ปุ่ม Approve/Reject -->
+            <ng-container *ngIf="pageType === 'approve'">
+                <dx-button
+                    icon="check"
+                    type="success"
+                    stylingMode="contained"
+                    (onClick)="onApprove(data.data.id)"
+                    hint="Approve">
+                </dx-button>
+                <dx-button
+                    icon="close"
+                    type="danger"
+                    stylingMode="contained"
+                    class="ms-2"
+                    (onClick)="onReject(data.data.id)"
+                    hint="Reject">
+                </dx-button>
+            </ng-container>
 
-        <div class="row g-2">
-          <div
-            class="col-md-6 col-lg-4"
-            *ngFor="let item of detailData.data.items"
-          >
-            <div
-              class="bg-white p-2 rounded border d-flex align-items-center shadow-sm"
-            >
-              <img
-                [src]="getFullImageUrl(item.equipment.imageUrl)"
-                class="rounded border bg-light"
-                style="width: 50px; height: 50px; object-fit: cover;"
-              />
+            <!-- 🔵 ถ้าเป็นหน้า Return ให้โชว์ปุ่ม Return อย่างเดียว -->
+            <ng-container *ngIf="pageType === 'return'">
+                <dx-button
+                    text="Return"
+                    icon="revert"
+                    type="default"
+                    stylingMode="contained"
+                    (onClick)="onReturn(data.data.id)">
+                </dx-button>
+            </ng-container>
 
-              <div class="ms-3">
-                <div class="fw-bold text-dark">{{ item.equipment.name }}</div>
-                <div class="text-muted small">
-                  Code: {{ item.equipment.code }}
-                </div>
-              </div>
-
-              <div class="ms-auto">
-                <span class="badge bg-primary rounded-pill"
-                  >x{{ item.quantity }}</span
-                >
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </dx-data-grid>
+    </dx-data-grid>
 </div>

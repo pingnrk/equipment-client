@@ -27,7 +27,6 @@ export class App implements OnInit {
   isDrawerOpen = true;
   selectedKeys: string[] = [];
   isLoading = false;
-  breadcrumbs: Array<{ text: string, path: string }> = [];
 
   toastVisible = false;
   toastMessage = '';
@@ -48,6 +47,7 @@ export class App implements OnInit {
 
     //admin
     { text: 'Approve Requests', icon: 'check', path: '/admin/requests', role: 'Admin' },
+    { text: 'Return Equipment', icon: 'revert', path: '/admin/return', role: 'Admin' },
     { text: 'Manage Inventory', icon: 'box', path: '/admin/items', role: 'Admin' },
     { text: 'Users', icon: 'group', path: '/admin/users', role: 'Admin' },
     { text: 'Categories', icon: 'tags', path: '/admin/categories', role: 'Admin' },
@@ -93,9 +93,6 @@ export class App implements OnInit {
             } else {
                 this.title = 'Equipment System'; // ถ้าหาไม่เจอ (เช่นหน้า Login) ให้ใช้ชื่อ Default
             }
-
-            // ✅ Generate Breadcrumbs
-            this.generateBreadcrumbs(currentUrl);
 
             // 🔒 Security Check: ถ้ายังไม่ Login และไม่ได้อยู่หน้า Login/Register ให้ดีดไป Login
             const token = localStorage.getItem('token');
@@ -175,25 +172,6 @@ export class App implements OnInit {
 
 
     // 3. ไม่ต้องสั่ง navigate() แล้ว เพราะใน HTML เราใช้ [routerLink]="item.path" มันไปเองอัตโนมัติ
-  }
-
-  generateBreadcrumbs(url: string) {
-    const segments = url.split('/').filter(segment => segment.length > 0);
-    const breadcrumbs = [];
-    let currentPath = '';
-
-    for (const segment of segments) {
-      currentPath += `/${segment}`;
-
-      // หาชื่อจากเมนู ถ้ามีให้ใช้ชื่อนั้น ถ้าไม่มีให้ใช้ชื่อ path
-      const menuItem = this.allMenuItems.find(item => item.path === currentPath);
-      let text = menuItem ? menuItem.text : this.capitalize(segment);
-
-      if (!isNaN(Number(segment))) text = `#${segment}`; // ถ้าเป็น ID ให้ใส่ # นำหน้า
-
-      breadcrumbs.push({ text, path: currentPath });
-    }
-    this.breadcrumbs = breadcrumbs;
   }
 
   capitalize(s: string) {

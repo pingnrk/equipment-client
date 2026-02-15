@@ -1,121 +1,82 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DxDataGridModule, DxButtonModule } from 'devextreme-angular';
-import notify from 'devextreme/ui/notify';
+import { ActivatedRoute } from '@angular/router';
+import { DxDataGridModule, DxButtonModule, DxTemplateModule } from 'devextreme-angular';
 import { BorrowService } from '../../services/borrow';
-import { confirm } from 'devextreme/ui/dialog';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-admin-manage-requests',
   standalone: true,
-  imports: [CommonModule, DxDataGridModule, DxButtonModule],
+  imports: [CommonModule, DxDataGridModule, DxButtonModule, DxTemplateModule],
   templateUrl: './admin-manage-requests.html',
-  styleUrls: ['./admin-manage-requests.css']
+  styles: [`
+    :host { display: block; }
+  `]
 })
 export class AdminManageRequests implements OnInit {
+  pageType: 'approve' | 'return' = 'approve'; // ค่าเริ่มต้น
   requests: any[] = [];
-  summaryData = {
-    total: 0,
-    pending: 0,
-    approved: 0,
-    returned: 0
-  };
-  chartData: any[] = [];
 
-  constructor(private borrowService: BorrowService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private borrowService: BorrowService,
+    private toastService: ToastService
+  ) {}
 
-  ngOnInit(): void { 
-      this.loadData(); 
+  ngOnInit() {
+    // เช็คว่าเข้ามาจาก Route ไหน (Approve หรือ Return)
+    this.route.data.subscribe(data => {
+      this.pageType = data['type'] || 'approve';
+      this.loadData();
+    });
   }
 
   loadData() {
     this.borrowService.getAllRequests().subscribe({
       next: (data) => {
-          this.requests = data;
-          this.calculateDashboard(); // ✅ เพิ่ม: เรียกคำนวณตัวเลข dashboard
+        if (this.pageType === 'approve') {
+          // ✅ หน้า Approve: เอาเฉพาะ Status 1 (Pending)
+          this.requests = data.filter(r => r.status === 1);
+        } else {
+          // 🔄 หน้า Return: เอาเฉพาะ Status 2 (Approved/Borrowed)
+          this.requests = data.filter(r => r.status === 2);
+        }
       },
-      error: (err) => console.error(err),
+      error: (err) => {
+        console.error(err);
+        this.toastService.show('Failed to load data', 'error');
+      }
     });
   }
 
   onApprove(id: string) {
-    confirm('Confirm Approve? Stock will be deducted.', 'Approve Request').then((result) => {
-      if (result) {
-        // ถ้ากด Yes ถึงจะทำ
-        this.borrowService.approveRequest(id).subscribe({
-          next: () => {
-            notify('Approved successfully', 'success', 2000);
-            this.loadData();
-          },
-          error: (err) => {
-            console.error(err);
-            notify(err.error?.message || 'Error approving', 'error', 3000);
-          },
-        });
-      }
+    this.borrowService.approveRequest(id).subscribe({
+      next: () => {
+        this.toastService.show('Approved successfully', 'success');
+        this.loadData(); // รีเฟรชตาราง
+      },
+      error: () => this.toastService.show('Error approving request', 'error')
     });
   }
 
   onReject(id: string) {
-    confirm('Are you sure you want to reject this request?', 'Reject Request').then((result) => {
-      if (result) {
-        this.borrowService.rejectRequest(id).subscribe({
-          next: () => {
-            notify('Rejected', 'success', 2000);
-            this.loadData();
-          },
-          error: (err) => notify('Error rejecting', 'error', 3000),
-        });
-      }
+    this.borrowService.rejectRequest(id).subscribe({
+      next: () => {
+        this.toastService.show('Rejected request', 'warning');
+        this.loadData();
+      },
+      error: () => this.toastService.show('Error rejecting request', 'error')
     });
   }
 
   onReturn(id: string) {
-    confirm('Confirm Return items? Stock will be restored.', 'Return Items').then((result) => {
-      if (result) {
-        this.borrowService.returnRequest(id).subscribe({
-          next: () => {
-            notify('Items returned successfully. Stock updated.', 'success', 2000);
-            this.loadData();
-          },
-          error: (err) => {
-            console.error(err);
-            notify(err.error?.message || 'Error returning item', 'error', 3000);
-          },
-        });
-      }
+    this.borrowService.returnRequest(id).subscribe({
+      next: () => {
+        this.toastService.show('Item returned successfully', 'success');
+        this.loadData();
+      },
+      error: () => this.toastService.show('Error returning item', 'error')
     });
-  }
-
-  getStatusText(status: number) {
-    switch (status) {
-      case 1: return 'Pending';
-      case 2: return 'Approved';
-      case 3: return 'Rejected';
-      case 4: return 'Returned';
-      default: return 'Unknown';
-    }
-  }
-
-  calculateDashboard() {
-    this.summaryData.total = this.requests.length;
-    this.summaryData.pending = this.requests.filter(r => r.status === 1).length;
-    this.summaryData.approved = this.requests.filter(r => r.status === 2).length;
-    this.summaryData.returned = this.requests.filter(r => r.status === 4).length;
-
-    // เตรียมข้อมูลกราฟ (ถ้าอนาคตจะใช้)
-    this.chartData = [
-      { status: 'Pending', count: this.summaryData.pending, color: '#f59e0b' },
-      { status: 'Approved', count: this.summaryData.approved, color: '#10b981' },
-      { status: 'Returned', count: this.summaryData.returned, color: '#6b7280' },
-      { status: 'Rejected', count: this.requests.filter(r => r.status === 3).length, color: '#ef4444' }
-    ];
-  }
-  
-  getFullImageUrl(imageUrl: string): string {
-    if (!imageUrl) return 'assets/no-image.png';
-    // ✅ เพิ่ม: เช็คว่าถ้าไม่ใช่ base64 หรือ http ให้เติม domain
-    if (imageUrl.startsWith('data:') || imageUrl.startsWith('http')) return imageUrl;
-    return `https://equipment-api.onrender.com/${imageUrl}`;
   }
 }

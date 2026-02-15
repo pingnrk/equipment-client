@@ -18,7 +18,6 @@ export const routes: Routes = [
   // --- 🏠 Public / Auth ---
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: Login },
-  { path: 'login', component: Login },
   { path: 'register', component: Register },
 
   // --- 🛍️ User Zone ---
@@ -29,8 +28,9 @@ export const routes: Routes = [
 
   // --- 🛠️ Admin Zone ---
   { path: 'admin/dashboard', component: AdminDashboard }, // 1. หน้ากราฟ
-  { path: 'admin/requests', component: AdminManageRequests }, // 2. หน้าอนุมัติ (แยกมาแล้ว)
-  { path: 'admin/reports', component: AdminReports }, // 3. หน้าจัดการของ // หน้า Approve
+  { path: 'admin/requests', component: AdminManageRequests, data: { type: 'approve' } }, // โหมดอนุมัติ
+  { path: 'admin/return', component: AdminManageRequests, data: { type: 'return' } },   // โหมดคืนของ
+  { path: 'admin/reports', component: AdminReports },
   { path: 'admin/users', component: AdminUsers },
   { path: 'admin/items', component: AdminEquipmentList },
   { path: 'admin/items/add', component: AddEquipment },

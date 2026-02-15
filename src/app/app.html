@@ -55,21 +55,6 @@
 
     <div class="flex-grow-1 overflow-auto p-4">
       <div class="content-wrapper">
-        <!-- Breadcrumbs -->
-        <nav *ngIf="breadcrumbs.length > 0 && isLoggedIn" aria-label="breadcrumb" class="mb-3">
-            <ol class="breadcrumb small m-0">
-                <li class="breadcrumb-item">
-                    <a routerLink="/" class="text-decoration-none text-secondary">
-                        <i class="dx-icon-home"></i>
-                    </a>
-                </li>
-                <li *ngFor="let crumb of breadcrumbs; let last = last" class="breadcrumb-item" [class.active]="last">
-                    <a *ngIf="!last" [routerLink]="crumb.path" class="text-decoration-none">{{ crumb.text }}</a>
-                    <span *ngIf="last" class="text-dark fw-semibold">{{ crumb.text }}</span>
-                </li>
-            </ol>
-        </nav>
-
         <router-outlet></router-outlet>
       </div>
     </div>
