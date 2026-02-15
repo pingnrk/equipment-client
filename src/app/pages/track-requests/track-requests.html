@@ -1,84 +1,57 @@
-<div class="container mt-4">
+<div class="page-container">
+  <div class="page-header-row">
+    <h2 class="page-title">
+      <i class="dx-icon-clock me-2"></i> Track Requests
+    </h2>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold m-0 text-dark">
-            <i class="dx-icon-clock me-2"></i> Track Requests
-        </h2>
-        <button class="btn btn-outline-primary" (click)="loadData()">
-            <i class="dx-icon-refresh"></i> Refresh
-        </button>
+  </div>
+
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-white py-3">
+      <h5 class="card-title mb-0 text-primary">รายการที่กำลังดำเนินการ (Active)</h5>
     </div>
+    <div class="card-body p-0">
+      <dx-data-grid [dataSource]="pendingRequests" [showBorders]="false" [columnAutoWidth]="true"
+        [rowAlternationEnabled]="true" keyExpr="id">
+        <dxo-sorting mode="multiple"></dxo-sorting>
 
-    <div class="card shadow-sm border-0">
-        <div class="card-header bg-white py-3">
-            <h5 class="card-title mb-0 text-primary">รายการที่กำลังดำเนินการ (Active)</h5>
-        </div>
-        <div class="card-body p-0">
-            <dx-data-grid
-                [dataSource]="pendingRequests"
-                [showBorders]="false"
-                [columnAutoWidth]="true"
-                [rowAlternationEnabled]="true"
-                keyExpr="id"
-            >
-                <dxo-sorting mode="multiple"></dxo-sorting>
+        <dxi-column dataField="requestDate" dataType="date" format="dd/MM/yyyy HH:mm"
+          caption="Requested On"></dxi-column>
 
-                <dxi-column
-                    dataField="requestDate"
-                    dataType="date"
-                    format="dd/MM/yyyy HH:mm"
-                    caption="Requested On"
-                ></dxi-column>
+        <dxi-column dataField="startDate" dataType="date" format="dd/MM/yyyy" caption="Borrow Date"></dxi-column>
 
-                <dxi-column
-                    dataField="startDate"
-                    dataType="date"
-                    format="dd/MM/yyyy"
-                    caption="Borrow Date"
-                ></dxi-column>
+        <dxi-column dataField="status" caption="Status" cellTemplate="statusCell" alignment="center"></dxi-column>
 
-                <dxi-column
-                    dataField="status"
-                    caption="Status"
-                    cellTemplate="statusCell"
-                    alignment="center"
-                ></dxi-column>
-
-                <div *dxTemplate="let d of 'statusCell'">
-                    <span class="badge rounded-pill"
-                        [ngClass]="{
+        <div *dxTemplate="let d of 'statusCell'">
+          <span class="badge rounded-pill" [ngClass]="{
                             'text-bg-warning': d.value === 1,
                             'text-bg-success': d.value === 2,
                             'text-bg-danger': d.value === 3
                         }">
-                        {{ getStatusText(d.value) }}
-                    </span>
-                </div>
-
-                <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
-                <div *dxTemplate="let detailData of 'detail'">
-                    <div class="p-3 bg-light">
-                        <h6 class="border-bottom pb-2">Items Requesting:</h6>
-                        <div class="row g-3">
-                            <div class="col-md-6 col-lg-4" *ngFor="let item of detailData.data.items">
-                                <div class="card h-100 flex-row align-items-center p-2">
-                                    <img
-                                        [src]="getFullImageUrl(item.equipment.imageUrl)"
-                                        class="rounded"
-                                        style="width: 60px; height: 60px; object-fit: cover;"
-                                        alt="Item"
-                                    />
-                                    <div class="ms-3">
-                                        <div class="fw-bold">{{ item.equipment.name }}</div>
-                                        <div class="text-muted small">Qty: {{ item.quantity }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </dx-data-grid>
+            {{ getStatusText(d.value) }}
+          </span>
         </div>
+
+        <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
+        <div *dxTemplate="let detailData of 'detail'">
+          <div class="p-3 bg-light">
+            <h6 class="border-bottom pb-2">Items Requesting:</h6>
+            <div class="row g-3">
+              <div class="col-md-6 col-lg-4" *ngFor="let item of detailData.data.items">
+                <div class="card h-100 flex-row align-items-center p-2">
+                  <img [src]="getFullImageUrl(item.equipment.imageUrl)" class="rounded"
+                    style="width: 60px; height: 60px; object-fit: cover;" alt="Item" />
+                  <div class="ms-3">
+                    <div class="fw-bold">{{ item.equipment.name }}</div>
+                    <div class="text-muted small">Qty: {{ item.quantity }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </dx-data-grid>
     </div>
+  </div>
 </div>
