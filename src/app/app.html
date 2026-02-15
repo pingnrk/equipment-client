@@ -1,28 +1,17 @@
-<dx-drawer
-  [opened]="isDrawerOpen"
-  [position]="'left'"
-  [openedStateMode]="'shrink'"
-  [revealMode]="'slide'"
-  template="menuTemplate"
-  height="100vh"
-  [closeOnOutsideClick]="false"
->
+<dx-drawer [opened]="isDrawerOpen" [position]="'left'" [openedStateMode]="'shrink'" [revealMode]="'slide'"
+  template="menuTemplate" height="100vh" [closeOnOutsideClick]="false">
   <div *dxTemplate="let data of 'menuTemplate'" class="h-100 bg-white border-end" style="width: 280px;">
 
-    <div class="sidebar-header d-flex align-items-center justify-content-center border-bottom" style="height: 64px; box-sizing: border-box;">
-        <h4 class="m-0 text-primary fw-bold">
-            <i class="dx-icon-box me-2"></i>Inventory
-        </h4>
+    <div class="sidebar-header d-flex align-items-center justify-content-center border-bottom"
+      style="height: 64px; box-sizing: border-box;">
+      <!-- ตัวอย่างการใส่ Logo ในอนาคต -->
+      <!-- <img src="assets/images/logo.png" alt="Logo" style="max-height: 40px;"> -->
     </div>
 
 
     <div class="list-group list-group-flush mt-3 px-3">
-      <a *ngFor="let item of menuItems"
-         [routerLink]="item.path"
-         routerLinkActive="active"
-         class="list-group-item list-group-item-action border-0 rounded-3 mb-1"
-         (click)="onItemClick(item)"
-      >
+      <a *ngFor="let item of menuItems" [routerLink]="item.path" routerLinkActive="active"
+        class="list-group-item list-group-item-action border-0 rounded-3 mb-1" (click)="onItemClick(item)">
         <i [class]="'dx-icon-' + item.icon + ' me-3'"></i>
         <span>{{ item.text }}</span>
       </a>
@@ -30,44 +19,85 @@
   </div>
 
   <div class="d-flex flex-column h-100" style="background-color: #f8f9fa;">
-     <nav class="navbar navbar-expand navbar-light bg-white border-bottom px-4" style="height: 64px; flex-shrink: 0; z-index: 10; box-sizing: border-box;">
-        <div class="d-flex align-items-center w-100">
-            <button class="btn btn-link text-decoration-none text-secondary p-0 me-3" (click)="toggleDrawer()">
-                <i class="dx-icon-menu fs-3"></i>
-            </button>
-            <h5 class="m-0 text-dark fw-bold">{{ title }}</h5>
+    <nav class="navbar navbar-expand navbar-light bg-white border-bottom px-4"
+      style="height: 64px; flex-shrink: 0; z-index: 10; box-sizing: border-box;">
+      <div class="d-flex align-items-center w-100">
+        <button class="btn btn-link text-decoration-none text-secondary p-0 me-3" (click)="toggleDrawer()">
+          <i class="dx-icon-menu fs-3"></i>
+        </button>
+        <h4 class="m-0  fw-bold">
+          ระบบยืมคุภัณ
+        </h4>
 
-            <div class="ms-auto d-flex align-items-center">
-                <ng-container *ngIf="isLoggedIn; else loginBtn">
-                    <div class="d-flex align-items-center bg-light rounded-pill px-3 py-1 border me-3">
-                        <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center me-2 shadow-sm" style="width: 28px; height: 28px;">
-                            <i class="dx-icon-user"></i>
-                        </div>
-                        <span class="fw-semibold text-dark small">{{ userName }}</span>
-                    </div>
-                    <button class="btn btn-light btn-sm text-danger border-0 rounded-circle" (click)="logout()" title="Logout" style="width: 32px; height: 32px;">
-                        <i class="dx-icon-runner"></i>
-                    </button>
-                </ng-container>
-                <ng-template #loginBtn>
-                    <button class="btn btn-primary btn-sm px-3 rounded-pill" (click)="goToLogin()">
-                        <i class="dx-icon-key me-1"></i> Login
-                    </button>
-                </ng-template>
+        <div class="ms-auto d-flex align-items-center">
+          <ng-container *ngIf="isLoggedIn; else loginBtn">
+            <div class="d-flex align-items-center bg-light rounded-pill px-3 py-1 border me-3">
+              <div
+                class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center me-2 shadow-sm"
+                style="width: 28px; height: 28px;">
+                <i class="dx-icon-user"></i>
+              </div>
+              <span class="fw-semibold text-dark small">{{ userName }}</span>
             </div>
+            <button class="btn btn-light btn-sm text-danger border-0 rounded-circle" (click)="logout()" title="Logout"
+              style="width: 32px; height: 32px;">
+              <i class="dx-icon-runner"></i>
+            </button>
+          </ng-container>
+          <ng-template #loginBtn>
+            <button class="btn btn-primary btn-sm px-3 rounded-pill" (click)="goToLogin()">
+              <i class="dx-icon-key me-1"></i> Login
+            </button>
+          </ng-template>
         </div>
+      </div>
     </nav>
 
     <div class="flex-grow-1 overflow-auto p-4">
-        <div class="content-wrapper">
-             <router-outlet></router-outlet>
-        </div>
+      <div class="content-wrapper">
+        <!-- Breadcrumbs -->
+        <nav *ngIf="breadcrumbs.length > 0 && isLoggedIn" aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb small m-0">
+                <li class="breadcrumb-item">
+                    <a routerLink="/" class="text-decoration-none text-secondary">
+                        <i class="dx-icon-home"></i>
+                    </a>
+                </li>
+                <li *ngFor="let crumb of breadcrumbs; let last = last" class="breadcrumb-item" [class.active]="last">
+                    <a *ngIf="!last" [routerLink]="crumb.path" class="text-decoration-none">{{ crumb.text }}</a>
+                    <span *ngIf="last" class="text-dark fw-semibold">{{ crumb.text }}</span>
+                </li>
+            </ol>
+        </nav>
+
+        <router-outlet></router-outlet>
+      </div>
     </div>
 
     <footer class="bg-white text-center py-3 border-top mt-auto">
-        <div class="container text-muted small">
-            <span>&copy; 2026 Equipment Management System.</span>
-        </div>
+      <div class="container text-muted small">
+        <span>&copy; 2026 Equipment Management System.</span>
+      </div>
     </footer>
   </div>
 </dx-drawer>
+
+<!-- Global Loading Indicator -->
+<dx-load-panel
+    shadingColor="rgba(0,0,0,0.4)"
+    [(visible)]="isLoading"
+    [showIndicator]="true"
+    [showPane]="true"
+    [shading]="true"
+    message="Loading...">
+</dx-load-panel>
+
+<!-- Global Toast Notification -->
+<dx-toast
+    [(visible)]="toastVisible"
+    [message]="toastMessage"
+    [type]="toastType"
+    [displayTime]="3000"
+    position="bottom center"
+    (onHidden)="onToastHidden()">
+</dx-toast>
