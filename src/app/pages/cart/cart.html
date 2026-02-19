@@ -1,7 +1,7 @@
 <div class="page-container">
     <div class="page-header-row">
         <h2 class="page-title">
-            <i class="dx-icon-cart me-2"></i> Confirm Borrowing
+            📝 ยื่นคำขอยืม
         </h2>
     </div>
 
@@ -16,33 +16,27 @@
                 <div class="card-body">
                     <dx-form [formData]="bookingData" [labelLocation]="'top'">
                         <dxi-item itemType="group">
-                            <dxi-item
-                                dataField="startDate"
-                                editorType="dxDateBox"
-                                [editorOptions]="{
+                            <dxi-item dataField="startDate" editorType="dxDateBox" [editorOptions]="{
                                     type: 'date',
                                     displayFormat: 'dd/MM/yyyy',
                                     min: minDate,
                                     stylingMode: 'outlined',
                                     placeholder: 'Select Date'
-                                }"
-                            >
-                                <dxi-validation-rule type="required" message="Start Date is required"></dxi-validation-rule>
+                                }">
+                                <dxi-validation-rule type="required"
+                                    message="Start Date is required"></dxi-validation-rule>
                                 <dxo-label text="Start Date (ยืมวันที่)"></dxo-label>
                             </dxi-item>
 
-                            <dxi-item
-                                dataField="endDate"
-                                editorType="dxDateBox"
-                                [editorOptions]="{
+                            <dxi-item dataField="endDate" editorType="dxDateBox" [editorOptions]="{
                                     type: 'date',
                                     displayFormat: 'dd/MM/yyyy',
                                     min: minDate,
                                     stylingMode: 'outlined',
                                     placeholder: 'Select Date'
-                                }"
-                            >
-                                <dxi-validation-rule type="required" message="End Date is required"></dxi-validation-rule>
+                                }">
+                                <dxi-validation-rule type="required"
+                                    message="End Date is required"></dxi-validation-rule>
                                 <dxo-label text="End Date (คืนวันที่)"></dxo-label>
                             </dxi-item>
                         </dxi-item>
@@ -66,32 +60,23 @@
                 </div>
 
                 <div class="card-body p-0">
-                    <dx-data-grid
-                        [dataSource]="selectedItems"
-                        [showBorders]="false"
-                        [columnAutoWidth]="true"
-                        [rowAlternationEnabled]="true"
-                        [hoverStateEnabled]="true"
-                    >
+                    <dx-data-grid [dataSource]="selectedItems" [showBorders]="false" [columnAutoWidth]="true"
+                        [rowAlternationEnabled]="true" [hoverStateEnabled]="true">
                         <dxo-editing mode="cell" [allowUpdating]="true" [allowDeleting]="true"></dxo-editing>
 
                         <dxi-column dataField="code" caption="Code" [allowEditing]="false" [width]="100"></dxi-column>
 
-                        <dxi-column caption="Image" [width]="70" cellTemplate="imgTpl" [allowEditing]="false"></dxi-column>
+                        <dxi-column caption="Image" [width]="70" cellTemplate="imgTpl"
+                            [allowEditing]="false"></dxi-column>
                         <div *dxTemplate="let d of 'imgTpl'">
-                            <img [src]="getFullImageUrl(d.data.imageUrl)" class="rounded" style="width: 40px; height: 40px; object-fit: cover;">
+                            <img [src]="getFullImageUrl(d.data.imageUrl)" class="rounded"
+                                style="width: 40px; height: 40px; object-fit: cover;">
                         </div>
 
                         <dxi-column dataField="name" caption="Name" [allowEditing]="false"></dxi-column>
 
-                        <dxi-column
-                            dataField="quantityRequest"
-                            caption="Qty"
-                            dataType="number"
-                            [width]="100"
-                            alignment="center"
-                            cssClass="editable-cell"
-                        >
+                        <dxi-column dataField="quantityRequest" caption="Qty" dataType="number" [width]="100"
+                            alignment="center" cssClass="editable-cell">
                             <dxi-validation-rule type="required"></dxi-validation-rule>
                             <dxi-validation-rule type="range" [min]="1" message="Min 1"></dxi-validation-rule>
                         </dxi-column>

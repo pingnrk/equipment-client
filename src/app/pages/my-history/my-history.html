@@ -1,6 +1,6 @@
 <div class="page-container">
     <div class="page-header-row">
-        <h2 class="page-title">🗂️ History Logs
+        <h2 class="page-title">🗂️ ประวัติคำขอ
         </h2>
     </div>
 
@@ -10,37 +10,20 @@
         </div>
 
         <div class="card-body p-0">
-            <dx-data-grid
-                [dataSource]="historyRequests"
-                [showBorders]="false"
-                [columnAutoWidth]="true"
-                [rowAlternationEnabled]="true"
-                [hoverStateEnabled]="true"
-                keyExpr="id"
-            >
+            <dx-data-grid [dataSource]="historyRequests" [showBorders]="false" [columnAutoWidth]="true"
+                [rowAlternationEnabled]="true" [hoverStateEnabled]="true" keyExpr="id">
                 <dxo-sorting mode="multiple"></dxo-sorting>
                 <dxo-paging [pageSize]="10"></dxo-paging>
                 <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]"></dxo-pager>
 
-                <dxi-column
-                    dataField="requestDate"
-                    dataType="date"
-                    format="dd/MM/yyyy HH:mm"
-                    caption="Date"
-                    sortOrder="desc"
-                ></dxi-column>
+                <dxi-column dataField="requestDate" dataType="date" format="dd/MM/yyyy HH:mm" caption="Date"
+                    sortOrder="desc"></dxi-column>
 
-                <dxi-column
-                    dataField="status"
-                    caption="Result"
-                    cellTemplate="statusCell"
-                    alignment="center"
-                    [width]="150"
-                ></dxi-column>
+                <dxi-column dataField="status" caption="Result" cellTemplate="statusCell" alignment="center"
+                    [width]="150"></dxi-column>
 
                 <div *dxTemplate="let d of 'statusCell'">
-                    <span class="badge rounded-pill"
-                        [ngClass]="{
+                    <span class="badge rounded-pill" [ngClass]="{
                             'text-bg-secondary': d.value === 3,
                             'text-bg-success': d.value === 4
                         }">
@@ -55,11 +38,8 @@
                         <div class="row g-3">
                             <div class="col-md-6 col-lg-4" *ngFor="let item of detailData.data.items">
                                 <div class="card h-100 flex-row align-items-center p-2">
-                                    <img
-                                        [src]="getFullImageUrl(item.equipment.imageUrl)"
-                                        class="rounded"
-                                        style="width: 60px; height: 60px; object-fit: cover;"
-                                    />
+                                    <img [src]="getFullImageUrl(item.equipment.imageUrl)" class="rounded"
+                                        style="width: 60px; height: 60px; object-fit: cover;" />
                                     <div class="ms-3">
                                         <div class="fw-bold text-dark">{{ item.equipment.name }}</div>
                                         <div class="text-muted small">Qty: {{ item.quantity }}</div>
