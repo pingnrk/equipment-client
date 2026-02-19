@@ -13,9 +13,9 @@ import {
 import notify from 'devextreme/ui/notify';
 import { confirm } from 'devextreme/ui/dialog';
 import { EquipmentService } from '../../services/equipment';
-import { CategoryService, Category } from '../../services/categories';
-import { environment } from '../../../environments/environment';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser'; // ✅ เพิ่ม Sanitizer สำหรับ Base64
+import { CategoryService } from '../../services/categories';
+import { Category, CreateEquipmentDto } from '../../services/equipment.interface';
+
 
 @Component({
   selector: 'app-add-equipment',
@@ -45,10 +45,8 @@ export class AddEquipment implements OnInit {
   equipmentData: any = {
     code: '',
     name: '',
-    description: '',
     categoryId: null,
     stock: 1,
-    isUnlimited: false,
     imageUrl: '',
   };
 
@@ -60,7 +58,6 @@ export class AddEquipment implements OnInit {
     private categoryService: CategoryService,
     private router: Router,
     private route: ActivatedRoute,
-    private sanitizer: DomSanitizer,
   ) {}
 
   ngOnInit(): void {
@@ -145,25 +142,21 @@ export class AddEquipment implements OnInit {
 
     this.isLoading = true;
 
-    const formData = new FormData();
-    formData.append('code', this.equipmentData.code);
-    formData.append('name', this.equipmentData.name);
-    formData.append('categoryId', String(this.equipmentData.categoryId || ''));
-    formData.append('stock', this.equipmentData.stock.toString());
-    formData.append('isUnlimited', this.equipmentData.isUnlimited.toString());
-    formData.append('description', this.equipmentData.description || '');
-
-    if (this.selectedFile) {
-      formData.append('ImageFile', this.selectedFile, this.selectedFile.name);
-    }
+    const dto: CreateEquipmentDto = {
+      code: this.equipmentData.code,
+      name: this.equipmentData.name,
+      categoryId: this.equipmentData.categoryId,
+      stock: this.equipmentData.stock,
+      imageFile: this.selectedFile ?? undefined,
+    };
 
     if (this.isEditMode) {
-      this.equipmentService.update(this.equipmentId, formData).subscribe({
+      this.equipmentService.update(this.equipmentId, dto).subscribe({
         next: () => this.handleSuccess('แก้ไขข้อมูลสำเร็จ!'),
         error: (err) => this.handleError(err),
       });
     } else {
-      this.equipmentService.create(formData).subscribe({
+      this.equipmentService.create(dto).subscribe({
         next: () => this.handleSuccess('เพิ่มอุปกรณ์สำเร็จ!'),
         error: (err) => this.handleError(err),
       });

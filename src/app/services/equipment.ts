@@ -34,18 +34,14 @@ export class EquipmentService {
     );
   }
 
-  update(
-    id: string,
-    equipmentData: CreateEquipmentDto,
-    imageFile?: File
-  ): Observable<any> {
+  update(id: string, dto: CreateEquipmentDto): Observable<any> {
     const formData = new FormData();
-    formData.append('code', equipmentData.code);
-    formData.append('name', equipmentData.name);
-    formData.append('categoryId', equipmentData.categoryId.toString());
-    formData.append('stock', equipmentData.stock.toString());
-    if (imageFile) {
-      formData.append('imageFile', imageFile, imageFile.name);
+    formData.append('code', dto.code);
+    formData.append('name', dto.name);
+    formData.append('categoryId', dto.categoryId.toString());
+    formData.append('stock', dto.stock.toString());
+    if (dto.imageFile) {
+      formData.append('imageFile', dto.imageFile, dto.imageFile.name);
     }
     return this.http.put(`${this.apiUrl}/${id}`, formData).pipe(
       catchError(this.handleError('updating equipment'))
@@ -58,17 +54,14 @@ export class EquipmentService {
     );
   }
 
-  create(
-    equipmentData: CreateEquipmentDto,
-    imageFile?: File
-  ): Observable<Equipment> {
+  create(dto: CreateEquipmentDto): Observable<Equipment> {
     const formData = new FormData();
-    formData.append('code', equipmentData.code);
-    formData.append('name', equipmentData.name);
-    formData.append('categoryId', equipmentData.categoryId.toString());
-    formData.append('stock', equipmentData.stock.toString());
-    if (imageFile) {
-      formData.append('imageFile', imageFile, imageFile.name);
+    formData.append('code', dto.code);
+    formData.append('name', dto.name);
+    formData.append('categoryId', dto.categoryId.toString());
+    formData.append('stock', dto.stock.toString());
+    if (dto.imageFile) {
+      formData.append('imageFile', dto.imageFile, dto.imageFile.name);
     }
     return this.http.post<Equipment>(this.apiUrl, formData).pipe(
       catchError(this.handleError('creating equipment'))

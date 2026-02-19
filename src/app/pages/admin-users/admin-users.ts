@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DxDataGridModule, DxButtonModule } from 'devextreme-angular';
 import notify from 'devextreme/ui/notify';
-import { UserService, User } from '../../services/user';
+import { UserService } from '../../services/user';
 import { lastValueFrom } from 'rxjs';
+import { User } from '../../services/user.interface';
 
 @Component({
   selector: 'app-admin-users',
@@ -16,7 +17,7 @@ export class AdminUsers implements OnInit {
   users: User[] = [];
 
   // ✅ เอาให้ชัวร์ เลือกตามนี้ (ถ้า DB มีค่าอื่น บอกกูนะ)
-  roles = ['Admin', 'Member']; 
+  roles = ['Admin', 'Member'];
 
   constructor(private userService: UserService) {}
 
@@ -44,7 +45,7 @@ export class AdminUsers implements OnInit {
         notify('กรุณากรอกรหัสผ่าน', 'error', 2000);
         e.cancel = true; return;
     }
-    
+
     try {
       await lastValueFrom(this.userService.create(e.data));
       notify('เพิ่มผู้ใช้งานสำเร็จ', 'success', 2000);
@@ -57,7 +58,7 @@ export class AdminUsers implements OnInit {
   // 🔥 Update
   async onRowUpdating(e: any) {
     const updatedData = { ...e.oldData, ...e.newData };
-    
+
     // ถ้าไม่แก้รหัส ลบ field password ทิ้ง
     if (!e.newData.password) delete updatedData.password;
 

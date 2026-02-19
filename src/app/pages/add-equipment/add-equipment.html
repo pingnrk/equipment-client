@@ -18,11 +18,11 @@
       <dx-form [formData]="equipmentData" [colCount]="1" labelLocation="top">
 <dxi-item itemType="group" cssClass="image-group">
   <div class="image-preview-container">
-    
-    <img 
-      *ngIf="imageSource; else noImageTemplate" 
-      [src]="imageSource" 
-      class="preview-img" 
+
+    <img
+      *ngIf="imageSource; else noImageTemplate"
+      [src]="imageSource"
+      class="preview-img"
     />
 
     <ng-template #noImageTemplate>
@@ -75,22 +75,6 @@
             [editorOptions]="{ min: 0, showSpinButtons: true }"
           ></dxi-item>
         </dxi-item>
-
-        <dxi-item itemType="group" caption="Details">
-          <dxi-item
-            dataField="isUnlimited"
-            editorType="dxCheckBox"
-            [editorOptions]="{ text: 'Unlimited Stock' }"
-          ></dxi-item>
-
-          <dxi-item
-            dataField="description"
-            editorType="dxTextArea"
-            [editorOptions]="{ height: 120, placeholder: 'Enter description...' }"
-          >
-          </dxi-item>
-        </dxi-item>
-
         <dxi-item itemType="group" cssClass="action-buttons">
           <dxi-item
             itemType="button"

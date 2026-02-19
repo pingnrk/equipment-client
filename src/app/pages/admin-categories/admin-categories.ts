@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { DxDataGridModule, DxButtonModule } from 'devextreme-angular';
 import notify from 'devextreme/ui/notify';
 import { lastValueFrom } from 'rxjs';
-import { CategoryService, Category } from '../../services/categories'; // 👈 เช็ค Path
+import { CategoryService } from '../../services/categories';
+import { Category } from '../../services/equipment.interface';
 
 @Component({
   selector: 'app-admin-categories',
@@ -33,14 +34,14 @@ async onRowInserting(e: any) {
     try {
       // 1. ส่งข้อมูลไปสร้าง (รอจนเสร็จ)
       await lastValueFrom(this.categoryService.create(e.data));
-      
+
       notify('สร้างหมวดหมู่สำเร็จ', 'success', 2000);
 
       // ✅ 2. เพิ่มบรรทัดนี้! สั่งให้โหลดข้อมูลใหม่จาก DB ทันที
       // Grid จะได้รู้ว่า ID จริงๆ คืออะไร
-      this.loadData(); 
+      this.loadData();
 
-      // 💡 หมายเหตุ: e.cancel = false (ค่า default) 
+      // 💡 หมายเหตุ: e.cancel = false (ค่า default)
       // DevExtreme จะพยายามเพิ่มแถวเอง แต่พอเรา loadData ทับ มันจะเนียนไปเลย
 
     } catch (err) {

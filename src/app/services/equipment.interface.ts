@@ -14,13 +14,14 @@ export interface Category {
   id: number;
     name: string;
   }
-  
+
   // POST /api/Equipments
-  // Use FormData for this request
-  export interface CreateEquipmentDto {
-    code: string;
-    name: string;
-    categoryId: number;
-    stock: number;
-  }
-  
+// Use FormData for this request
+export interface CreateEquipmentDto {
+  code: string;
+  name: string;
+  categoryId: number;
+  stock: number;
+  imageFile?: File;
+}
+
