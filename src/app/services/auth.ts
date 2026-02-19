@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,11 @@ export class AuthService {
   public currentUserRole = localStorage.getItem('role');
   public currentUserName = localStorage.getItem('fullName');
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private toastService: ToastService
+  ) {}
 
   login(credentials: any) {
     return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
@@ -26,12 +31,21 @@ export class AuthService {
         this.currentUserRole = response.role;
         this.currentUserName = response.fullName;
         this.isLoggedIn$.next(true); // แจ้งเตือนทั้งแอพว่า Login แล้ว
+      }),
+      catchError((error: HttpErrorResponse) => {
+        this.toastService.show('Login failed. Please check your credentials.', 'error');
+        return throwError(() => error);
       })
     );
   }
 
   register(userData: any) {
-    return this.http.post(`${this.apiUrl}/register`, userData);
+    return this.http.post(`${this.apiUrl}/register`, userData).pipe(
+      catchError((error: HttpErrorResponse) => {
+        this.toastService.show('Registration failed. Please try again.', 'error');
+        return throwError(() => error);
+      })
+    );
   }
 
   logout() {
@@ -49,5 +63,14 @@ export class AuthService {
 
   private hasToken(): boolean {
     return !!localStorage.getItem('token');
+  }
+
+  // Method for Route Guards
+  isAuthenticated(): boolean {
+    return this.hasToken();
+  }
+
+  getUserRole(): string | null {
+    return localStorage.getItem('role');
   }
 }

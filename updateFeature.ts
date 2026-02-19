@@ -1,4 +1,4 @@
-// Based on the provided API documentation, here are the suggested features and updates 
+// Based on the provided API documentation, here are the suggested features and updates
 // for the Angular frontend to ensure compatibility and implement all functionalities.
 
 // 1. Update Core TypeScript Interfaces
