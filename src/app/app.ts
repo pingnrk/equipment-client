@@ -81,29 +81,34 @@ export class App implements OnInit {
       }
 
       if (event instanceof NavigationEnd) {
+        const currentUrl = event.urlAfterRedirects ? event.urlAfterRedirects.split('?')[0] : '';
+        const publicRoutes = ['/login', '/register'];
+
         // เช็คว่า url มีค่าไหมก่อน split เพื่อกัน error
         if (event.urlAfterRedirects) {
-            const currentUrl = event.urlAfterRedirects.split('?')[0];
-            this.selectedKeys = [currentUrl];
+          this.selectedKeys = [currentUrl];
 
-            // ✅ Update Title อัตโนมัติตาม URL
-            const activeItem = this.allMenuItems.find(item => item.path === currentUrl);
-            if (activeItem) {
-                this.title = activeItem.text;
-            } else {
-                this.title = 'Equipment System'; // ถ้าหาไม่เจอ (เช่นหน้า Login) ให้ใช้ชื่อ Default
-            }
+          // // ✅ Update Title อัตโนมัติตาม URL
+          // const activeItem = this.allMenuItems.find(item => item.path === currentUrl);
+          // if (activeItem) {
+          //     this.title = activeItem.text;
+          // } else {
+          //     this.title = 'Equipment System'; // ถ้าหาไม่เจอ (เช่นหน้า Login) ให้ใช้ชื่อ Default
+          // }
 
-            // 🔒 Security Check: ถ้ายังไม่ Login และไม่ได้อยู่หน้า Login/Register ให้ดีดไป Login
-            const token = localStorage.getItem('token');
-            const publicRoutes = ['/login', '/register'];
-            if (!token && !publicRoutes.includes(currentUrl)) {
-                this.router.navigate(['/login']);
-            }
+          // 🔒 Security Check: ถ้ายังไม่ Login และไม่ได้อยู่หน้า Login/Register ให้ดีดไป Login
+          const token = localStorage.getItem('token');
+          if (!token && !publicRoutes.includes(currentUrl)) {
+            this.router.navigate(['/login']);
+          }
         }
 
-        if (window.innerWidth < 700) {
+        if (publicRoutes.includes(currentUrl)) {
           this.isDrawerOpen = false;
+        } else if (window.innerWidth < 700) {
+          this.isDrawerOpen = false;
+        } else {
+          this.isDrawerOpen = true;
         }
       }
     });
