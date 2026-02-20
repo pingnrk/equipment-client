@@ -30,8 +30,6 @@ export class AdminDashboard implements OnInit {
   }
 
   ngOnInit(): void {
-        this.loadingService.show();
-
     this.loadData();
   }
 

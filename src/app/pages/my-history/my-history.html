@@ -3,12 +3,10 @@
         <h2 class="page-title">🗂️ ประวัติคำขอ
         </h2>
     </div>
-
     <div class="card shadow-sm border-0">
         <div class="card-header bg-white py-3">
             <h5 class="card-title mb-0 text-primary">รายการที่เสร็จสิ้นแล้ว (Completed)</h5>
         </div>
-
         <div class="card-body p-0">
             <dx-data-grid [dataSource]="historyRequests" [showBorders]="false" [columnAutoWidth]="true"
                 [rowAlternationEnabled]="true" [hoverStateEnabled]="true" keyExpr="id">
@@ -36,13 +34,13 @@
                     <div class="p-3 bg-light border-top">
                         <h6 class="border-bottom pb-2">Returned Items:</h6>
                         <div class="row g-3">
-                            <div class="col-md-6 col-lg-4" *ngFor="let item of detailData.data.items">
+                            <div class="col-md-12 col-lg-6" *ngFor="let item of detailData.data.items">
                                 <div class="card h-100 flex-row align-items-center p-2">
                                     <img [src]="getFullImageUrl(item.equipment.imageUrl)" class="rounded"
                                         style="width: 60px; height: 60px; object-fit: cover;" />
                                     <div class="ms-3">
                                         <div class="fw-bold text-dark">{{ item.equipment.name }}</div>
-                                        <div class="text-muted small">Qty: {{ item.quantity }}</div>
+                                        <div class="text-muted s  mall">Qty: {{ item.quantity }}</div>
                                     </div>
                                 </div>
                             </div>

@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { DxDataGridModule } from 'devextreme-angular';
 import { BorrowService } from '../../services/borrow';
 import { BorrowRequest } from '../../services/borrow.interface';
+import { finalize, Observable } from 'rxjs';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-my-history',
@@ -12,20 +14,30 @@ import { BorrowRequest } from '../../services/borrow.interface';
 })
 export class MyHistory implements OnInit {
   historyRequests: BorrowRequest[] = [];
+  isLoading: Observable<boolean>;
 
-  constructor(private borrowService: BorrowService) {}
+  constructor(
+    private borrowService: BorrowService,
+    private loadingService: LoadingService,
+  ) {
+    this.isLoading = this.loadingService.isLoading;
+  }
 
   ngOnInit(): void {
     this.loadMyRequests();
   }
 
   loadMyRequests() {
-    this.borrowService.getMyRequests().subscribe({
-      next: (res) => {
-        this.historyRequests = res.filter((item) => item.status === 3 || item.status === 4);
-      },
-      error: (err) => console.log(err),
-    });
+    this.loadingService.show();
+    this.borrowService
+      .getMyRequests()
+      .pipe(finalize(() => this.loadingService.hide()))
+      .subscribe({
+        next: (res) => {
+          this.historyRequests = res.filter((item) => item.status === 3 || item.status === 4);
+        },
+        error: (err) => console.log(err),
+      });
   }
 
   getStatusText(status: number) {

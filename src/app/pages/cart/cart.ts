@@ -16,9 +16,7 @@ interface CartItem extends Equipment {
   styleUrl: './cart.css',
 })
 export class Cart implements OnInit {
-  
   selectedItems: CartItem[] = [];
-
   bookingData = {
     startDate: new Date(),
     endDate: new Date(),
@@ -50,8 +48,8 @@ export class Cart implements OnInit {
   }
 
   onRowRemoved(e: any) {
-    this.cartService.setItems(this.selectedItems); 
-    
+    this.cartService.setItems(this.selectedItems);
+
     if (this.selectedItems.length === 0) {
         this.cartService.clearCart();
         this.router.navigate(['/equipments']);
@@ -59,7 +57,7 @@ export class Cart implements OnInit {
   }
 
   goBack() {
-    this.cartService.clearCart(); 
+    this.cartService.clearCart();
     this.router.navigate(['/equipments']);
   }
 
@@ -70,7 +68,7 @@ export class Cart implements OnInit {
     }
 
     const payload = {
-      startDate: this.bookingData.startDate, 
+      startDate: this.bookingData.startDate,
       endDate: this.bookingData.endDate,
       items: this.selectedItems.map((i) => ({
         equipmentId: i.id,
@@ -82,7 +80,7 @@ export class Cart implements OnInit {
       next: (res) => {
         notify('Request submitted successfully!', 'success', 3000);
         this.cartService.clearCart();
-        this.router.navigate(['/equipments']); 
+        this.router.navigate(['/equipments']);
       },
       error: (err) => {
         console.error(err);

@@ -1,10 +1,10 @@
 <div class="container-fluid vh-100">
   <div class="row h-100">
-    
+
     <div class="col-lg-5 d-none d-lg-flex flex-column align-items-center justify-content-center bg-primary text-white p-5 position-relative overflow-hidden">
       <div class="position-absolute bg-white opacity-10 rounded-circle" style="width: 300px; height: 300px; top: -50px; left: -50px;"></div>
       <div class="position-absolute bg-white opacity-10 rounded-circle" style="width: 200px; height: 200px; bottom: 50px; right: 50px;"></div>
-      
+
       <div class="z-1 text-center">
         <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4 shadow-lg" style="width: 80px; height: 80px;">
           <i class="dx-icon-box fs-1"></i>
@@ -55,7 +55,6 @@
             stylingMode="contained"
             [useSubmitBehavior]="true"
             [text]="isLoading ? 'Logging in...' : 'Sign In'"
-            [disabled]="isLoading"
             class="fw-bold fs-6 shadow-sm"
           >
           </dx-button>
@@ -63,7 +62,7 @@
 
         <div class="text-center mt-5">
           <p class="text-muted small">
-            Don't have an account? 
+            Don't have an account?
             <a (click)="goToRegister()" class="text-primary fw-bold text-decoration-none" style="cursor: pointer;">
                 Create an account
             </a>

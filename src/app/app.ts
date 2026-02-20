@@ -1,10 +1,25 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router'; // ✅ 1. เพิ่ม RouterModule ตรงนี้
-import { DxButtonModule, DxDrawerModule, DxListModule, DxLoadPanelModule, DxToastModule, DxToolbarModule } from 'devextreme-angular';
+import {
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router,
+  RouterModule,
+} from '@angular/router'; // ✅ 1. เพิ่ม RouterModule ตรงนี้
+import {
+  DxButtonModule,
+  DxDrawerModule,
+  DxListModule,
+  DxLoadPanelModule,
+  DxToastModule,
+  DxToolbarModule,
+} from 'devextreme-angular';
 import { AuthService } from './services/auth';
 import { LoadingService } from './services/loading.service';
 import { ToastService } from './services/toast.service';
+import { confirm } from 'devextreme/ui/dialog';
 
 @Component({
   selector: 'app-root',
@@ -59,7 +74,7 @@ export class App implements OnInit {
     private router: Router,
     public authService: AuthService,
     public loadingService: LoadingService,
-    public toastService: ToastService
+    public toastService: ToastService,
   ) {
     // เชื่อมตัวแปร isLoading กับ Service
     this.loadingService.isLoading.subscribe((loading) => {
@@ -67,16 +82,20 @@ export class App implements OnInit {
     });
 
     // เชื่อมตัวแปร Toast กับ Service
-    this.toastService.isVisible.subscribe(v => this.toastVisible = v);
-    this.toastService.message.subscribe(m => this.toastMessage = m);
-    this.toastService.type.subscribe(t => this.toastType = t);
+    this.toastService.isVisible.subscribe((v) => (this.toastVisible = v));
+    this.toastService.message.subscribe((m) => (this.toastMessage = m));
+    this.toastService.type.subscribe((t) => (this.toastType = t));
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.loadingService.show();
       }
 
-      if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+      if (
+        event instanceof NavigationEnd ||
+        event instanceof NavigationCancel ||
+        event instanceof NavigationError
+      ) {
         this.loadingService.hide();
       }
 
@@ -151,13 +170,15 @@ export class App implements OnInit {
       return item.role === 'User' || (item as any).public;
     });
 
-    // ปุ่ม Login ลบออกได้เลย เพราะเราเอาไปใส่ใน Navbar ขวาบนแยกแล้วตาม HTML ใหม่
-    // แต่ถ้าอยากเก็บไว้ในลิสต์ด้วยก็ไม่เป็นไร
   }
 
-  logout() {
+  async logout() {
+    const result = await confirm('คุณต้องการออกจากระบบหรือไม่?', 'ยืนยันการออกจากระบบ');
+    if (!result) {
+      return;
+    }
     this.authService.logout();
-    this.router.navigate(['/login']); // เพิ่มให้ดีดไปหน้า login หลัง logout
+    this.router.navigate(['/login']);
   }
 
   goToLogin() {
@@ -172,10 +193,6 @@ export class App implements OnInit {
   onItemClick(item: any) {
     // 1. อัปเดต Title หัวเว็บ
     // ไม่ต้องทำตรงนี้แล้ว เพราะย้ายไปทำใน router events แทน (ครอบคลุมกรณี Logout/Refresh)
-
-
-
-
     // 3. ไม่ต้องสั่ง navigate() แล้ว เพราะใน HTML เราใช้ [routerLink]="item.path" มันไปเองอัตโนมัติ
   }
 

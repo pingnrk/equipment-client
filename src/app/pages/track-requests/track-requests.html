@@ -36,7 +36,7 @@
           <div class="p-3 bg-light">
             <h6 class="border-bottom pb-2">Items Requesting:</h6>
             <div class="row g-3">
-              <div class="col-md-6 col-lg-4" *ngFor="let item of detailData.data.items">
+              <div class="col-md-12 col-lg-6" *ngFor="let item of detailData.data.items">
                 <div class="card h-100 flex-row align-items-center p-2">
                   <img [src]="getFullImageUrl(item.equipment.imageUrl)" class="rounded"
                     style="width: 60px; height: 60px; object-fit: cover;" alt="Item" />
