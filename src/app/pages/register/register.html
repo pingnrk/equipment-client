@@ -1,28 +1,28 @@
 <div class="container-fluid vh-100">
   <div class="row h-100">
-    
-    <div class="col-lg-5 d-none d-lg-flex flex-column align-items-center justify-content-center bg-primary text-white p-5 position-relative overflow-hidden">
+
+    <div class="col-lg-7 d-none d-lg-flex flex-column align-items-center justify-content-center bg-primary text-white p-5 position-relative overflow-hidden">
       <div class="position-absolute bg-white opacity-10 rounded-circle" style="width: 300px; height: 300px; top: -50px; left: -50px;"></div>
       <div class="position-absolute bg-white opacity-10 rounded-circle" style="width: 200px; height: 200px; bottom: 50px; right: 50px;"></div>
-      
+
       <div class="z-1 text-center">
         <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4 shadow-lg" style="width: 80px; height: 80px;">
           <i class="dx-icon-box fs-1"></i>
         </div>
-        <h2 class="fw-bold mb-3">Inventory System</h2>
+        <h2 class="fw-bold mb-3">ระบบยืมครุภัณฑ์ (Equipment Client)</h2>
         <p class="lead opacity-75">
-          Manage your equipment efficiently.<br>
-          Join our team and start tracking today.
+          จัดการรายการครุภัณฑ์ของคุณอย่างมีประสิทธิภาพ<br>
+          ลงทะเบียนเพื่อเริ่มต้นใช้งานระบบได้เลยวันนี้
         </p>
       </div>
     </div>
 
-    <div class="col-lg-7 d-flex align-items-center justify-content-center bg-white">
+    <div class="col-lg-5 d-flex align-items-center justify-content-center bg-white">
       <div class="w-100 p-4 p-md-5" style="max-width: 550px;">
-        
+
         <div class="mb-4">
-          <h3 class="fw-bold text-dark mb-1">Create Account</h3>
-          <p class="text-muted">Enter your details to register.</p>
+          <h3 class="fw-bold text-dark mb-1">สมัครสมาชิก</h3>
+          <p class="text-muted">กรอกข้อมูลส่วนตัวของคุณเพื่อลงทะเบียนเข้าใช้งาน</p>
         </div>
 
         <form (submit)="onSubmit($event)">
@@ -35,42 +35,42 @@
             <dxi-item itemType="group" [colCount]="2">
                 <dxi-item
                     dataField="employeeId"
-                    [editorOptions]="{ placeholder: 'e.g. EMP001', stylingMode: 'outlined', height: '48px' }">
-                    <dxi-validation-rule type="required" message="ID is required"></dxi-validation-rule>
-                    <dxo-label text="Employee ID"></dxo-label>
+                    [editorOptions]="{ placeholder: 'เช่น EMP001', stylingMode: 'outlined', height: '48px' }">
+                    <dxi-validation-rule type="required" message="กรุณากรอกรหัสพนักงาน"></dxi-validation-rule>
+                    <dxo-label text="รหัสพนักงาน"></dxo-label>
                 </dxi-item>
-                
+
                 <dxi-item
                     dataField="fullName"
-                    [editorOptions]="{ placeholder: 'John Doe', stylingMode: 'outlined', height: '48px' }">
-                    <dxi-validation-rule type="required" message="Name is required"></dxi-validation-rule>
-                    <dxo-label text="Full Name"></dxo-label>
+                    [editorOptions]="{ placeholder: 'เช่น สมชาย ใจดี', stylingMode: 'outlined', height: '48px' }">
+                    <dxi-validation-rule type="required" message="กรุณากรอกชื่อ-นามสกุล"></dxi-validation-rule>
+                    <dxo-label text="ชื่อ-นามสกุล"></dxo-label>
                 </dxi-item>
             </dxi-item>
 
             <dxi-item
               dataField="email"
-              [editorOptions]="{ placeholder: 'name@company.com', mode: 'email', stylingMode: 'outlined', height: '48px' }">
-              <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
-              <dxi-validation-rule type="email" message="Invalid email"></dxi-validation-rule>
-              <dxo-label text="Email Address"></dxo-label>
+              [editorOptions]="{ placeholder: 'อีเมลของคุณ', mode: 'email', stylingMode: 'outlined', height: '48px' }">
+              <dxi-validation-rule type="required" message="กรุณากรอกอีเมล"></dxi-validation-rule>
+              <dxi-validation-rule type="email" message="รูปแบบอีเมลไม่ถูกต้อง"></dxi-validation-rule>
+              <dxo-label text="อีเมล"></dxo-label>
             </dxi-item>
 
             <dxi-item itemType="group" [colCount]="2">
                 <dxi-item
                     dataField="password"
-                    [editorOptions]="{ placeholder: '******', mode: 'password', stylingMode: 'outlined', height: '48px' }">
-                    <dxi-validation-rule type="required" message="Required"></dxi-validation-rule>
-                    <dxi-validation-rule type="stringLength" [min]="6" message="Min 6 chars"></dxi-validation-rule>
-                    <dxo-label text="Password"></dxo-label>
+                    [editorOptions]="{ placeholder: '••••••', mode: 'password', stylingMode: 'outlined', height: '48px' }">
+                    <dxi-validation-rule type="required" message="กรุณากรอกรหัสผ่าน"></dxi-validation-rule>
+                    <dxi-validation-rule type="stringLength" [min]="6" message="ต้องมีอย่างน้อย 6 ตัวอักษร"></dxi-validation-rule>
+                    <dxo-label text="รหัสผ่าน"></dxo-label>
                 </dxi-item>
-                
+
                 <dxi-item
                     dataField="confirmPassword"
-                    [editorOptions]="{ placeholder: '******', mode: 'password', stylingMode: 'outlined', height: '48px' }">
-                    <dxi-validation-rule type="required" message="Required"></dxi-validation-rule>
-                    <dxi-validation-rule type="compare" [comparisonTarget]="passwordComparison" message="Not match"></dxi-validation-rule>
-                    <dxo-label text="Confirm"></dxo-label>
+                    [editorOptions]="{ placeholder: '••••••', mode: 'password', stylingMode: 'outlined', height: '48px' }">
+                    <dxi-validation-rule type="required" message="กรุณายืนยันรหัสผ่าน"></dxi-validation-rule>
+                    <dxi-validation-rule type="compare" [comparisonTarget]="passwordComparison" message="รหัสผ่านไม่ตรงกัน"></dxi-validation-rule>
+                    <dxo-label text="ยืนยันรหัสผ่าน"></dxo-label>
                 </dxi-item>
             </dxi-item>
 
@@ -83,9 +83,9 @@
               type="default"
               stylingMode="contained"
               [useSubmitBehavior]="true"
-              [text]="isLoading ? 'Creating Account...' : 'Sign Up'"
+              [text]="isLoading ? 'กำลังสร้างบัญชี...' : 'สมัครสมาชิก'"
               [disabled]="isLoading"
-              class="fw-bold fs-6"
+              class="fw-bold fs-6 shadow-sm"
             >
             </dx-button>
           </div>
@@ -93,9 +93,9 @@
 
         <div class="text-center mt-4">
           <p class="text-muted small">
-            Already have an account? 
+            มีบัญชีผู้ใช้แล้วใช่หรือไม่?
             <a (click)="goToLogin()" class="text-primary fw-bold text-decoration-none" style="cursor: pointer;">
-                Sign in here
+                เข้าสู่ระบบที่นี่
             </a>
           </p>
         </div>

@@ -7,7 +7,7 @@ import {
   NavigationStart,
   Router,
   RouterModule,
-} from '@angular/router'; // ✅ 1. เพิ่ม RouterModule ตรงนี้
+} from '@angular/router';
 import {
   DxButtonModule,
   DxDrawerModule,
@@ -23,10 +23,10 @@ import { confirm } from 'devextreme/ui/dialog';
 
 @Component({
   selector: 'app-root',
-  standalone: true, // ปกติ Standalone จะมีบรรทัดนี้ (ถ้าไม่มีก็ไม่เป็นไรถ้ามันทำงานได้)
+  standalone: true,
   imports: [
     CommonModule,
-    RouterModule, // ✅ 2. เอา RouterModule มาใส่ตรงนี้! (สำคัญมาก ไม่งั้น routerLink แดง)
+    RouterModule,
     DxDrawerModule,
     DxListModule,
     DxToolbarModule,
@@ -50,6 +50,9 @@ export class App implements OnInit {
   isLoggedIn = false;
   userName: string | null = '';
   isAdmin = false;
+
+  // ✅ เพิ่มตัวแปรนี้เข้ามาเพื่อเช็คว่าเป็นหน้า Login/Register หรือไม่
+  isPublicRoute = false;
 
   menuItems: any[] = [];
 
@@ -76,12 +79,10 @@ export class App implements OnInit {
     public loadingService: LoadingService,
     public toastService: ToastService,
   ) {
-    // เชื่อมตัวแปร isLoading กับ Service
     this.loadingService.isLoading.subscribe((loading) => {
       this.isLoading = loading;
     });
 
-    // เชื่อมตัวแปร Toast กับ Service
     this.toastService.isVisible.subscribe((v) => (this.toastVisible = v));
     this.toastService.message.subscribe((m) => (this.toastMessage = m));
     this.toastService.type.subscribe((t) => (this.toastType = t));
@@ -103,26 +104,19 @@ export class App implements OnInit {
         const currentUrl = event.urlAfterRedirects ? event.urlAfterRedirects.split('?')[0] : '';
         const publicRoutes = ['/login', '/register'];
 
-        // เช็คว่า url มีค่าไหมก่อน split เพื่อกัน error
+        // ✅ อัปเดตสถานะ ว่าตอนนี้อยู่หน้า Public หรือไม่
+        this.isPublicRoute = publicRoutes.includes(currentUrl);
+
         if (event.urlAfterRedirects) {
           this.selectedKeys = [currentUrl];
 
-          // // ✅ Update Title อัตโนมัติตาม URL
-          // const activeItem = this.allMenuItems.find(item => item.path === currentUrl);
-          // if (activeItem) {
-          //     this.title = activeItem.text;
-          // } else {
-          //     this.title = 'Equipment System'; // ถ้าหาไม่เจอ (เช่นหน้า Login) ให้ใช้ชื่อ Default
-          // }
-
-          // 🔒 Security Check: ถ้ายังไม่ Login และไม่ได้อยู่หน้า Login/Register ให้ดีดไป Login
           const token = localStorage.getItem('token');
-          if (!token && !publicRoutes.includes(currentUrl)) {
+          if (!token && !this.isPublicRoute) {
             this.router.navigate(['/login']);
           }
         }
 
-        if (publicRoutes.includes(currentUrl)) {
+        if (this.isPublicRoute) {
           this.isDrawerOpen = false;
         } else if (window.innerWidth < 700) {
           this.isDrawerOpen = false;
@@ -156,20 +150,14 @@ export class App implements OnInit {
 
   updateMenu() {
     this.menuItems = this.allMenuItems.filter((item) => {
-      // 🟢 Case 1: คนนอก (ยังไม่ Login)
       if (!this.isLoggedIn) {
         return (item as any).public;
       }
-
-      // 🔴 Case 2: เป็น Admin
       if (this.isAdmin) {
         return item.role === 'Admin';
       }
-
-      // 🔵 Case 3: เป็น User ทั่วไป
       return item.role === 'User' || (item as any).public;
     });
-
   }
 
   async logout() {
@@ -189,12 +177,7 @@ export class App implements OnInit {
     this.isDrawerOpen = !this.isDrawerOpen;
   }
 
-  // ✅ แก้ฟังก์ชันนี้ให้รองรับ HTML แบบใหม่ (Bootstrap List)
-  onItemClick(item: any) {
-    // 1. อัปเดต Title หัวเว็บ
-    // ไม่ต้องทำตรงนี้แล้ว เพราะย้ายไปทำใน router events แทน (ครอบคลุมกรณี Logout/Refresh)
-    // 3. ไม่ต้องสั่ง navigate() แล้ว เพราะใน HTML เราใช้ [routerLink]="item.path" มันไปเองอัตโนมัติ
-  }
+  onItemClick(item: any) {}
 
   capitalize(s: string) {
     return s.charAt(0).toUpperCase() + s.slice(1);

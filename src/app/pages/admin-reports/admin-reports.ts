@@ -51,18 +51,18 @@ export class AdminReports implements OnInit {
       });
   }
 
-  getStatusText(status: number) {
+getStatusText(status: number) {
     switch (status) {
       case 1:
-        return 'Pending';
+        return 'รออนุมัติ'; // Pending
       case 2:
-        return 'Approved';
+        return 'อนุมัติแล้ว'; // Approved
       case 3:
-        return 'Rejected';
+        return 'ไม่อนุมัติ'; // Rejected
       case 4:
-        return 'Returned';
+        return 'คืนแล้ว'; // Returned
       default:
-        return 'Unknown';
+        return 'ไม่ทราบสถานะ'; // Unknown
     }
   }
 

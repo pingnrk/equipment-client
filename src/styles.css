@@ -1,5 +1,11 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+
 body,
 h1,
 h2,
@@ -11,11 +17,12 @@ h6,
   font-family: 'Sarabun', sans-serif !important;
 }
 
-/* จัด Container ให้ดูมีพื้นที่ */
+
 .page-container {
-  padding: 20px;
   background-color: #f3f4f6; /* สีพื้นหลังเทาอ่อนๆ สบายตา */
   min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* หัวข้อหน้า */

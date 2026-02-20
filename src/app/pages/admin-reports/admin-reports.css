@@ -8,16 +8,16 @@
     border-bottom: 1px solid #dee2e6;
 }
 
-/* ระยะห่างบรรทัด */
+/* 🟢 ระยะห่างบรรทัด (ใช้ของเดิมนายเลย แค่ บน-ล่าง จะได้ไม่เกิด ...) */
 ::ng-deep .dx-data-row td {
-    padding-top: 12px !important;
-    padding-bottom: 12px !important;
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
     vertical-align: middle !important;
 }
 
 /* Group Row (แถวที่เป็นหัวข้อกลุ่ม) */
 ::ng-deep .dx-group-row {
-    background-color: #e8eaf6 !important; /* สี Indigo อ่อนๆ ให้รู้ว่าเป็นหัวกลุ่ม */
+    background-color: #e8eaf6 !important;
     color: #3f51b5 !important;
     font-weight: bold !important;
 }
@@ -32,4 +32,9 @@
     color: #6c757d;
     font-style: italic;
     font-size: 0.9rem;
+}
+
+/* สีสลับแถว ให้อ่อนๆ */
+::ng-deep .dx-datagrid-rowsview .dx-row-alt > td {
+  background-color: #fcfcfc !important;
 }
