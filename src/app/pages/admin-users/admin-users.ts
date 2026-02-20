@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { DxDataGridModule, DxButtonModule } from 'devextreme-angular';
 import notify from 'devextreme/ui/notify';
 import { UserService } from '../../services/user';
-import { lastValueFrom } from 'rxjs';
+import { finalize, lastValueFrom, Observable } from 'rxjs';
 import { User } from '../../services/user.interface';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-admin-users',
@@ -15,35 +16,42 @@ import { User } from '../../services/user.interface';
 })
 export class AdminUsers implements OnInit {
   users: User[] = [];
-
-  // ✅ เอาให้ชัวร์ เลือกตามนี้ (ถ้า DB มีค่าอื่น บอกกูนะ)
   roles = ['Admin', 'Member'];
+  isLoading: Observable<boolean>;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private loadingService: LoadingService,
+  ) {
+    this.isLoading = this.loadingService.isLoading;
+  }
 
   ngOnInit() {
     this.loadData();
   }
 
   loadData() {
-    this.userService.getAll().subscribe({
-      next: (data) => {
-        // 🔥 Hack: วนลูปแก้ค่า Role ให้ตรงกับ Dropdown เป๊ะๆ (กันพลาดเรื่องตัวเล็ก/ใหญ่)
-        this.users = data.map((u: any) => ({
+    this.loadingService.show();
+    this.userService
+      .getAll()
+      .pipe(finalize(() => this.loadingService.hide()))
+      .subscribe({
+        next: (data) => {
+          this.users = data.map((u: any) => ({
             ...u,
-            // ถ้า DB เป็น 'admin' หรือ 'ADMIN' แปลงให้เป็น 'Admin' ตามตัวแปร roles ของเรา
-            role: this.roles.find(r => r.toLowerCase() === u.role?.toLowerCase()) || u.role
-        }));
-      },
-      error: (err) => notify('Load users failed', 'error', 2000),
-    });
+            role: this.roles.find((r) => r.toLowerCase() === u.role?.toLowerCase()) || u.role,
+          }));
+        },
+        error: (err) => notify('Load users failed', 'error', 2000),
+      });
   }
 
-  // 🔥 Insert
+
   async onRowInserting(e: any) {
     if (!e.data.password) {
-        notify('กรุณากรอกรหัสผ่าน', 'error', 2000);
-        e.cancel = true; return;
+      notify('กรุณากรอกรหัสผ่าน', 'error', 2000);
+      e.cancel = true;
+      return;
     }
 
     try {
@@ -55,11 +63,9 @@ export class AdminUsers implements OnInit {
     }
   }
 
-  // 🔥 Update
   async onRowUpdating(e: any) {
     const updatedData = { ...e.oldData, ...e.newData };
 
-    // ถ้าไม่แก้รหัส ลบ field password ทิ้ง
     if (!e.newData.password) delete updatedData.password;
 
     try {
@@ -71,7 +77,7 @@ export class AdminUsers implements OnInit {
     }
   }
 
-  // 🔥 Delete
+
   async onRowRemoving(e: any) {
     try {
       await lastValueFrom(this.userService.delete(e.key));

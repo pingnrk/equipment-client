@@ -11,6 +11,8 @@ import { BorrowService } from '../../services/borrow';
 import * as ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 import { exportDataGrid } from 'devextreme/excel_exporter';
+import { finalize, Observable } from 'rxjs';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-admin-reports',
@@ -21,21 +23,32 @@ import { exportDataGrid } from 'devextreme/excel_exporter';
 })
 export class AdminReports implements OnInit {
   reportData: any[] = [];
+  isLoading: Observable<boolean>;
 
-  constructor(private borrowService: BorrowService) {}
+  constructor(
+    private borrowService: BorrowService,
+    private loadingService: LoadingService,
+  ) {
+    this.isLoading = this.loadingService.isLoading;
+  }
 
   ngOnInit() {
     this.loadData();
   }
 
   loadData() {
-    this.borrowService.getAllRequests().subscribe((data) => {
-      this.reportData = data.map((req: any) => ({
-        ...req,
-        itemsText: req.items.map((i: any) => `${i.equipment.name} (${i.quantity})`).join(', '),
-        statusText: this.getStatusText(req.status),
-      }));
-    });
+    this.loadingService.show();
+    this.borrowService
+      .getAllRequests()
+      .pipe(finalize(() => this.loadingService.hide()))
+
+      .subscribe((data) => {
+        this.reportData = data.map((req: any) => ({
+          ...req,
+          itemsText: req.items.map((i: any) => `${i.equipment.name} (${i.quantity})`).join(', '),
+          statusText: this.getStatusText(req.status),
+        }));
+      });
   }
 
   getStatusText(status: number) {

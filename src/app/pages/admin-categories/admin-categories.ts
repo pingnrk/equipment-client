@@ -2,48 +2,49 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DxDataGridModule, DxButtonModule } from 'devextreme-angular';
 import notify from 'devextreme/ui/notify';
-import { lastValueFrom } from 'rxjs';
+import { finalize, lastValueFrom, Observable } from 'rxjs';
 import { CategoryService } from '../../services/categories';
 import { Category } from '../../services/equipment.interface';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-admin-categories',
   standalone: true,
   imports: [CommonModule, DxDataGridModule, DxButtonModule],
   templateUrl: './admin-categories.html',
-  styleUrls: ['./admin-categories.css'] // ถ้ามีไฟล์ css
+  styleUrls: ['./admin-categories.css'], // ถ้ามีไฟล์ css
 })
 export class AdminCategories implements OnInit {
   categories: Category[] = [];
+  isLoading: Observable<boolean>;
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(
+    private categoryService: CategoryService,
+    private loadingService: LoadingService,
+  ) {
+    this.isLoading = this.loadingService.isLoading;
+  }
 
   ngOnInit() {
     this.loadData();
   }
 
   loadData() {
-    this.categoryService.getCategories().subscribe({
-      next: (data) => this.categories = data,
-      error: (err) => notify('โหลดข้อมูลหมวดหมู่ล้มเหลว', 'error', 2000)
-    });
+    this.loadingService.show();
+    this.categoryService
+      .getCategories()
+      .pipe(finalize(() => this.loadingService.hide()))
+      .subscribe({
+        next: (data) => (this.categories = data),
+      });
   }
 
   // 🔥 Insert
-async onRowInserting(e: any) {
+  async onRowInserting(e: any) {
     try {
-      // 1. ส่งข้อมูลไปสร้าง (รอจนเสร็จ)
       await lastValueFrom(this.categoryService.create(e.data));
-
       notify('สร้างหมวดหมู่สำเร็จ', 'success', 2000);
-
-      // ✅ 2. เพิ่มบรรทัดนี้! สั่งให้โหลดข้อมูลใหม่จาก DB ทันที
-      // Grid จะได้รู้ว่า ID จริงๆ คืออะไร
       this.loadData();
-
-      // 💡 หมายเหตุ: e.cancel = false (ค่า default)
-      // DevExtreme จะพยายามเพิ่มแถวเอง แต่พอเรา loadData ทับ มันจะเนียนไปเลย
-
     } catch (err) {
       notify('สร้างล้มเหลว (ชื่ออาจซ้ำ)', 'error', 2000);
       e.cancel = true; // ถ้าพัง สั่งยกเลิกการเพิ่มแถว

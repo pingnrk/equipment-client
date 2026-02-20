@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// ✅ 1. เพิ่ม DxPieChartModule ตรงนี้
 import { DxPieChartModule } from 'devextreme-angular';
 import { BorrowService } from '../../services/borrow';
+import { finalize, Observable } from 'rxjs';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -19,20 +20,32 @@ export class AdminDashboard implements OnInit {
     returned: 0,
   };
   chartData: any[] = [];
+  isLoading: Observable<boolean>;
 
-  constructor(private borrowService: BorrowService) {}
+  constructor(
+    private borrowService: BorrowService,
+    private loadingService: LoadingService,
+  ) {
+    this.isLoading = this.loadingService.isLoading;
+  }
 
   ngOnInit(): void {
+        this.loadingService.show();
+
     this.loadData();
   }
 
   loadData() {
-    this.borrowService.getAllRequests().subscribe({
-      next: (data) => {
-        this.calculateDashboard(data);
-      },
-      error: (err) => console.error(err),
-    });
+    this.loadingService.show();
+    this.borrowService
+      .getAllRequests()
+      .pipe(finalize(() => this.loadingService.hide()))
+      .subscribe({
+        next: (data) => {
+          this.calculateDashboard(data);
+        },
+        error: (err) => console.error(err),
+      });
   }
 
   calculateDashboard(requests: any[]) {

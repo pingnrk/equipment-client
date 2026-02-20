@@ -5,6 +5,8 @@ import { DxDataGridModule, DxButtonModule } from 'devextreme-angular';
 import notify from 'devextreme/ui/notify';
 import { EquipmentService } from '../../services/equipment';
 import { confirm } from 'devextreme/ui/dialog';
+import { LoadingService } from '../../services/loading.service';
+import { finalize, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-admin-equipment-list',
@@ -15,12 +17,15 @@ import { confirm } from 'devextreme/ui/dialog';
 })
 export class AdminEquipmentList implements OnInit {
   equipments: any[] = [];
+  isLoading: Observable<boolean>;
 
   constructor(
     private service: EquipmentService,
     private equipmentService: EquipmentService,
     private router: Router,
+    private loadingService: LoadingService,
   ) {
+    this.isLoading = this.loadingService.isLoading;
     this.onEditClick = this.onEditClick.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
   }
@@ -30,11 +35,15 @@ export class AdminEquipmentList implements OnInit {
   }
 
   loadData() {
-    this.service.getAll().subscribe((data) => (this.equipments = data));
+    this.loadingService.show();
+    this.service
+      .getAll()
+      .pipe(finalize(() => this.loadingService.hide()))
+      .subscribe((data) => (this.equipments = data));
   }
 
   goToAdd() {
-    this.router.navigate(['/admin/items/add']); // ไปหน้า Add
+    this.router.navigate(['/admin/items/add']);
   }
 
   onEditClick(e: any) {
@@ -45,11 +54,10 @@ export class AdminEquipmentList implements OnInit {
     const itemToDelete = e.row.data; // ดึงข้อมูลแถวนั้นมา
     confirm(`ต้องการลบรายการ "${itemToDelete.name}" ใช่หรือไม่?`, 'ยืนยันการลบ').then((result) => {
       if (result) {
-        // ถ้าตอบ Yes -> ยิง API ลบ
         this.equipmentService.delete(itemToDelete.id).subscribe({
           next: () => {
             notify('ลบข้อมูลสำเร็จ', 'success', 3000);
-            this.loadData(); // 🔄 โหลดข้อมูลใหม่ตารางจะได้อัปเดต
+            this.loadData();
           },
           error: (err) => {
             console.error(err);
@@ -59,16 +67,11 @@ export class AdminEquipmentList implements OnInit {
       }
     });
   };
-  // ในไฟล์ admin-equipment-list.ts
 
   getFullImageUrl(base64String: string): string {
-    // 1. ถ้าไม่มีข้อมูล หรือเป็น null/empty -> ส่งรูป No Image กลับไป
     if (!base64String) {
       return 'assets/no-image.png';
     }
-
-    // 2. ถ้าเป็น Base64 อยู่แล้ว (มีหัว data:image...) -> ส่งกลับไปเลย จบ!
-    // (ไม่ต้องเอา API URL มาต่อหน้ามันอีกแล้ว)
     return base64String;
   }
 }
