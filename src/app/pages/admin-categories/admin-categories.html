@@ -1,43 +1,49 @@
 <div class="page-container">
   <div class="page-header-row">
-    <h2 class="page-title">🏷️ Category Management</h2>
+    <h2 class="page-title">🏷️ จัดการหมวดหมู่ (Category Management)</h2>
   </div>
 
-  <dx-data-grid
-    [dataSource]="categories"
-    [showBorders]="true"
-    [rowAlternationEnabled]="true"
-    [columnAutoWidth]="true"
-    keyExpr="id"
-    (onRowInserting)="onRowInserting($event)"
-    (onRowUpdating)="onRowUpdating($event)"
-    (onRowRemoving)="onRowRemoving($event)">
+  <div class="bg-white p-3 p-md-4 rounded-4 shadow-sm w-100" style="box-sizing: border-box; overflow-x: auto;">
 
-    <dxo-search-panel [visible]="true" placeholder="Search categories..."></dxo-search-panel>
-    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dx-data-grid [dataSource]="categories" [showBorders]="true" [rowAlternationEnabled]="true" [columnAutoWidth]="true"
+      keyExpr="id" (onRowInserting)="onRowInserting($event)" (onRowUpdating)="onRowUpdating($event)"
+      (onRowRemoving)="onRowRemoving($event)">
 
-    <dxo-editing
-      mode="popup"
-      [allowUpdating]="true"
-      [allowDeleting]="true"
-      [allowAdding]="true">
-      
-      <dxo-popup title="Category Info" [showTitle]="true" [width]="500" [height]="300"></dxo-popup>
-      
-      <dxo-form>
-        <dxi-item itemType="group" [colCount]="1">
-          <dxi-item dataField="name">
-             <dxi-validation-rule type="required" message="Category Name is required"></dxi-validation-rule>
+      <dxo-search-panel [visible]="true" [width]="300" placeholder="ค้นหาหมวดหมู่..."></dxo-search-panel>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true"></dxo-pager>
+
+      <dxo-editing mode="popup" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true">
+
+        <dxo-popup title="ข้อมูลหมวดหมู่" [showTitle]="true" [width]="400" [height]="250" [dragEnabled]="false"
+          [shading]="true" shadingColor="rgba(0, 0, 0, 0.4)">
+        </dxo-popup>
+
+<dxo-form>
+          <dxi-item itemType="group" [colCount]="1">
+
+            <dxi-item
+              dataField="name"
+              [editorOptions]="{
+                stylingMode: 'outlined',
+                height: 48,
+                width: 220
+              }">
+               <dxi-validation-rule type="required" message="กรุณากรอกชื่อหมวดหมู่"></dxi-validation-rule>
+            </dxi-item>
+
           </dxi-item>
-        </dxi-item>
-      </dxo-form>
-    </dxo-editing>
+        </dxo-form>
+      </dxo-editing>
 
-    <dxi-column dataField="id" caption="ID" [width]="80" [allowEditing]="false"></dxi-column>
-    
-    <dxi-column dataField="name" caption="Category Name">
-      <dxi-validation-rule type="required"></dxi-validation-rule>
-    </dxi-column>
+      <dxi-column dataField="id" caption="รหัส" [width]="100" alignment="center" [allowEditing]="false"></dxi-column>
 
-  </dx-data-grid>
+      <dxi-column dataField="name" caption="ชื่อหมวดหมู่">
+        <dxi-validation-rule type="required"></dxi-validation-rule>
+      </dxi-column>
+
+    </dx-data-grid>
+
+  </div>
 </div>

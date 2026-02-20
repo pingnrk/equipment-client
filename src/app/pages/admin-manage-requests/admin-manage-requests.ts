@@ -43,7 +43,6 @@ export class AdminManageRequests implements OnInit {
 
   loadData() {
     this.loadingService.show();
-
     this.borrowService
       .getAllRequests()
       .pipe(finalize(() => this.loadingService.hide()))

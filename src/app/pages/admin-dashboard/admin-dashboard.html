@@ -1,17 +1,17 @@
 <div class="page-container">
   <div class="page-header-row">
-    <h2 class="page-title">📊 Admin Dashboard</h2>
+    <h2 class="page-title">📊 แดชบอร์ดผู้ดูแลระบบ (Admin Dashboard)</h2>
   </div>
 
-  <div class="row g-3 mb-4">
+  <div class="row g-4 mb-4">
     <div class="col-md-4">
-      <div class="card shadow-sm border-0 h-100">
-        <div class="card-body d-flex align-items-center">
-          <div class="icon-circle bg-primary-subtle text-primary me-3">
-            <i class="dx-icon-doc fs-3"></i>
+      <div class="card summary-card shadow-sm border-0 h-100 rounded-4">
+        <div class="card-body d-flex align-items-center p-4">
+          <div class="icon-circle bg-primary-subtle text-primary me-4">
+            <i class="dx-icon-doc fs-2"></i>
           </div>
           <div>
-            <h6 class="text-muted mb-1">Total Requests</h6>
+            <h6 class="text-muted mb-1 fw-normal">คำขอทั้งหมด (Total)</h6>
             <h3 class="fw-bold m-0 text-dark">{{ summaryData.total }}</h3>
           </div>
         </div>
@@ -19,13 +19,13 @@
     </div>
 
     <div class="col-md-4">
-      <div class="card shadow-sm border-0 h-100">
-        <div class="card-body d-flex align-items-center">
-          <div class="icon-circle bg-warning-subtle text-warning me-3">
-            <i class="dx-icon-clock fs-3"></i>
+      <div class="card summary-card shadow-sm border-0 h-100 rounded-4">
+        <div class="card-body d-flex align-items-center p-4">
+          <div class="icon-circle bg-warning-subtle text-warning me-4">
+            <i class="dx-icon-clock fs-2"></i>
           </div>
           <div>
-            <h6 class="text-muted mb-1">Pending</h6>
+            <h6 class="text-muted mb-1 fw-normal">รออนุมัติ (Pending)</h6>
             <h3 class="fw-bold m-0 text-dark">{{ summaryData.pending }}</h3>
           </div>
         </div>
@@ -33,13 +33,13 @@
     </div>
 
     <div class="col-md-4">
-      <div class="card shadow-sm border-0 h-100">
-        <div class="card-body d-flex align-items-center">
-          <div class="icon-circle bg-success-subtle text-success me-3">
-            <i class="dx-icon-check fs-3"></i>
+      <div class="card summary-card shadow-sm border-0 h-100 rounded-4">
+        <div class="card-body d-flex align-items-center p-4">
+          <div class="icon-circle bg-success-subtle text-success me-4">
+            <i class="dx-icon-check fs-2"></i>
           </div>
           <div>
-            <h6 class="text-muted mb-1">Active (In Use)</h6>
+            <h6 class="text-muted mb-1 fw-normal">กำลังใช้งาน (Active)</h6>
             <h3 class="fw-bold m-0 text-dark">{{ summaryData.approved }}</h3>
           </div>
         </div>
@@ -49,14 +49,14 @@
 
   <div class="row">
     <div class="col-12">
-      <div class="card shadow-sm border-0">
-        <div class="card-header bg-white py-3 border-bottom">
-          <h5 class="mb-0 text-primary fw-bold">
-            <i class="dx-icon-pie me-2"></i> Request Status Overview
+      <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+        <div class="card-header bg-white py-3 px-4 border-bottom">
+          <h5 class="mb-0 text-dark fw-bold">
+            <i class="dx-icon-pie text-primary me-2"></i> ภาพรวมสถานะคำขอ
           </h5>
         </div>
-        <div class="card-body">
-          <dx-pie-chart [dataSource]="chartData" type="doughnut" palette="Soft">
+        <div class="card-body p-4">
+          <dx-pie-chart [dataSource]="chartData" type="doughnut" palette="Material">
             <dxo-size [height]="350"></dxo-size>
 
             <dxi-series argumentField="status" valueField="count">
@@ -65,8 +65,8 @@
                 position="columns"
                 [customizeText]="customizeLabel"
               >
-                <dxo-font [size]="14" [weight]="600"></dxo-font>
-                <dxo-connector [visible]="true"></dxo-connector>
+                <dxo-font [size]="14" [weight]="600" color="#4b5563"></dxo-font>
+                <dxo-connector [visible]="true" color="#cbd5e1"></dxo-connector>
               </dxo-label>
             </dxi-series>
 

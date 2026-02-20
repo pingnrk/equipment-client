@@ -1,45 +1,58 @@
 /* --- DevExtreme Grid Overrides --- */
 
-/* Header ตาราง */
+/* ลบเส้นขอบข้างตารางออกเพราะเรามี Card คลุมแล้ว */
+::ng-deep .custom-grid.dx-datagrid-borders > .dx-datagrid-headers,
+::ng-deep .custom-grid.dx-datagrid-borders > .dx-datagrid-rowsview {
+  border-left: none !important;
+  border-right: none !important;
+}
+
+/* Header ตาราง (สไตล์นาย) */
 ::ng-deep .dx-datagrid-headers {
   font-weight: 600;
-  color: #495057;
+  color: #4b5563 !important;
   background-color: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 2px solid #e5e7eb !important;
 }
 
-/* ระยะห่างบรรทัด */
+/* ระยะห่างบรรทัด (สไตล์นาย) */
 ::ng-deep .dx-data-row td {
-  padding-top: 12px !important;
-  padding-bottom: 12px !important;
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
   vertical-align: middle !important;
+  color: #374151;
 }
 
-/* --- Action Buttons (Edit/Delete) --- */
+/* --- Action Buttons (Edit/Delete) ของนาย --- */
 
 /* ปุ่ม Edit (ไอคอนดินสอ) -> สีน้ำเงิน */
 ::ng-deep .dx-link-icon-edit {
   color: #3f51b5 !important;
-  font-size: 18px !important;
-  transition: transform 0.2s;
+  font-size: 20px !important; /* ใหญ่ขึ้นนิดนึงให้กดง่าย */
+  transition: transform 0.2s ease-in-out;
 }
 
 ::ng-deep .dx-link-icon-edit:hover {
-  transform: scale(1.2);
+  transform: scale(1.25);
 }
 
 /* ปุ่ม Trash (ไอคอนถังขยะ) -> สีแดง */
 ::ng-deep .dx-link-icon-trash {
   color: #dc3545 !important;
-  font-size: 18px !important;
-  transition: transform 0.2s;
+  font-size: 20px !important;
+  transition: transform 0.2s ease-in-out;
 }
 
 ::ng-deep .dx-link-icon-trash:hover {
-  transform: scale(1.2);
+  transform: scale(1.25);
 }
 
-/* ปุ่ม Add Item ด้านบนให้ขอบมนเท่า Bootstrap */
+/* ปุ่ม Add Item ด้านบนให้ขอบมนเท่า Bootstrap (สไตล์นาย) */
 ::ng-deep .dx-button {
-  border-radius: 6px !important;
+  border-radius: 8px !important;
+}
+
+/* จัด Search Panel ให้โปร่งขึ้น */
+::ng-deep .dx-datagrid-header-panel {
+  padding-bottom: 16px !important;
 }

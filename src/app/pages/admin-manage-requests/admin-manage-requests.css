@@ -1,26 +1,36 @@
-/* --- DevExtreme Grid Overrides --- */
+/* --- DevExtreme Grid Overrides (Pattern มาตรฐาน) --- */
 
-/* Header ตาราง */
 ::ng-deep .dx-datagrid-headers {
     font-weight: 600;
-    color: #495057;
+    color: #4b5563 !important;
     background-color: #f8f9fa;
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 2px solid #e5e7eb !important;
 }
 
-/* ระยะห่างบรรทัด */
 ::ng-deep .dx-data-row td {
     padding-top: 14px !important;
     padding-bottom: 14px !important;
     vertical-align: middle !important;
 }
 
-/* Detail Row (ส่วนขยาย) */
-::ng-deep .dx-master-detail-row .dx-datagrid-group-opened {
-    background-color: #f8f9fa;
+/* ปรับปุ่มใน Grid ให้มนและสวยงาม (ตาม Pattern) */
+::ng-deep .dx-button {
+    border-radius: 8px !important;
+    transition: transform 0.2s ease;
 }
 
-/* ปรับปุ่มใน Grid ให้ดูพอดี */
-::ng-deep .dx-button {
-    border-radius: 6px !important;
+::ng-deep .dx-button:hover {
+    transform: scale(1.1);
+}
+
+/* ลบเส้นขอบข้างตารางออก */
+::ng-deep .dx-datagrid-borders > .dx-datagrid-headers,
+::ng-deep .dx-datagrid-borders > .dx-datagrid-rowsview {
+  border-left: none !important;
+  border-right: none !important;
+}
+
+/* พื้นที่ Search Panel ด้านบน */
+::ng-deep .dx-datagrid-header-panel {
+    padding-bottom: 16px !important;
 }

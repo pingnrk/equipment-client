@@ -53,10 +53,10 @@ export class AdminDashboard implements OnInit {
 
     // สร้างข้อมูลกราฟ
     this.chartData = [
-      { status: 'Pending', count: this.summaryData.pending },
-      { status: 'Active', count: this.summaryData.approved },
-      { status: 'Returned', count: requests.filter((r) => r.status === 4).length },
-      { status: 'Rejected', count: requests.filter((r) => r.status === 3).length },
+      { status: 'รออนุมัติ', count: this.summaryData.pending },
+      { status: 'อนุมัติแล้ว', count: this.summaryData.approved },
+      { status: 'คืนแล้ว', count: requests.filter((r) => r.status === 4).length },
+      { status: 'ไม่อนุมัติ', count: requests.filter((r) => r.status === 3).length },
     ];
   }
 

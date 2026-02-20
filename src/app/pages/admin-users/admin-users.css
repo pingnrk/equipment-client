@@ -1,6 +1,5 @@
 /* --- DevExtreme Grid Overrides --- */
 
-/* ปรับ Header ตารางให้คลีน */
 ::ng-deep .dx-datagrid-headers {
     font-weight: 600;
     color: #495057;
@@ -8,47 +7,60 @@
     border-bottom: 1px solid #dee2e6;
 }
 
-/* ปรับระยะห่างบรรทัด */
 ::ng-deep .dx-data-row td {
     padding-top: 14px !important;
     padding-bottom: 14px !important;
     vertical-align: middle !important;
 }
 
-/* --- Command Buttons (Edit/Delete) --- */
-
-/* ปุ่ม Edit (สีน้ำเงิน Theme) */
+/* --- Command Buttons (Edit/Delete) ของนาย โคตรสวย! --- */
 ::ng-deep .dx-link-edit {
-    color: #3f51b5 !important; /* Indigo */
+    color: #3f51b5 !important;
     font-weight: 600;
     text-decoration: none;
     padding: 6px 12px;
-    border-radius: 4px;
-    transition: background 0.2s;
+    border-radius: 6px; /* ปรับให้มนขึ้นนิดนึงเข้ากับแอป */
+    transition: all 0.2s ease;
 }
 
 ::ng-deep .dx-link-edit:hover {
-    background-color: #e8eaf6; /* Indigo อ่อนๆ */
+    background-color: #e8eaf6 !important;
 }
 
-/* ปุ่ม Delete (สีแดง) */
 ::ng-deep .dx-link-delete {
-    color: #dc3545 !important; /* Bootstrap Danger */
+    color: #dc3545 !important;
     font-weight: 600;
     text-decoration: none;
     margin-left: 8px;
     padding: 6px 12px;
-    border-radius: 4px;
-    transition: background 0.2s;
+    border-radius: 6px;
+    transition: all 0.2s ease;
 }
 
 ::ng-deep .dx-link-delete:hover {
-    background-color: #ffebee; /* แดงอ่อนๆ */
+    background-color: #ffebee !important;
 }
 
-/* Form ใน Popup */
+/* --- Form & Popup Styling --- */
 ::ng-deep .dx-form-group-caption {
     font-size: 16px !important;
     font-weight: bold !important;
     color: #3f51b5 !important;
+    padding-bottom: 10px !important;
+}
+
+/* ทำให้ Popup ขอบมนและมีมิติ */
+::ng-deep .dx-popup-wrapper .dx-overlay-content {
+  border-radius: 12px !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important;
+}
+
+::ng-deep .dx-popup-title {
+  background-color: #f8f9fa !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+::ng-deep .dx-popup-title .dx-toolbar-label {
+  font-weight: 700 !important;
+  color: #111827 !important;
 }

@@ -1,119 +1,83 @@
-
-.container {
-    display: flex;
-    justify-content: center;
-    padding: 40px;
-    background-color: #f5f5f5;
-    min-height: 100vh;
+/* ปุ่ม Back ตกแต่งให้ดู Minimal และกดง่าย */
+.back-button-link {
+  color: #6b7280 !important;
+  font-weight: 500;
+  transition: color 0.2s;
 }
 
-.form-card {
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 800px;
+.back-button-link:hover {
+  color: #3f51b5 !important;
+  background-color: transparent !important;
 }
 
-h2 {
-    margin-bottom: 20px;
-    color: #333;
-    text-align: center;
-    font-weight: 600;
-}
-
-.file-upload-section {
-    margin-top: 10px;
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px dashed #ccc;
-    border-radius: 4px;
-}
-
-.file-upload-section label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: #666;
-}
+/* Card ฟอร์ม */
 .form-card {
   background: white;
-  padding: 30px; /* ปรับให้เท่า Cart */
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  border: 1px solid #eee;
+  padding: 40px;
+  border-radius: 16px; /* มนขึ้นตามเทรนด์ */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+  border: 1px solid #f1f5f9;
   max-width: 800px;
-  /* margin: 0 auto; <--- ถ้าอยากให้ form อยู่ตรงกลางจอ เปิดบรรทัดนี้ */
+  margin: 0 auto;
 }
 
+/* หัวข้อฟอร์ม */
 .form-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #374151;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
   margin-bottom: 30px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f1f5f9;
 }
 
-.form-title i {
-  color: #4f46e5;
-  margin-right: 10px;
+/* ปรับระยะห่าง Label ของ DevExtreme */
+::ng-deep .dx-field-item-label-text {
+  font-weight: 600 !important;
+  color: #4b5563 !important;
+  font-size: 0.9rem !important;
 }
 
-/* ปรับระยะห่างปุ่ม */
-.action-buttons {
-    margin-top: 20px;
+/* ปรับความสูงช่อง Input ให้เท่ากับหน้าอื่นๆ */
+::ng-deep .dx-texteditor.dx-editor-outlined {
+  border-radius: 8px !important;
+  height: 48px !important;
 }
 
-/* เว้นระยะห่างระหว่างปุ่ม Save กับ Delete */
-::ng-deep .action-buttons .dx-field-item {
-    padding-bottom: 10px; 
-}
-
-/* จัด Upload ให้สวยงาม */
-::ng-deep .dx-fileuploader-input-wrapper {
-  padding: 20px;
-  border: 2px dashed #e5e7eb;
-  border-radius: 8px;
-  text-align: center;
-}
-
-::ng-deep .checkbox-center {
-  display: flex;
-  align-items: center;
-  height: 100%;       /* ให้สูงเต็มพื้นที่ */
-  padding-top: 24px; 
-}
-
+/* จัด Upload Area */
 .image-preview-container {
   display: flex;
   flex-direction: column;
-  align-items: center; /* จัดแกน X ให้อยู่กลาง */
-  justify-content: center;
-  margin-bottom: 25px;
-  gap: 15px; /* ระยะห่างระหว่างรูปกับปุ่ม */
-}
-
-/* ✅ 2. แต่งรูปภาพจริง */
-.preview-img {
-  width: 200px;  /* กำหนดขนาดให้แน่นอน */
-  height: 200px;
-  object-fit: cover; /* ตัดภาพให้พอดีกรอบ ไม่เบี้ยว */
-  border-radius: 12px;
-  border: 2px solid #e5e7eb;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* ✅ 3. แต่งกล่อง Placeholder (ตอนไม่มีรูป) */
-.empty-image-placeholder {
-  width: 200px;
-  height: 200px;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
   background-color: #f9fafb;
-  border: 2px dashed #d1d5db; /* เส้นประสีเทา */
+  border-radius: 12px;
+}
+
+.preview-img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 4px solid white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.empty-image-placeholder {
+  width: 180px;
+  height: 180px;
+  background-color: #fff;
+  border: 2px dashed #e2e8f0;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+/* ปรับปุ่มอัปโหลดรูป */
+.upload-btn-wrapper ::ng-deep .dx-fileuploader-button {
+  border-radius: 8px !important;
 }

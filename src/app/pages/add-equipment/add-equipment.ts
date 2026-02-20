@@ -38,8 +38,8 @@ export class AddEquipment implements OnInit {
 
   equipmentId: string = '';
   isEditMode = false;
-  title = 'Add New Equipment';
-  btnLabel = 'Save Equipment';
+  title = 'เพิ่มครุภัณฑ์ใหม่';
+  btnLabel = 'บันทึกข้อมูล';
   isLoading = false;
 
   equipmentData: any = {

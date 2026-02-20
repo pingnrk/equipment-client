@@ -1,59 +1,63 @@
-<div class="container">
-  <div class="form-card">
-    <div class="card-header">
-      <dx-button
-        icon="arrowleft"
-        text="Back"
-        stylingMode="text"
-        type="normal"
-        (onClick)="onCancel()"
-      >
-      </dx-button>
-      <h2>{{ title }}</h2>
-    </div>
+<div class="page-container">
+  <div class="d-flex align-items-center mb-3">
+    <dx-button
+      icon="arrowleft"
+      text="ย้อนกลับ"
+      stylingMode="text"
+      type="normal"
+      (onClick)="onCancel()"
+      class="back-button-link"
+    >
+    </dx-button>
+  </div>
 
-    <div class="separator"></div>
+  <div class="form-card shadow-sm">
+    <div class="form-title text-center">
+      ➕ {{ title }}
+    </div>
 
     <form (submit)="onSubmit($event)">
       <dx-form [formData]="equipmentData" [colCount]="1" labelLocation="top">
-<dxi-item itemType="group" cssClass="image-group">
-  <div class="image-preview-container">
 
-    <img
-      *ngIf="imageSource; else noImageTemplate"
-      [src]="imageSource"
-      class="preview-img"
-    />
+        <dxi-item itemType="group">
+          <div class="image-preview-container">
+            <img
+              *ngIf="imageSource; else noImageTemplate"
+              [src]="imageSource"
+              class="preview-img"
+            />
+            <ng-template #noImageTemplate>
+              <div class="empty-image-placeholder">
+                <i class="dx-icon-image text-muted" style="font-size: 48px;"></i>
+                <span class="text-muted mt-2 small">ยังไม่ได้เลือกรูปภาพ</span>
+              </div>
+            </ng-template>
 
-    <ng-template #noImageTemplate>
-      <div class="empty-image-placeholder">
-        <i class="dx-icon-image" style="font-size: 48px; color: #ccc;"></i>
-        <span style="color: #999; margin-top: 8px;">No Image Selected</span>
-      </div>
-    </ng-template>
+            <div class="upload-btn-wrapper">
+              <dx-file-uploader
+                selectButtonText="📷 อัพโหลดรูปภาพ"
+                labelText=""
+                accept="image/*"
+                uploadMode="useForm"
+                [showFileList]="false"
+                (onValueChanged)="onFileSelected($event)"
+              >
+              </dx-file-uploader>
+            </div>
+          </div>
+        </dxi-item>
 
-    <div class="upload-btn-wrapper">
-      <dx-file-uploader
-        selectButtonText="📷 เลือกรูปภาพ"
-        labelText=""
-        accept="image/*"
-        uploadMode="useForm"
-        [showFileList]="false"
-        (onValueChanged)="onFileSelected($event)"
-      >
-      </dx-file-uploader>
-    </div>
-
-  </div>
-</dxi-item>
-
-        <dxi-item itemType="group" caption="Basic Information" [colCount]="2">
-          <dxi-item dataField="code">
-            <dxi-validation-rule type="required" message="Code is required"></dxi-validation-rule>
+        <dxi-item itemType="group" caption="ข้อมูลพื้นฐาน (Basic Information)" [colCount]="2">
+          <dxi-item dataField="code" [editorOptions]="{ placeholder: 'เช่น EQ-001', stylingMode: 'outlined' }">
+            <dxo-label text="รหัสครุภัณฑ์"></dxo-label>
+            <dxi-validation-rule type="required" message="กรุณากรอกรหัสครุภัณฑ์"></dxi-validation-rule>
           </dxi-item>
-          <dxi-item dataField="name">
-            <dxi-validation-rule type="required" message="Name is required"></dxi-validation-rule>
+
+          <dxi-item dataField="name" [editorOptions]="{ placeholder: 'ระบุชื่อครุภัณฑ์', stylingMode: 'outlined' }">
+            <dxo-label text="ชื่อครุภัณฑ์"></dxo-label>
+            <dxi-validation-rule type="required" message="กรุณากรอกชื่อครุภัณฑ์"></dxi-validation-rule>
           </dxi-item>
+
           <dxi-item
             dataField="categoryId"
             editorType="dxSelectBox"
@@ -61,31 +65,35 @@
               dataSource: categories,
               displayExpr: 'name',
               valueExpr: 'id',
-              placeholder: 'Select Category',
+              placeholder: 'เลือกหมวดหมู่',
+              stylingMode: 'outlined'
             }"
           >
-            <dxi-validation-rule
-              type="required"
-              message="Category is required"
-            ></dxi-validation-rule>
+            <dxo-label text="หมวดหมู่"></dxo-label>
+            <dxi-validation-rule type="required" message="กรุณาเลือกหมวดหมู่"></dxi-validation-rule>
           </dxi-item>
+
           <dxi-item
             dataField="stock"
             editorType="dxNumberBox"
-            [editorOptions]="{ min: 0, showSpinButtons: true }"
-          ></dxi-item>
+            [editorOptions]="{ min: 0, showSpinButtons: true, stylingMode: 'outlined' }"
+          >
+            <dxo-label text="จำนวนคงเหลือ"></dxo-label>
+          </dxi-item>
         </dxi-item>
-        <dxi-item itemType="group" cssClass="action-buttons">
+
+        <dxi-item itemType="group" cssClass="action-buttons mt-4">
           <dxi-item
             itemType="button"
             [buttonOptions]="{
-              text: isLoading ? 'Saving...' : btnLabel,
+              text: isLoading ? 'กำลังบันทึก...' : btnLabel,
               type: 'default',
               stylingMode: 'contained',
               useSubmitBehavior: true,
-              width: '100%',
-              height: '45px',
+              width: '30%',
+              height: '50px',
               disabled: isLoading,
+              elementAttr: { class: 'fw-bold shadow-sm rounded-3' }
             }"
           >
           </dxi-item>

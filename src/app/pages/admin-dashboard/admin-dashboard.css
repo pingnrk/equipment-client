@@ -1,22 +1,39 @@
 /* Custom Icon Circle */
 .icon-circle {
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.3s ease; /* เตรียมไว้เด้งตอน Hover */
 }
 
-/* ใช้ Bootstrap Utility Colors แทน CSS เขียนเอง */
-/* .bg-primary-subtle -> พื้นน้ำเงินจางๆ
-   .text-primary -> ตัวหนังสือสีน้ำเงิน
-   (ไม่ต้องเขียน CSS เพิ่ม เพราะ Bootstrap จัดให้แล้ว)
-*/
+/* เพิ่ม Hover Effect ให้การ์ดดูลอยขึ้นมาเวลามีเมาส์ชี้ */
+.summary-card {
+  transition: all 0.3s ease;
+  cursor: default;
+}
 
-/* ปรับแต่ง Chart นิดหน่อย */
-::ng-deep .dxc-title text {
-  font-family: 'Segoe UI', sans-serif !important;
-  font-weight: bold !important;
+.summary-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ให้ไอคอนขยายขึ้นนิดนึงด้วยตอนชี้การ์ด */
+.summary-card:hover .icon-circle {
+  transform: scale(1.1);
+}
+
+/* ปรับแต่ง Chart - บังคับให้เป็น Sarabun ตาม Global CSS ของนาย */
+::ng-deep .dxc-title text,
+::ng-deep .dxc-item text {
+  font-family: 'Sarabun', sans-serif !important;
   fill: #374151 !important;
+}
+
+/* ทำให้ Legend ของกราฟฟอนต์สวยขึ้น */
+::ng-deep .dxc-legend text {
+  font-family: 'Sarabun', sans-serif !important;
+  font-weight: 500 !important;
 }

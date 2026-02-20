@@ -1,12 +1,50 @@
-/* ปรับแต่งตาราง DataGrid ให้ดูคลีนๆ */
-::ng-deep #gridContainer {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  padding: 10px;
+/* จัดระยะห่างช่อง Search ด้านบนให้พอดี */
+::ng-deep .dx-datagrid-header-panel {
+  padding-bottom: 16px !important;
 }
 
-/* ปรับปุ่มในตาราง (ถ้ามี) */
-::ng-deep .dx-datagrid-header-panel {
-  padding: 10px 0;
+/* 🟢 เปลี่ยนปุ่ม "เพิ่มข้อมูล (+)" ให้เป็นสี Primary (น้ำเงิน) เด่นๆ */
+::ng-deep .dx-datagrid-addrow-button {
+  background-color: #3f51b5 !important;
+  color: white !important;
+  border-radius: 8px !important;
+  padding: 0 16px !important;
+  transition: all 0.2s ease;
+}
+
+::ng-deep .dx-datagrid-addrow-button .dx-icon {
+  color: white !important;
+}
+
+::ng-deep .dx-datagrid-addrow-button:hover {
+  background-color: #303f9f !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(63, 81, 181, 0.3);
+}
+
+/* --- เวทมนตร์แต่ง Popup หน้าแก้ไข (Editing Form) --- */
+
+/* ทำขอบ Popup ให้มน และใส่เงา */
+::ng-deep .dx-popup-wrapper .dx-overlay-content {
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ปรับสีหัว Popup */
+::ng-deep .dx-popup-title {
+  background-color: #f8f9fa !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+/* ปรับฟอนต์หัว Popup ให้หนาและเป็นสี Primary */
+::ng-deep .dx-popup-title .dx-toolbar-label {
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  color: #3f51b5 !important;
+}
+
+/* ปรับปุ่ม Save / Cancel ใน Popup ให้ขอบมน */
+::ng-deep .dx-popup-bottom .dx-button {
+  border-radius: 6px !important;
 }

@@ -1,110 +1,117 @@
 <div class="page-container">
   <div class="page-header-row">
-    <h2 class="page-title">👥 User Management</h2>
+    <h2 class="page-title">👥 จัดการผู้ใช้งาน (User Management)</h2>
   </div>
 
-  <dx-data-grid
-    [dataSource]="users"
-    [showBorders]="true"
-    [rowAlternationEnabled]="true"
-    [columnAutoWidth]="true"
-    [hoverStateEnabled]="true"
-    keyExpr="id"
-    (onRowInserting)="onRowInserting($event)"
-    (onRowUpdating)="onRowUpdating($event)"
-    (onRowRemoving)="onRowRemoving($event)"
-  >
-    <dxo-search-panel
-      [visible]="true"
-      [width]="300"
-      placeholder="Search users..."
-    ></dxo-search-panel>
-    <dxo-paging [pageSize]="10"></dxo-paging>
-    <dxo-pager
-      [showPageSizeSelector]="true"
-      [allowedPageSizes]="[10, 20, 50]"
-    ></dxo-pager>
+  <div class="bg-white p-3 p-md-4 rounded-4 shadow-sm w-100" style="box-sizing: border-box; overflow-x: auto;">
 
-    <dxo-editing
-      mode="popup"
-      [allowUpdating]="true"
-      [allowDeleting]="true"
-      [allowAdding]="true"
+    <dx-data-grid
+      [dataSource]="users"
+      [showBorders]="true"
+      [rowAlternationEnabled]="true"
+      [columnAutoWidth]="true"
+      [hoverStateEnabled]="true"
+      keyExpr="id"
+      (onRowInserting)="onRowInserting($event)"
+      (onRowUpdating)="onRowUpdating($event)"
+      (onRowRemoving)="onRowRemoving($event)"
     >
-      <dxo-popup
-        title="Manage User"
-        [showTitle]="true"
-        [width]="600"
-        [height]="'auto'"
-      ></dxo-popup>
+      <dxo-search-panel
+        [visible]="true"
+        [width]="300"
+        placeholder="ค้นหาผู้ใช้งาน..."
+      ></dxo-search-panel>
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 20, 50]"
+        [showInfo]="true"
+      ></dxo-pager>
 
-      <dxo-form [colCount]="1">
-        <dxi-item itemType="group" caption="General Information">
-          <dxi-item dataField="employeeId">
-            <dxi-validation-rule type="required"></dxi-validation-rule>
-          </dxi-item>
-          <dxi-item dataField="fullName">
-            <dxi-validation-rule type="required"></dxi-validation-rule>
-          </dxi-item>
-          <dxi-item dataField="email">
-            <dxi-validation-rule type="required"></dxi-validation-rule>
-            <dxi-validation-rule type="email"></dxi-validation-rule>
-          </dxi-item>
-          <dxi-item
-            dataField="role"
-            editorType="dxSelectBox"
-            [editorOptions]="{ items: roles, placeholder: 'Select Role' }"
-          >
-            <dxi-validation-rule type="required"></dxi-validation-rule>
-          </dxi-item>
-        </dxi-item>
-
-        <dxi-item itemType="group" caption="Security">
-          <dxi-item itemType="simple">
-            <div *dxTemplate>
-              <div class="alert alert-light border text-muted small mb-0">
-                <i class="dx-icon-info me-1"></i>
-                Leave blank if you don't want to change the password.
-              </div>
-            </div>
-          </dxi-item>
-
-          <dxi-item
-            dataField="password"
-            [editorOptions]="{
-              mode: 'password',
-              placeholder: 'New Password (Optional)',
-              stylingMode: 'outlined'
-            }"
-          >
-          </dxi-item>
-        </dxi-item>
-      </dxo-form>
-    </dxo-editing>
-
-    <dxi-column dataField="employeeId" caption="ID" [width]="120"></dxi-column>
-    <dxi-column dataField="fullName" caption="Full Name"></dxi-column>
-    <dxi-column dataField="email" caption="Email"></dxi-column>
-
-    <dxi-column
-      dataField="role"
-      caption="Role"
-      alignment="center"
-      cellTemplate="roleCell"
-      [width]="120"
-    ></dxi-column>
-    <div *dxTemplate="let d of 'roleCell'">
-      <span
-        class="badge rounded-pill"
-        [ngClass]="{
-          'bg-primary': d.value === 'Admin',
-          'bg-secondary': d.value !== 'Admin'
-        }"
+      <dxo-editing
+        mode="popup"
+        [allowUpdating]="true"
+        [allowDeleting]="true"
+        [allowAdding]="true"
       >
-        {{ d.value }}
-      </span>
-    </div>
+        <dxo-popup
+          title="จัดการข้อมูลผู้ใช้งาน"
+          [showTitle]="true"
+          [width]="600"
+          [height]="'auto'"
+          [shading]="true"
+          shadingColor="rgba(0, 0, 0, 0.4)"
+        ></dxo-popup>
 
-    <dxi-column dataField="password" [visible]="false"></dxi-column>
-  </dx-data-grid>
+        <dxo-form [colCount]="1">
+          <dxi-item itemType="group" caption="ข้อมูลทั่วไป">
+            <dxi-item dataField="employeeId">
+              <dxi-validation-rule type="required" message="กรุณากรอกรหัสพนักงาน"></dxi-validation-rule>
+            </dxi-item>
+            <dxi-item dataField="fullName">
+              <dxi-validation-rule type="required" message="กรุณากรอกชื่อ-นามสกุล"></dxi-validation-rule>
+            </dxi-item>
+            <dxi-item dataField="email">
+              <dxi-validation-rule type="required" message="กรุณากรอกอีเมล"></dxi-validation-rule>
+              <dxi-validation-rule type="email" message="รูปแบบอีเมลไม่ถูกต้อง"></dxi-validation-rule>
+            </dxi-item>
+            <dxi-item
+              dataField="role"
+              editorType="dxSelectBox"
+              [editorOptions]="{ items: roles, placeholder: 'เลือกสิทธิ์การใช้งาน' }"
+            >
+              <dxi-validation-rule type="required" message="กรุณาเลือกสิทธิ์การใช้งาน"></dxi-validation-rule>
+            </dxi-item>
+          </dxi-item>
+
+          <dxi-item itemType="group" caption="ความปลอดภัย">
+            <dxi-item itemType="simple">
+              <div *dxTemplate>
+                <div class="alert alert-light border text-muted small mb-0 rounded-3">
+                  <i class="dx-icon-info me-1"></i>
+                  ปล่อยว่างไว้ หากไม่ต้องการเปลี่ยนรหัสผ่าน
+                </div>
+              </div>
+            </dxi-item>
+
+            <dxi-item
+              dataField="password"
+              [editorOptions]="{
+                mode: 'password',
+                placeholder: 'รหัสผ่านใหม่ (ไม่บังคับ)',
+                stylingMode: 'outlined'
+              }"
+            >
+            </dxi-item>
+          </dxi-item>
+        </dxo-form>
+      </dxo-editing>
+
+      <dxi-column dataField="employeeId" caption="รหัสพนักงาน" [width]="140" alignment="center"></dxi-column>
+      <dxi-column dataField="fullName" caption="ชื่อ-นามสกุล"></dxi-column>
+      <dxi-column dataField="email" caption="อีเมล"></dxi-column>
+
+      <dxi-column
+        dataField="role"
+        caption="สิทธิ์การใช้งาน"
+        alignment="center"
+        cellTemplate="roleCell"
+        [width]="140"
+      ></dxi-column>
+      <div *dxTemplate="let d of 'roleCell'">
+        <span
+          class="badge rounded-pill px-3 py-2"
+          [ngClass]="{
+            'bg-primary': d.value === 'Admin',
+            'bg-secondary': d.value !== 'Admin'
+          }"
+        >
+          {{ d.value }}
+        </span>
+      </div>
+
+      <dxi-column dataField="password" [visible]="false"></dxi-column>
+    </dx-data-grid>
+
+  </div>
 </div>
