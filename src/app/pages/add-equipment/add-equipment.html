@@ -13,12 +13,11 @@
 
   <div class="form-card shadow-sm">
     <div class="form-title text-center">
-      ➕ {{ title }}
+      {{ title }}
     </div>
 
     <form (submit)="onSubmit($event)">
       <dx-form [formData]="equipmentData" [colCount]="1" labelLocation="top">
-
         <dxi-item itemType="group">
           <div class="image-preview-container">
             <img
@@ -28,7 +27,7 @@
             />
             <ng-template #noImageTemplate>
               <div class="empty-image-placeholder">
-                <i class="dx-icon-image text-muted" style="font-size: 48px;"></i>
+                <i class="dx-icon-image text-muted" style="font-size: 48px"></i>
                 <span class="text-muted mt-2 small">ยังไม่ได้เลือกรูปภาพ</span>
               </div>
             </ng-template>
@@ -48,14 +47,26 @@
         </dxi-item>
 
         <dxi-item itemType="group" caption="ข้อมูลพื้นฐาน (Basic Information)" [colCount]="2">
-          <dxi-item dataField="code" [editorOptions]="{ placeholder: 'เช่น EQ-001', stylingMode: 'outlined' }">
+          <dxi-item
+            dataField="code"
+            [editorOptions]="{ placeholder: 'เช่น EQ-001', stylingMode: 'outlined' }"
+          >
             <dxo-label text="รหัสครุภัณฑ์"></dxo-label>
-            <dxi-validation-rule type="required" message="กรุณากรอกรหัสครุภัณฑ์"></dxi-validation-rule>
+            <dxi-validation-rule
+              type="required"
+              message="กรุณากรอกรหัสครุภัณฑ์"
+            ></dxi-validation-rule>
           </dxi-item>
 
-          <dxi-item dataField="name" [editorOptions]="{ placeholder: 'ระบุชื่อครุภัณฑ์', stylingMode: 'outlined' }">
+          <dxi-item
+            dataField="name"
+            [editorOptions]="{ placeholder: 'ระบุชื่อครุภัณฑ์', stylingMode: 'outlined' }"
+          >
             <dxo-label text="ชื่อครุภัณฑ์"></dxo-label>
-            <dxi-validation-rule type="required" message="กรุณากรอกชื่อครุภัณฑ์"></dxi-validation-rule>
+            <dxi-validation-rule
+              type="required"
+              message="กรุณากรอกชื่อครุภัณฑ์"
+            ></dxi-validation-rule>
           </dxi-item>
 
           <dxi-item
@@ -66,7 +77,7 @@
               displayExpr: 'name',
               valueExpr: 'id',
               placeholder: 'เลือกหมวดหมู่',
-              stylingMode: 'outlined'
+              stylingMode: 'outlined',
             }"
           >
             <dxo-label text="หมวดหมู่"></dxo-label>
@@ -93,7 +104,7 @@
               width: '30%',
               height: '50px',
               disabled: isLoading,
-              elementAttr: { class: 'fw-bold shadow-sm rounded-3' }
+              elementAttr: { class: 'fw-bold shadow-sm rounded-3' },
             }"
           >
           </dxi-item>

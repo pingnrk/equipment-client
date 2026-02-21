@@ -1,22 +1,33 @@
 <div class="page-container">
-  <div class="page-header-row">
-    <h2 class="page-title">📦 จัดการครุภัณฑ์ (Inventory Management)</h2>
-    <button class="btn btn-primary px-3 rounded-3 shadow-sm" (click)="goToAdd()">
-      <i class="dx-icon-add me-1"></i> เพิ่มครุภัณฑ์ใหม่
+  <div class="page-header-row d-flex justify-content-between align-items-center mb-3 gap-2">
+    <h2 class="page-title mb-0 fs-4 fs-md-3">
+      <span class="d-none d-md-inline">📦 จัดการครุภัณฑ์ (Inventory Management)</span>
+      <span class="d-inline d-md-none">📦 จัดการครุภัณฑ์</span>
+    </h2>
+
+    <button
+      class="btn btn-primary rounded-3 shadow-sm d-flex align-items-center text-nowrap"
+      style="padding: 0.5rem 0.75rem"
+      (click)="goToAdd()"
+    >
+      <i class="dx-icon-add fs-5"></i>
+      <span class="ms-1 d-none d-sm-inline fw-bold">เพิ่มครุภัณฑ์ใหม่</span>
     </button>
   </div>
 
-  <div class="bg-white p-3 p-md-4 rounded-4 shadow-sm w-100 overflow-hidden" style="box-sizing: border-box;">
-
+  <div
+    class="bg-white p-3 p-md-4 rounded-4 shadow-sm w-100 overflow-hidden"
+    style="box-sizing: border-box"
+  >
     <dx-data-grid
       id="gridContainer"
       class="custom-grid"
-      [dataSource]="equipments"
+      [dataSource]="dataSource"
+      [remoteOperations]="true"
       [showBorders]="true"
       [rowAlternationEnabled]="true"
       [columnAutoWidth]="true"
       [hoverStateEnabled]="true"
-      keyExpr="id"
     >
       <dxo-search-panel
         [visible]="true"
@@ -25,7 +36,11 @@
       ></dxo-search-panel>
 
       <dxo-paging [pageSize]="10"></dxo-paging>
-      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true"></dxo-pager>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 20, 50]"
+        [showInfo]="true"
+      ></dxo-pager>
 
       <dxi-column
         caption="รูปภาพ"

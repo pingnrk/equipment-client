@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -12,7 +12,10 @@ import { ToastService } from './toast.service';
 export class EquipmentService {
   private apiUrl = `${environment.apiUrl}/equipments`;
 
-  constructor(private http: HttpClient, private toastService: ToastService) {}
+  constructor(
+    private http: HttpClient,
+    private toastService: ToastService,
+  ) {}
 
   private handleError(operation: string) {
     return (error: HttpErrorResponse): Observable<never> => {
@@ -22,16 +25,18 @@ export class EquipmentService {
     };
   }
 
-  getAll(): Observable<Equipment[]> {
-    return this.http.get<Equipment[]>(this.apiUrl).pipe(
-      catchError(this.handleError('fetching equipment list'))
-    );
+  getAll(page: number = 1, size: number = 10): Observable<any> {
+    const params = new HttpParams().set('page', page.toString()).set('size', size.toString());
+
+    return this.http
+      .get<any>(this.apiUrl, { params })
+      .pipe(catchError(this.handleError('fetching equipment list')));
   }
 
   getById(id: string): Observable<Equipment> {
-    return this.http.get<Equipment>(`${this.apiUrl}/${id}`).pipe(
-      catchError(this.handleError(`fetching equipment with id=${id}`))
-    );
+    return this.http
+      .get<Equipment>(`${this.apiUrl}/${id}`)
+      .pipe(catchError(this.handleError(`fetching equipment with id=${id}`)));
   }
 
   update(id: string, dto: CreateEquipmentDto): Observable<any> {
@@ -43,15 +48,15 @@ export class EquipmentService {
     if (dto.imageFile) {
       formData.append('imageFile', dto.imageFile, dto.imageFile.name);
     }
-    return this.http.put(`${this.apiUrl}/${id}`, formData).pipe(
-      catchError(this.handleError('updating equipment'))
-    );
+    return this.http
+      .put(`${this.apiUrl}/${id}`, formData)
+      .pipe(catchError(this.handleError('updating equipment')));
   }
 
   delete(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`).pipe(
-      catchError(this.handleError('deleting equipment'))
-    );
+    return this.http
+      .delete(`${this.apiUrl}/${id}`)
+      .pipe(catchError(this.handleError('deleting equipment')));
   }
 
   create(dto: CreateEquipmentDto): Observable<Equipment> {
@@ -63,8 +68,8 @@ export class EquipmentService {
     if (dto.imageFile) {
       formData.append('imageFile', dto.imageFile, dto.imageFile.name);
     }
-    return this.http.post<Equipment>(this.apiUrl, formData).pipe(
-      catchError(this.handleError('creating equipment'))
-    );
+    return this.http
+      .post<Equipment>(this.apiUrl, formData)
+      .pipe(catchError(this.handleError('creating equipment')));
   }
 }

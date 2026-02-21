@@ -3,19 +3,27 @@
 </ng-container>
 
 <ng-container *ngIf="!isPublicRoute">
-  <dx-drawer [opened]="isDrawerOpen" [position]="'left'" [openedStateMode]="'shrink'" [revealMode]="'slide'"
-    template="menuTemplate" height="100vh" [closeOnOutsideClick]="false">
-
+  <dx-drawer
+    [opened]="isDrawerOpen"
+    [position]="'left'"
+    [openedStateMode]="'shrink'"
+    [revealMode]="'slide'"
+    template="menuTemplate"
+    height="100vh"
+    [closeOnOutsideClick]="false"
+  >
     <div *dxTemplate="let data of 'menuTemplate'" class="app-sidebar">
       <div class="sidebar-header">
         <h5 class="m-0 fw-bold text-primary">EQ System</h5>
       </div>
 
       <div class="sidebar-nav">
-        <a *ngFor="let item of menuItems"
-           [routerLink]="item.path"
-           routerLinkActive="active"
-           class="nav-item">
+        <a
+          *ngFor="let item of menuItems"
+          [routerLink]="item.path"
+          routerLinkActive="active"
+          class="nav-item"
+        >
           <i [class]="'dx-icon-' + item.icon + ' nav-icon'"></i>
           <span class="nav-text">{{ item.text }}</span>
         </a>
@@ -23,13 +31,16 @@
     </div>
 
     <div class="app-main-layout">
-
       <nav class="app-navbar">
         <div class="d-flex align-items-center w-100">
           <button class="btn-menu" (click)="toggleDrawer()">
             <i class="dx-icon-menu"></i>
           </button>
-          <h4 class="page-title">ระบบยืมครุภัณฑ์ (Equipment Client)</h4>
+          <h4 class="page-title mb-0">
+            <span class="d-none d-md-inline">ระบบยืมครุภัณฑ์ (Equipment Client)</span>
+
+            <span class="d-inline d-md-none fw-bold"> EQ System </span>
+          </h4>
 
           <div class="ms-auto d-flex align-items-center gap-3">
             <ng-container *ngIf="isLoggedIn; else loginBtn">
@@ -59,13 +70,44 @@
           <router-outlet></router-outlet>
         </div>
       </main>
-
+      <footer class="app-footer">
+        <div
+          class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2"
+        >
+          <span class="text-muted small">
+            &copy; 2026 <span class="fw-bold text-primary">EQ System</span>. All rights reserved.
+          </span>
+          <div class="footer-links">
+            <a
+              href="javascript:void(0)"
+              class="text-muted small text-decoration-none me-3 hover-primary"
+              >คู่มือการใช้งาน</a
+            >
+            <a href="javascript:void(0)" class="text-muted small text-decoration-none hover-primary"
+              >ติดต่อ IT Support</a
+            >
+            <span class="ms-3 badge bg-light text-secondary border">v1.0.0</span>
+          </div>
+        </div>
+      </footer>
     </div>
   </dx-drawer>
 </ng-container>
 
-<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [(visible)]="isLoading" [showIndicator]="true" [showPane]="true"
-  [shading]="true" message="Loading..."></dx-load-panel>
+<dx-load-panel
+  shadingColor="rgba(0,0,0,0.4)"
+  [(visible)]="isLoading"
+  [showIndicator]="true"
+  [showPane]="true"
+  [shading]="true"
+  message="Loading..."
+></dx-load-panel>
 
-<dx-toast [(visible)]="toastVisible" [message]="toastMessage" [type]="toastType" [displayTime]="3000"
-  position="bottom center" (onHidden)="onToastHidden()"></dx-toast>
+<dx-toast
+  [(visible)]="toastVisible"
+  [message]="toastMessage"
+  [type]="toastType"
+  [displayTime]="3000"
+  position="bottom center"
+  (onHidden)="onToastHidden()"
+></dx-toast>

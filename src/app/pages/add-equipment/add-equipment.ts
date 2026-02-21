@@ -16,7 +16,6 @@ import { EquipmentService } from '../../services/equipment';
 import { CategoryService } from '../../services/categories';
 import { Category, CreateEquipmentDto } from '../../services/equipment.interface';
 
-
 @Component({
   selector: 'app-add-equipment',
   standalone: true,
@@ -77,8 +76,6 @@ export class AddEquipment implements OnInit {
     return null;
   }
 
-
-
   loadCategories() {
     this.categoryService.getCategories().subscribe({
       next: (data) => (this.categories = data),
@@ -94,8 +91,8 @@ export class AddEquipment implements OnInit {
     if (idParam) {
       this.equipmentId = idParam;
       this.isEditMode = true;
-      this.title = 'Edit Equipment';
-      this.btnLabel = 'Update Equipment';
+      this.title = 'แก้ไขรายละเอียดครุภัณฑ์ใหม่';
+      this.btnLabel = 'บันทึกข้อมูล';
       this.loadEquipmentData(this.equipmentId);
     }
   }

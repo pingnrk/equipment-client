@@ -6,7 +6,8 @@ import notify from 'devextreme/ui/notify';
 import { EquipmentService } from '../../services/equipment';
 import { confirm } from 'devextreme/ui/dialog';
 import { LoadingService } from '../../services/loading.service';
-import { finalize, Observable } from 'rxjs';
+import { finalize, lastValueFrom, Observable } from 'rxjs';
+import { CustomStore } from 'devextreme/common/data';
 
 @Component({
   selector: 'app-admin-equipment-list',
@@ -18,9 +19,9 @@ import { finalize, Observable } from 'rxjs';
 export class AdminEquipmentList implements OnInit {
   equipments: any[] = [];
   isLoading: Observable<boolean>;
+  dataSource: any;
 
   constructor(
-    private service: EquipmentService,
     private equipmentService: EquipmentService,
     private router: Router,
     private loadingService: LoadingService,
@@ -35,11 +36,30 @@ export class AdminEquipmentList implements OnInit {
   }
 
   loadData() {
-    this.loadingService.show();
-    this.service
-      .getAll()
-      .pipe(finalize(() => this.loadingService.hide()))
-      .subscribe((data) => (this.equipments = data));
+    this.dataSource = new CustomStore({
+      key: 'id',
+      load: (loadOptions: any) => {
+        this.loadingService.show();
+
+        const size = loadOptions.take || 10;
+        const skip = loadOptions.skip || 0;
+        const page = skip / size + 1;
+
+        return lastValueFrom(this.equipmentService.getAll(page, size))
+          .then((res: any) => {
+            this.loadingService.hide();
+            return {
+              data: res.data,
+              totalCount: res.totalCount,
+            };
+          })
+          .catch((error) => {
+            this.loadingService.hide();
+            console.error(error);
+            throw 'โหลดข้อมูลไม่สำเร็จ';
+          });
+      },
+    });
   }
 
   goToAdd() {

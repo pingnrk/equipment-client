@@ -12,7 +12,8 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #f3f4f6; /* พื้นหลังเทาอ่อนให้แอปดูมีมิติ */
+  background-color: #f3f4f6;
+  /* พื้นหลังเทาอ่อนให้แอปดูมีมิติ */
 }
 
 /* --- Sidebar --- */
@@ -47,9 +48,15 @@
 }
 
 .nav-item.active {
-  background-color: #eff6ff;
-  color: #2563eb;
-  font-weight: 500;
+  background-color: rgba(63, 81, 181, 0.1);
+  /* พื้นหลังสีฟ้าอมม่วงอ่อนๆ */
+  color: #3f51b5;
+  /* สีพระเอกเดียวกับหน้า Login */
+  font-weight: 600;
+  border-right: 3px solid #3f51b5;
+  /* 💡 แถมลูกเล่นแถบสีด้านขวาให้รู้ว่าอยู่หน้านี้ */
+  border-radius: 8px 0 0 8px;
+  /* ปรับขอบให้โค้งแค่ฝั่งซ้ายรับกับเส้น */
 }
 
 .nav-item .nav-icon {
@@ -89,6 +96,10 @@
   font-size: 1.25rem;
   font-weight: 600;
   color: #111827;
+  display: flex;
+  /* 💡 เพิ่ม 2 บรรทัดนี้ */
+  align-items: center;
+  /* 💡 ให้ไอคอนกับตัวหนังสือขนานกันเป๊ะๆ */
 }
 
 /* --- User Section --- */
@@ -102,8 +113,10 @@
 }
 
 .user-badge .avatar {
-  background-color: #e0e7ff;
-  color: #4f46e5;
+  background-color: rgba(63, 81, 181, 0.15);
+  /* พื้นหลัง Avatar */
+  color: #3f51b5;
+  /* สีไอคอนคน */
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -117,6 +130,7 @@
   font-size: 0.875rem;
   font-weight: 500;
   color: #374151;
+  border: 1px solid rgba(63, 81, 181, 0.2);
 }
 
 .btn-logout {
@@ -148,4 +162,27 @@
 .content-container {
   max-width: 1400px;
   margin: 0 auto;
+}
+
+/* --- Footer --- */
+.app-footer {
+  background-color: #ffffff;
+  /* พื้นหลังสีขาวให้ตัดกับ Content สีเทา */
+  border-top: 1px solid #e5e7eb;
+  /* เส้นคั่นบางๆ โทนเดียวกับ Navbar */
+  padding: 0.75rem 1.5rem;
+  /* ความสูงกำลังดี ไม่กินที่จอ */
+  flex-shrink: 0;
+  /* 💡 จุดตาย: สั่งไม่ให้มันหดตัวเวลา Content เยอะๆ */
+  z-index: 10;
+}
+
+/* 💡 ลูกเล่นเวลาเอาเมาส์ชี้ Link ใน Footer */
+.hover-primary {
+  transition: color 0.2s ease;
+}
+
+.hover-primary:hover {
+  color: #3f51b5 !important;
+  /* เปลี่ยนเป็นสี Indigo พระเอกของเรา */
 }

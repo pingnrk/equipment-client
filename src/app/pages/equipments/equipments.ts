@@ -6,9 +6,10 @@ import { AuthService } from '../../services/auth';
 import { CartService } from '../../services/cart';
 import { Router } from '@angular/router';
 import notify from 'devextreme/ui/notify';
-import { Equipment } from '../../services/equipment.interface'; // ตรวจสอบ path ให้ถูกต้องตามโปรเจกต์จริง
-import { finalize, Observable } from 'rxjs';
+import { Equipment } from '../../services/equipment.interface';
+import { lastValueFrom, Observable } from 'rxjs'; // 👈 นำเข้า lastValueFrom
 import { LoadingService } from '../../services/loading.service';
+import CustomStore from 'devextreme/data/custom_store'; // 👈 นำเข้า CustomStore
 
 @Component({
   selector: 'app-equipments',
@@ -17,8 +18,8 @@ import { LoadingService } from '../../services/loading.service';
   styleUrl: './equipments.css',
 })
 export class Equipments implements OnInit {
-  equipments: Equipment[] = [];
-  selectedItemKeys: string[] = [];
+  dataSource: any; // 💡 เปลี่ยนจาก equipments: Equipment[] = [];
+  selectedItemKeys: string[] = []; // 💡 เก็บ Array ของ ID ที่ติ๊กเลือกไว้
   isLoading: Observable<boolean>;
 
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid!: DxDataGridComponent;
@@ -38,16 +39,31 @@ export class Equipments implements OnInit {
   }
 
   loadData() {
-    this.loadingService.show();
-    this.equipmentService
-      .getAll()
-      .pipe(finalize(() => this.loadingService.hide()))
-      .subscribe({
-        next: (data) => {
-          this.equipments = data;
-        },
-        error: (err) => console.error('Error fetching data:', err),
-      });
+    // 💡 ใช้ท่าไม้ตาย CustomStore เพื่อดึง API ทีละหน้า
+    this.dataSource = new CustomStore({
+      key: 'id',
+      load: (loadOptions: any) => {
+        this.loadingService.show();
+
+        const size = loadOptions.take || 10;
+        const skip = loadOptions.skip || 0;
+        const page = skip / size + 1;
+
+        return lastValueFrom(this.equipmentService.getAll(page, size))
+          .then((res: any) => {
+            this.loadingService.hide();
+            return {
+              data: res.data,
+              totalCount: res.totalCount,
+            };
+          })
+          .catch((error) => {
+            this.loadingService.hide();
+            console.error('Error fetching data:', error);
+            throw 'โหลดข้อมูลไม่สำเร็จ';
+          });
+      },
+    });
   }
 
   getFullImageUrl(base64String: string): string {
@@ -56,7 +72,6 @@ export class Equipments implements OnInit {
     }
     return base64String;
   }
-
 
   async onProceed() {
     if (!this.authService.getToken()) {
@@ -73,6 +88,4 @@ export class Equipments implements OnInit {
     this.cartService.setItems(selectedData);
     this.router.navigate(['/cart']);
   }
-
-
 }
