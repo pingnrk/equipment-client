@@ -1,21 +1,56 @@
-/* --- Standard Grid Theme (ใช้เหมือน Admin) --- */
+/* --- DevExtreme Grid Overrides (Pattern เดิม) --- */
 
-/* Header ตาราง: ตัวหนา พื้นเทา เส้นขอบล่าง */
+::ng-deep .custom-grid.dx-datagrid-borders>.dx-datagrid-headers,
+::ng-deep .custom-grid.dx-datagrid-borders>.dx-datagrid-rowsview {
+  border-left: none !important;
+  border-right: none !important;
+}
+
 ::ng-deep .dx-datagrid-headers {
   font-weight: 600;
-  color: #495057;
+  color: #4b5563 !important;
   background-color: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 2px solid #e5e7eb !important;
 }
 
-/* ระยะห่างบรรทัดในตาราง */
 ::ng-deep .dx-data-row td {
-  padding-top: 12px !important;
-  padding-bottom: 12px !important;
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
   vertical-align: middle !important;
+  color: #374151;
 }
 
-/* ปุ่ม Checkbox ในตารางให้สีชัดขึ้น */
-::ng-deep .dx-checkbox-checked .dx-checkbox-icon {
-  color: #3f51b5 !important;
+/* จัดระยะห่างให้เผื่อ Bottom Bar */
+.page-container {
+  padding-bottom: 100px;
+  /* กันโดนแถบด้านล่างทับ */
+}
+
+/* --- แต่ง Bottom Bar --- */
+.fixed-bottom {
+  border-radius: 20px 20px 0 0;
+  /* ทำขอบบนมนๆ ให้ดูนุ่มนวล */
+  animation-duration: 0.4s;
+}
+
+.btn-primary {
+  background-color: #3f51b5;
+  border: none;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #303f9f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(63, 81, 181, 0.3);
+}
+
+/* แต่ง Checkbox ให้ดูใหญ่ขึ้นเล็กน้อย */
+::ng-deep .dx-select-checkbox {
+  width: 22px;
+  height: 22px;
+}
+
+::ng-deep .dx-datagrid-header-panel {
+  padding-bottom: 16px !important;
 }

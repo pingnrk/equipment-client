@@ -1,48 +1,114 @@
 <div class="page-container">
   <div class="page-header-row">
-    <h2 class="page-title">📦 รายการครุภัณฑ์</h2>
+    <h2 class="page-title">📦 รายการครุภัณฑ์ (Equipments)</h2>
   </div>
-  <dx-data-grid id="gridContainer" [dataSource]="equipments" [showBorders]="true" [rowAlternationEnabled]="true"
-    [columnAutoWidth]="true" [hoverStateEnabled]="true" keyExpr="id" [(selectedRowKeys)]="selectedItemKeys">
-    <dxo-search-panel [visible]="true" [width]="300" placeholder="Search..."></dxo-search-panel>
-    <dxo-paging [pageSize]="10"></dxo-paging>
-    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]"></dxo-pager>
-    <dxo-selection mode="multiple" showCheckBoxesMode="always" selectAllMode="page"></dxo-selection>
-    <dxi-column caption="Image" [width]="100" cellTemplate="imageCell" [allowFiltering]="false" [allowSorting]="false"
-      alignment="center"></dxi-column>
-    <div *dxTemplate="let d of 'imageCell'">
-      <img [src]="getFullImageUrl(d.data.imageUrl)" alt="Item" class="rounded border bg-light"
-        style="width: 50px; height: 50px; object-fit: cover" onerror="this.src = 'assets/no-image.png'" />
-    </div>
-    <dxi-column dataField="code" caption="Code" [width]="120"></dxi-column>
-    <dxi-column dataField="name" caption="Name"></dxi-column>
-    <dxi-column dataField="stock" caption="Stock" [width]="100" alignment="center"
-      cellTemplate="stockCell"></dxi-column>
-    <div *dxTemplate="let d of 'stockCell'">
-      <span class="fw-bold" [class.text-danger]="d.value === 0">{{ d.value }}</span>
-    </div>
-    <dxi-column dataField="status" caption="Status" [width]="130" cellTemplate="statusCell"
-      alignment="center"></dxi-column>
-    <div *dxTemplate="let d of 'statusCell'">
-      <span class="badge rounded-pill" [ngClass]="{
-          'text-bg-success': d.value === 1,
-          'text-bg-danger': d.value === 2,
-          'text-bg-secondary': d.value > 2,
-        }">
-        {{ d.value === 1 ? 'Available' : d.value === 2 ? 'In Use' : 'Maintenance' }}
-      </span>
-    </div>
-  </dx-data-grid>
+
+  <div
+    class="bg-white p-3 p-md-4 rounded-4 shadow-sm w-100 overflow-hidden"
+    style="box-sizing: border-box"
+  >
+    <dx-data-grid
+      id="gridContainer"
+      class="custom-grid"
+      [dataSource]="equipments"
+      [showBorders]="true"
+      [rowAlternationEnabled]="true"
+      [columnAutoWidth]="true"
+      [hoverStateEnabled]="true"
+      keyExpr="id"
+      [(selectedRowKeys)]="selectedItemKeys"
+    >
+      <dxo-search-panel
+        [visible]="true"
+        [width]="300"
+        placeholder="ค้นหาครุภัณฑ์..."
+      ></dxo-search-panel>
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[10, 20, 50]"
+        [showInfo]="true"
+      ></dxo-pager>
+
+      <dxo-selection
+        mode="multiple"
+        showCheckBoxesMode="always"
+        selectAllMode="page"
+      ></dxo-selection>
+
+      <dxi-column
+        caption="รูปภาพ"
+        [width]="100"
+        cellTemplate="imageCell"
+        [allowFiltering]="false"
+        [allowSorting]="false"
+        alignment="center"
+      ></dxi-column>
+      <div *dxTemplate="let d of 'imageCell'">
+        <img
+          [src]="getFullImageUrl(d.data.imageUrl)"
+          alt="Item"
+          class="rounded-3 border shadow-sm"
+          style="width: 50px; height: 50px; object-fit: cover"
+          onerror="this.src = 'assets/no-image.png'"
+        />
+      </div>
+
+      <dxi-column
+        dataField="code"
+        caption="รหัสครุภัณฑ์"
+        [width]="140"
+        alignment="center"
+      ></dxi-column>
+      <dxi-column dataField="name" caption="ชื่อรายการ"></dxi-column>
+
+      <dxi-column
+        dataField="stock"
+        caption="คงเหลือ"
+        [width]="100"
+        alignment="center"
+        cellTemplate="stockCell"
+      ></dxi-column>
+      <div *dxTemplate="let d of 'stockCell'">
+        <span class="fw-bold" [class.text-danger]="d.value === 0">{{ d.value }}</span>
+      </div>
+
+      <dxi-column
+        dataField="status"
+        caption="สถานะ"
+        [width]="140"
+        cellTemplate="statusCell"
+        alignment="center"
+      ></dxi-column>
+      <div *dxTemplate="let d of 'statusCell'">
+        <span
+          class="badge rounded-pill px-3 py-2"
+          [ngClass]="{
+            'text-bg-success': d.value === 1,
+            'text-bg-danger': d.value === 2,
+            'text-bg-secondary': d.value > 2,
+          }"
+        >
+          {{ d.value === 1 ? 'พร้อมยืม' : d.value === 2 ? 'ถูกยืมแล้ว' : 'ซ่อมบำรุง' }}
+        </span>
+      </div>
+    </dx-data-grid>
+  </div>
 </div>
 
-<div class="fixed-bottom bg-white border-top shadow-lg p-3" *ngIf="selectedItemKeys.length > 0" style="z-index: 1050">
-  <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+<div
+  class="fixed-bottom bg-white border-top shadow-lg p-3 animate__animated animate__slideInUp"
+  *ngIf="selectedItemKeys.length > 0"
+  style="z-index: 1050"
+>
+  <div class="container d-flex justify-content-between align-items-center">
     <div>
-      <span class="text-muted">Selected Items:</span>
-      <span class="fw-bold text-primary fs-5 ms-2">{{ selectedItemKeys.length }}</span>
+      <span class="text-muted fs-6">เลือกแล้วทั้งหมด:</span>
+      <span class="fw-bold text-primary fs-4 ms-2">{{ selectedItemKeys.length }}</span>
+      <span class="text-muted ms-1">รายการ</span>
     </div>
-    <button class="btn btn-primary px-4 shadow-sm" (click)="onProceed()">
-      <i class="dx-icon-cart me-2"></i> Proceed to Borrow
+    <button class="btn btn-primary px-4 rounded-3 shadow-sm" (click)="onProceed()">
+      <i class="dx-icon-cart me-2"></i> ดำเนินการ
     </button>
   </div>
 </div>

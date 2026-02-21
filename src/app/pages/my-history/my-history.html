@@ -1,54 +1,76 @@
 <div class="page-container">
-    <div class="page-header-row">
-        <h2 class="page-title">🗂️ ประวัติคำขอ
-        </h2>
-    </div>
-    <div class="card shadow-sm border-0">
-        <div class="card-header bg-white py-3">
-            <h5 class="card-title mb-0 text-primary">รายการที่เสร็จสิ้นแล้ว (Completed)</h5>
-        </div>
-        <div class="card-body p-0">
-            <dx-data-grid [dataSource]="historyRequests" [showBorders]="false" [columnAutoWidth]="true"
-                [rowAlternationEnabled]="true" [hoverStateEnabled]="true" keyExpr="id">
-                <dxo-sorting mode="multiple"></dxo-sorting>
-                <dxo-paging [pageSize]="10"></dxo-paging>
-                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]"></dxo-pager>
+  <div class="page-header-row">
+    <h2 class="page-title">🗂️ ประวัติคำขอ</h2>
+  </div>
 
-                <dxi-column dataField="requestDate" dataType="date" format="dd/MM/yyyy HH:mm" caption="Date"
-                    sortOrder="desc"></dxi-column>
+  <div
+    class="bg-white p-3 p-md-4 rounded-4 shadow-sm w-100 overflow-hidden"
+    style="box-sizing: border-box"
+  >
+    <h5 class="mb-4 text-primary fw-bold">รายการที่เสร็จสิ้นแล้ว (Completed)</h5>
 
-                <dxi-column dataField="status" caption="Result" cellTemplate="statusCell" alignment="center"
-                    [width]="150"></dxi-column>
+    <dx-data-grid
+      class="custom-grid"
+      [dataSource]="historyRequests"
+      [showBorders]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+      [hoverStateEnabled]="true"
+      keyExpr="id"
+    >
+      <dxo-sorting mode="multiple"></dxo-sorting>
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]"></dxo-pager>
 
-                <div *dxTemplate="let d of 'statusCell'">
-                    <span class="badge rounded-pill" [ngClass]="{
-                            'text-bg-secondary': d.value === 3,
-                            'text-bg-success': d.value === 4
-                        }">
-                        {{ getStatusText(d.value) }}
-                    </span>
+      <dxi-column
+        dataField="requestDate"
+        dataType="date"
+        format="dd/MM/yyyy HH:mm"
+        caption="วันที่ทำรายการ"
+        sortOrder="desc"
+      ></dxi-column>
+
+      <dxi-column
+        dataField="status"
+        caption="ผลลัพธ์"
+        cellTemplate="statusCell"
+        alignment="center"
+        [width]="180"
+      ></dxi-column>
+
+      <div *dxTemplate="let d of 'statusCell'">
+        <span
+          class="status-badge"
+          [ngClass]="{
+            rejected: d.value === 3,
+            success: d.value === 4,
+          }"
+        >
+          {{ d.value === 3 ? '❌ ปฏิเสธ' : '✅ คืนสำเร็จ' }}
+        </span>
+      </div>
+
+      <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
+      <div *dxTemplate="let detailData of 'detail'">
+        <div class="p-3 bg-light border-top">
+          <h6 class="border-bottom pb-2 fw-bold text-dark">รายการครุภัณฑ์ (Returned Items):</h6>
+          <div class="row g-3">
+            <div class="col-md-12 col-lg-6" *ngFor="let item of detailData.data.items">
+              <div class="card h-100 flex-row align-items-center p-2 border shadow-sm">
+                <img
+                  [src]="getFullImageUrl(item.equipment.imageUrl)"
+                  class="rounded shrink-0 border"
+                  style="width: 60px; height: 60px; object-fit: cover"
+                />
+                <div class="ms-3" style="min-width: 0">
+                  <div class="fw-bold text-dark text-truncate">{{ item.equipment.name }}</div>
+                  <div class="text-muted small">จำนวน: {{ item.quantity }}</div>
                 </div>
-
-                <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
-                <div *dxTemplate="let detailData of 'detail'">
-                    <div class="p-3 bg-light border-top">
-                        <h6 class="border-bottom pb-2">Returned Items:</h6>
-                        <div class="row g-3">
-                            <div class="col-md-12 col-lg-6" *ngFor="let item of detailData.data.items">
-                                <div class="card h-100 flex-row align-items-center p-2">
-                                    <img [src]="getFullImageUrl(item.equipment.imageUrl)" class="rounded"
-                                        style="width: 60px; height: 60px; object-fit: cover;" />
-                                    <div class="ms-3">
-                                        <div class="fw-bold text-dark">{{ item.equipment.name }}</div>
-                                        <div class="text-muted s  mall">Qty: {{ item.quantity }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </dx-data-grid>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
+    </dx-data-grid>
+  </div>
 </div>

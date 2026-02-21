@@ -46,7 +46,6 @@ export class AdminUsers implements OnInit {
       });
   }
 
-
   async onRowInserting(e: any) {
     if (!e.data.password) {
       notify('กรุณากรอกรหัสผ่าน', 'error', 2000);
@@ -55,7 +54,10 @@ export class AdminUsers implements OnInit {
     }
 
     try {
-      await lastValueFrom(this.userService.create(e.data));
+      this.loadingService.show();
+      await lastValueFrom(
+        this.userService.create(e.data).pipe(finalize(() => this.loadingService.hide())),
+      );
       notify('เพิ่มผู้ใช้งานสำเร็จ', 'success', 2000);
     } catch (err) {
       notify('เพิ่มข้อมูลล้มเหลว', 'error', 2000);
@@ -69,7 +71,12 @@ export class AdminUsers implements OnInit {
     if (!e.newData.password) delete updatedData.password;
 
     try {
-      await lastValueFrom(this.userService.update(e.key, updatedData));
+      this.loadingService.show();
+      await lastValueFrom(
+        this.userService
+          .update(e.key, updatedData)
+          .pipe(finalize(() => this.loadingService.hide())),
+      );
       notify('แก้ไขข้อมูลสำเร็จ', 'success', 2000);
     } catch (err) {
       notify('แก้ไขล้มเหลว', 'error', 2000);
@@ -77,10 +84,12 @@ export class AdminUsers implements OnInit {
     }
   }
 
-
   async onRowRemoving(e: any) {
     try {
-      await lastValueFrom(this.userService.delete(e.key));
+      this.loadingService.show();
+      await lastValueFrom(
+        this.userService.delete(e.key).pipe(finalize(() => this.loadingService.hide())),
+      );
       notify('ลบข้อมูลสำเร็จ', 'success', 2000);
     } catch (err) {
       notify('ลบข้อมูลล้มเหลว', 'error', 2000);

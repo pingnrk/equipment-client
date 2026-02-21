@@ -1,21 +1,63 @@
-
+/* --- Editable Cell Styling (ท่าไม้ตายให้น่ากด) --- */
 ::ng-deep .editable-cell {
-    background-color: #e3f2fd !important; 
-    color: #0d6efd !important;          
-    cursor: pointer;
-    border: 1px dashed #90caf9 !important; 
+  background-color: #f0f7ff !important;
+  color: #0d6efd !important;
+  cursor: pointer;
+  font-weight: bold !important;
+  transition: all 0.2s;
+}
+
+::ng-deep .editable-cell:hover {
+  background-color: #e0efff !important;
+}
+
+/* ลบเส้นขอบตารางส่วนเกิน */
+::ng-deep .custom-grid-cart.dx-datagrid-borders>.dx-datagrid-headers,
+::ng-deep .custom-grid-cart.dx-datagrid-borders>.dx-datagrid-rowsview {
+  border: none !important;
 }
 
 ::ng-deep .dx-datagrid-headers {
-    font-weight: 600;
-    color: #495057;
-    border-bottom: 1px solid #dee2e658;
+  font-weight: 600;
+  color: #4b5563;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e5e7eb !important;
 }
 
+::ng-deep .dx-data-row td {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  vertical-align: middle !important;
+}
+
+/* ปุ่มถังขยะในตาราง */
 ::ng-deep .dx-link-icon {
-    color: #dc3545 !important; 
+  color: #ef4444 !important;
+  font-size: 18px !important;
 }
 
+/* ปรับแต่งความโค้งมนของ Input ตาม Pattern ระบบ */
 ::ng-deep .dx-texteditor.dx-editor-outlined {
-    border-radius: 0.375rem !important;
+  border-radius: 8px !important;
+}
+
+/* Card และส่วนประกอบ */
+.rounded-4 {
+  border-radius: 1rem !important;
+}
+
+.card-header {
+  background-color: white !important;
+}
+
+.btn-primary {
+  background-color: #3f51b5;
+  border: none;
+  height: 45px;
+  display: flex;
+  align-items: center;
+}
+
+.btn-primary:hover {
+  background-color: #303f9f;
 }
