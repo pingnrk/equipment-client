@@ -3,11 +3,6 @@ import { CommonModule } from '@angular/common';
 import { DxDataGridModule, DxButtonModule } from 'devextreme-angular';
 import { BorrowService } from '../../services/borrow';
 
-// ❌ ลบอันเก่าออก
-// import { Workbook } from 'exceljs';
-// import { saveAs } from 'file-saver';
-
-// ✅ ใส่อันใหม่เข้าไปแทน (แก้ import ให้รองรับทุกเครื่อง)
 import * as ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 import { exportDataGrid } from 'devextreme/excel_exporter';
@@ -51,23 +46,22 @@ export class AdminReports implements OnInit {
       });
   }
 
-getStatusText(status: number) {
+  getStatusText(status: number) {
     switch (status) {
       case 1:
-        return 'รออนุมัติ'; // Pending
+        return 'รออนุมัติ';
       case 2:
-        return 'อนุมัติแล้ว'; // Approved
+        return 'อนุมัติแล้ว';
       case 3:
-        return 'ไม่อนุมัติ'; // Rejected
+        return 'ไม่อนุมัติ';
       case 4:
-        return 'คืนแล้ว'; // Returned
+        return 'คืนแล้ว';
       default:
-        return 'ไม่ทราบสถานะ'; // Unknown
+        return 'ไม่ทราบสถานะ';
     }
   }
 
   onExporting(e: any) {
-    // ✅ แก้ตรงนี้: เรียกผ่าน ExcelJS.Workbook
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('BorrowData');
 

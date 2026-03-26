@@ -25,8 +25,12 @@ export class EquipmentService {
     };
   }
 
-  getAll(page: number = 1, size: number = 10): Observable<any> {
-    const params = new HttpParams().set('page', page.toString()).set('size', size.toString());
+  getAll(page: number = 1, size: number = 10, search: string = ''): Observable<any> {
+    let params = new HttpParams().set('page', page.toString()).set('size', size.toString());
+
+    if (search) {
+      params = params.set('search', search);
+    }
 
     return this.http
       .get<any>(this.apiUrl, { params })

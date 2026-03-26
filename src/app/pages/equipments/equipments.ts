@@ -39,7 +39,6 @@ export class Equipments implements OnInit {
   }
 
   loadData() {
-    // 💡 ใช้ท่าไม้ตาย CustomStore เพื่อดึง API ทีละหน้า
     this.dataSource = new CustomStore({
       key: 'id',
       load: (loadOptions: any) => {
@@ -48,8 +47,9 @@ export class Equipments implements OnInit {
         const size = loadOptions.take || 10;
         const skip = loadOptions.skip || 0;
         const page = skip / size + 1;
+        const search = loadOptions.searchValue || '';
 
-        return lastValueFrom(this.equipmentService.getAll(page, size))
+        return lastValueFrom(this.equipmentService.getAll(page, size, search))
           .then((res: any) => {
             this.loadingService.hide();
             return {
@@ -59,7 +59,7 @@ export class Equipments implements OnInit {
           })
           .catch((error) => {
             this.loadingService.hide();
-            console.error('Error fetching data:', error);
+            console.error(error);
             throw 'โหลดข้อมูลไม่สำเร็จ';
           });
       },

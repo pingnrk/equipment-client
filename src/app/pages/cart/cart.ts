@@ -3,7 +3,12 @@ import { CartService } from '../../services/cart';
 import { Router } from '@angular/router';
 import notify from 'devextreme/ui/notify';
 import { CommonModule } from '@angular/common';
-import { DxDataGridModule, DxFormModule, DxButtonModule, DxDateBoxModule } from 'devextreme-angular';
+import {
+  DxDataGridModule,
+  DxFormModule,
+  DxButtonModule,
+  DxDateBoxModule,
+} from 'devextreme-angular';
 import { Equipment } from '../../services/equipment.interface'; // หรือ path ที่คุณเก็บ interface ไว้
 
 interface CartItem extends Equipment {
@@ -23,7 +28,10 @@ export class Cart implements OnInit {
   };
   minDate = new Date();
 
-  constructor(private cartService: CartService, private router: Router) {
+  constructor(
+    private cartService: CartService,
+    private router: Router,
+  ) {
     this.minDate.setHours(0, 0, 0, 0);
   }
 
@@ -41,9 +49,9 @@ export class Cart implements OnInit {
 
     this.selectedItems = items.map((item) => {
       return {
-        ...item,                 // ก๊อปปี้ข้อมูลเดิม (id, name, imageUrl, etc.)
-        quantityRequest: 1       // เพิ่มค่า default จำนวนที่ยืมเป็น 1
-      } as CartItem;             // *** บังคับบอกมันว่า นี่คือ CartItem นะ ***
+        ...item, // ก๊อปปี้ข้อมูลเดิม (id, name, imageUrl, etc.)
+        quantityRequest: 1, // เพิ่มค่า default จำนวนที่ยืมเป็น 1
+      } as CartItem;
     });
   }
 
@@ -51,8 +59,8 @@ export class Cart implements OnInit {
     this.cartService.setItems(this.selectedItems);
 
     if (this.selectedItems.length === 0) {
-        this.cartService.clearCart();
-        this.router.navigate(['/equipments']);
+      this.cartService.clearCart();
+      this.router.navigate(['/equipments']);
     }
   }
 

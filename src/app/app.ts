@@ -50,8 +50,6 @@ export class App implements OnInit {
   isLoggedIn = false;
   userName: string | null = '';
   isAdmin = false;
-
-  // ✅ เพิ่มตัวแปรนี้เข้ามาเพื่อเช็คว่าเป็นหน้า Login/Register หรือไม่
   isPublicRoute = false;
 
   menuItems: any[] = [];
@@ -64,12 +62,12 @@ export class App implements OnInit {
     { text: 'Track Requests', icon: 'folder', path: '/track-requests', role: 'User' },
 
     //admin
+    { text: 'Dashboard', icon: 'chart', path: '/admin/dashboard', role: 'Admin' },
     { text: 'Approve Requests', icon: 'check', path: '/admin/requests', role: 'Admin' },
     { text: 'Return Equipment', icon: 'revert', path: '/admin/return', role: 'Admin' },
     { text: 'Manage Inventory', icon: 'box', path: '/admin/items', role: 'Admin' },
     { text: 'Users', icon: 'group', path: '/admin/users', role: 'Admin' },
     { text: 'Categories', icon: 'tags', path: '/admin/categories', role: 'Admin' },
-    { text: 'Dashboard', icon: 'chart', path: '/admin/dashboard', role: 'Admin' },
     { text: 'Reports', icon: 'xlsxfile', path: '/admin/reports', role: 'Admin' },
   ];
 
@@ -104,7 +102,6 @@ export class App implements OnInit {
         const currentUrl = event.urlAfterRedirects ? event.urlAfterRedirects.split('?')[0] : '';
         const publicRoutes = ['/login', '/register'];
 
-        // ✅ อัปเดตสถานะ ว่าตอนนี้อยู่หน้า Public หรือไม่
         this.isPublicRoute = publicRoutes.includes(currentUrl);
 
         if (event.urlAfterRedirects) {

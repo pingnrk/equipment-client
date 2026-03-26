@@ -14,23 +14,29 @@ import { AdminCategories } from './pages/admin-categories/admin-categories';
 import { TrackRequests } from './pages/track-requests/track-requests';
 import { adminGuard } from './auth.guard';
 
-
 export const routes: Routes = [
-  // --- 🏠 Public / Auth ---
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: Login },
   { path: 'register', component: Register },
 
-  // --- 🛍️ User Zone ---
-  { path: 'equipments', component: Equipments }, // หน้าร้าน
+  { path: 'equipments', component: Equipments },
   { path: 'cart', component: Cart },
-  { path: 'track-requests', component: TrackRequests }, // ตะกร้า
-  { path: 'history', component: MyHistory }, // ประวัติ
+  { path: 'track-requests', component: TrackRequests },
+  { path: 'history', component: MyHistory },
 
-  // --- 🛠️ Admin Zone ---
-  { path: 'admin/dashboard', component: AdminDashboard, canActivate: [adminGuard] }, // 1. หน้ากราฟ
-  { path: 'admin/requests', component: AdminManageRequests, data: { type: 'approve' }, canActivate: [adminGuard] }, // โหมดอนุมัติ
-  { path: 'admin/return', component: AdminManageRequests, data: { type: 'return' }, canActivate: [adminGuard] },   // โหมดคืนของ
+  { path: 'admin/dashboard', component: AdminDashboard, canActivate: [adminGuard] },
+  {
+    path: 'admin/requests',
+    component: AdminManageRequests,
+    data: { type: 'approve' },
+    canActivate: [adminGuard],
+  },
+  {
+    path: 'admin/return',
+    component: AdminManageRequests,
+    data: { type: 'return' },
+    canActivate: [adminGuard],
+  },
   { path: 'admin/reports', component: AdminReports, canActivate: [adminGuard] },
   { path: 'admin/users', component: AdminUsers, canActivate: [adminGuard] },
   { path: 'admin/items', component: AdminEquipmentList, canActivate: [adminGuard] },

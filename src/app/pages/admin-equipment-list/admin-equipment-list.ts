@@ -67,7 +67,7 @@ export class AdminEquipmentList implements OnInit {
   }
 
   onEditClick(e: any) {
-    this.router.navigate(['/admin/items/edit', e.row.data.id]); // ไปหน้า Edit
+    this.router.navigate(['/admin/items/edit', e.row.data.id]);
   }
 
   onDeleteClick = (e: any) => {

@@ -40,7 +40,7 @@ export class Login {
             this.authService.currentUserRole === 'Admin' ||
             localStorage.getItem('role') === 'Admin'
           ) {
-            this.router.navigate(['/admin/requests']); // Admin ไปหลังบ้าน
+            this.router.navigate(['/admin/dashboard']); // Admin ไปหลังบ้าน
           } else {
             this.router.navigate(['/equipments']); // User ไปหน้าร้าน
           }
