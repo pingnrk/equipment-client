@@ -39,25 +39,30 @@ export class AdminEquipmentList implements OnInit {
     this.dataSource = new CustomStore({
       key: 'id',
       load: (loadOptions: any) => {
-        this.loadingService.show();
-
         const size = loadOptions.take || 10;
         const skip = loadOptions.skip || 0;
         const page = skip / size + 1;
 
-        return lastValueFrom(this.equipmentService.getAll(page, size))
-          .then((res: any) => {
-            this.loadingService.hide();
-            return {
-              data: res.data,
-              totalCount: res.totalCount,
-            };
-          })
-          .catch((error) => {
-            this.loadingService.hide();
-            console.error(error);
-            throw 'โหลดข้อมูลไม่สำเร็จ';
-          });
+        let search = '';
+
+        if (loadOptions.searchValue) {
+          search = loadOptions.searchValue;
+        }
+
+        if (loadOptions.filter) {
+          const filter = loadOptions.filter;
+
+          if (Array.isArray(filter)) {
+            search = filter[0][2];
+          }
+        }
+
+        return lastValueFrom(this.equipmentService.getAll(page, size, search)).then((res: any) => {
+          return {
+            data: res.data,
+            totalCount: res.totalCount,
+          };
+        });
       },
     });
   }
